@@ -3,8 +3,8 @@ import './Header.css';
 
 const Header = () => {
     return (
-        <header className="header-header">
-            <div className="header-container-header">
+        <header className="header">
+            <div className="header-container">
                 <a href="/" className="header-logo">N3 Topic</a>
                 <nav className="header-nav">
                     <ul className="header-nav-list">
