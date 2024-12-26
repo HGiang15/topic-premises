@@ -1,14 +1,12 @@
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
-import Home from "./containers/Home/Home";
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
     return (
         <div className="App">
             <Header />
-
-            <Home />
-
+            <AppRoutes />
             <Footer />
         </div>
     );

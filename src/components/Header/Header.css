@@ -1,4 +1,42 @@
-.heading {
-    font-size: 18px;
+.header-header {
+    background-color: #333;
+    color: white;
+    padding: 1rem 0;
+}
+
+.header-container-header {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-logo {
+    font-size: 1.5rem;
     font-weight: bold;
+    color: white;
+    text-decoration: none; 
+    transition: color 0.3s ease; 
+}
+
+.header-logo:hover {
+    color: #00bcd4; 
+}
+
+.header-nav-list {
+    display: flex;
+    gap: 1rem;
+}
+
+.header-nav-item .header-nav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.header-nav-item .header-nav-link:hover {
+    color: #00bcd4;
 }

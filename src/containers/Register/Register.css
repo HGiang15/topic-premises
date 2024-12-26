@@ -1,4 +1,4 @@
-.login {
+.register {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -6,7 +6,7 @@
     background-color: #f5f5f5;
 }
 
-.login-container {
+.register-container {
     width: 90%;
     max-width: 400px;
     background: white;
@@ -16,36 +16,36 @@
     text-align: center;
 }
 
-.heading-login {
+.heading-register {
     font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
 }
 
-.subheading-login {
+.subheading-register {
     font-size: 1rem;
     color: #666;
     margin-bottom: 1.5rem;
 }
 
-.login-form {
+.register-form {
     margin-bottom: 1rem;
 }
 
-.login-input-group {
+.register-input-group {
     margin-bottom: 1rem;
     text-align: left;
     width: 370px;
 }
 
-.login-input-label {
+.register-input-label {
     display: block;
     margin-bottom: 0.3rem;
     font-size: 0.9rem;
     color: #333;
 }
 
-.login-input {
+.register-input {
     width: 100%;
     padding: 0.8rem;
     border: 1px solid #ccc;
@@ -54,22 +54,7 @@
     outline: none;
 }
 
-.forgot-password {
-    text-align: right;
-    margin-bottom: 1rem;
-}
-
-.forgot-link {
-    font-size: 0.9rem;
-    color: #00bcd4;
-    text-decoration: none;
-}
-
-.forgot-link:hover {
-    text-decoration: underline;
-}
-
-.btn-login {
+.btn-register {
     width: 100%;
     padding: 0.8rem;
     background-color: #00bcd4;
@@ -82,24 +67,24 @@
     transition: background-color 0.3s ease;
 }
 
-.btn-login:hover {
+.btn-register:hover {
     background-color: #008cba;
 }
 
-.login-divider {
+.register-divider {
     display: flex;
     align-items: center;
     margin: 1rem 0;
 }
 
-.login-divider span {
+.register-divider span {
     flex: 1;
     height: 1px;
     background: #ccc;
     margin: 0 0.5rem;
 }
 
-.login-btn-google {
+.register-btn-google {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -121,36 +106,36 @@
     margin-right: 0.5rem;
 }
 
-.login-btn-google:hover {
+.register-btn-google:hover {
     background-color: #f5f5f5;
 }
 
-.login-terms {
+.register-terms {
     font-size: 0.9rem;
     color: #666;
     margin-top: 1rem;
 }
 
-.login-terms-link {
+.register-terms-link {
     color: #00bcd4;
     text-decoration: none;
 }
 
-.login-terms-link:hover {
+.register-terms-link:hover {
     text-decoration: underline;
 }
 
-.login-register {
+.register-login {
     margin-top: 1rem;
     font-size: 0.9rem;
 }
 
-.login-register-link {
+.register-login-link {
     color: #00bcd4;
     text-decoration: none;
     font-weight: bold;
 }
 
-.login-register-link:hover {
+.register-login-link:hover {
     text-decoration: underline;
 }
