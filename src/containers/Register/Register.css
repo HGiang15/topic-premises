@@ -6,24 +6,31 @@
     background-color: #f5f5f5;
 }
 
+.register-bg-image {
+    height: 686px;
+    width: 400px;
+    object-fit: cover;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
 .register-container {
     width: 90%;
-    max-width: 400px;
-    background: white;
+    max-width: 500px;
+    height: 686px;
+    background: #fff;
     padding: 2rem;
-    border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
 .heading-register {
-    font-size: 1.5rem;
+    font-size: 24px;
     font-weight: bold;
     margin-bottom: 0.5rem;
 }
 
 .subheading-register {
-    font-size: 1rem;
+    font-size: 16px;
     color: #666;
     margin-bottom: 1.5rem;
 }
@@ -33,32 +40,37 @@
 }
 
 .register-input-group {
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     text-align: left;
-    width: 370px;
+    width: 100%;
 }
 
-.register-input-label {
-    display: block;
-    margin-bottom: 0.3rem;
-    font-size: 0.9rem;
-    color: #333;
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 0.8rem;
 }
 
 .register-input {
-    width: 100%;
-    padding: 0.8rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
+    flex: 1;
+    font-size: 14px;
+    border: none;
     outline: none;
+}
+
+.icon-user {
+    margin-right: 0.5rem;
+    color: #666;
+    font-size: 1.2rem;
 }
 
 .btn-register {
     width: 100%;
     padding: 0.8rem;
-    background-color: #00bcd4;
-    color: white;
+    background-color: #24B47B;
+    color: #fff;
     font-size: 1rem;
     font-weight: bold;
     border: none;
@@ -68,20 +80,26 @@
 }
 
 .btn-register:hover {
-    background-color: #008cba;
+    background-color: #10bc77;
 }
 
 .register-divider {
     display: flex;
     align-items: center;
-    margin: 1rem 0;
+    margin: 2rem 0;
 }
 
-.register-divider span {
+.divider-line {
     flex: 1;
     height: 1px;
     background: #ccc;
-    margin: 0 0.5rem;
+}
+
+.divider-text {
+    margin: 0 1rem;
+    font-size: 0.9rem;
+    color: #666;
+    white-space: nowrap;
 }
 
 .register-btn-google {
@@ -90,7 +108,7 @@
     justify-content: center;
     width: 100%;
     padding: 0.8rem;
-    background-color: white;
+    background-color: #fff;
     color: #333;
     font-size: 1rem;
     font-weight: bold;
@@ -110,32 +128,42 @@
     background-color: #f5f5f5;
 }
 
-.register-terms {
-    font-size: 0.9rem;
-    color: #666;
-    margin-top: 1rem;
-}
-
-.register-terms-link {
-    color: #00bcd4;
-    text-decoration: none;
-}
-
-.register-terms-link:hover {
-    text-decoration: underline;
-}
-
 .register-login {
-    margin-top: 1rem;
-    font-size: 0.9rem;
+    margin-top: 14rem;
 }
 
 .register-login-link {
-    color: #00bcd4;
+    color: #24B47B;
+    text-decoration: none;
+}
+
+.register-login-link:hover {
+    text-decoration: underline;
+}
+
+.register-terms {
+    margin-top: 30px;
+}
+
+.register-terms,
+.register-login {
+    font-size: 14px;
+    color: #666;
+}
+
+.register-terms-link,
+.register-login-link {
+    color: #f65f5c;
     text-decoration: none;
     font-weight: bold;
 }
 
+.register-login-link {
+    color: #24B47B;
+
+}
+
+.register-terms-link:hover,
 .register-login-link:hover {
     text-decoration: underline;
 }
