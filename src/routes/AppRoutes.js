@@ -10,7 +10,9 @@ import ForgotPassword from './../containers/ForgotPassword/ForgotPassword';
 import Chatbot from "../containers/Chatbot/Chatbot"; 
 import Header from "../components/Header/Header";
 import Filter from "../components/Filter/Filter";
+import Sidebar from "../components/Sidebar/Sidebar";
 import Footer from "../components/Footer/Footer";
+import './AppRoutes.css'
 
 // MainLayout: Được sử dụng cho các route chỉ có Header, Footer và Filter: /home, /detail.
 // SimpleLayout: Được sử dụng cho các route chỉ có Header và Footer: /chatbot, /overview, /post.
@@ -18,14 +20,20 @@ const MainLayout = () => {
     const location = useLocation();
 
     // no Filter route chatbot, overview, post
-    const showFilter = location.pathname !== "/chatbot" && location.pathname !== "/overview" && location.pathname !== "/post";
+    const showFilterAndSidebar =
+        location.pathname !== "/chatbot" &&
+        location.pathname !== "/overview" &&
+        location.pathname !== "/post";
 
     return (
         <div>
             <Header />
-            {showFilter && <Filter />}
-            <div className="main-content">
-                <Outlet /> {/* component con */}
+            {showFilterAndSidebar && <Filter />}
+            <div className="main-layout-content">
+                <div className="main-layout-container">
+                    <Outlet />
+                </div>
+                {showFilterAndSidebar && <Sidebar />} 
             </div>
             <Footer />
         </div>
@@ -37,7 +45,7 @@ const SimpleLayout = () => {
         <div>
             <Header />
             <div className="main-content">
-                <Outlet /> {/* component con */}
+                <Outlet /> 
             </div>
             <Footer />
         </div>
