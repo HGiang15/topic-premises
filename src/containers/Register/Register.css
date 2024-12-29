@@ -167,3 +167,25 @@
 .register-login-link:hover {
     text-decoration: underline;
 }
+
+.back-to-home-small {
+    position: absolute;
+    top: 1rem;
+    left: 1rem; 
+    z-index: 100;
+}
+
+.btn-back-home-small {
+    padding: 0.5rem 1rem;
+    background-color: #24B47B;
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.btn-back-home-small:hover {
+    background-color: #28ca8a;
+}

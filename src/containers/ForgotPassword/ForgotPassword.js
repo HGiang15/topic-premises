@@ -23,6 +23,12 @@ const ForgotPassword = () => {
 
     return (
         <div className="forgot-pass">
+            <div className="back-to-home-small">
+                <button className="btn-back-home-small" onClick={() => (window.location.href = "/")}>
+                    ⬅ Trang Chủ
+                </button>
+            </div>
+
             <div className="forgot-pass-left">
                 <img src={bg} alt="Background" className="forgot-pass-bg-image" />
             </div>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import google from "../../assets/img/google.png"; 
-import bg from "../../assets/img/bg_login_2.png"; 
+import google from "../../assets/img/google.png";
+import bg from "../../assets/img/bg_login_2.png";
 import phone from "../../assets/icons/phone.svg";
 import "./Register.css";
 
@@ -19,6 +19,12 @@ const Register = () => {
 
     return (
         <div className="register">
+            <div className="back-to-home-small">
+                <button className="btn-back-home-small" onClick={() => (window.location.href = "/")}>
+                    ⬅ Trang Chủ
+                </button>
+            </div>
+
             <div className="register-left">
                 <img src={bg} alt="Background" className="register-bg-image" />
             </div>
@@ -59,7 +65,7 @@ const Register = () => {
                 </button>
 
                 <p className="register-terms">
-                    Bằng việc tiếp tục, bạn đồng ý với {" "}
+                    Bằng việc tiếp tục, bạn đồng ý với{" "}
                     <a href="#/" className="register-terms-link">
                         Điều khoản sử dụng
                     </a>

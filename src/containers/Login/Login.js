@@ -16,6 +16,12 @@ const Login = () => {
 
     return (
         <div className="login">
+            <div className="back-to-home-small">
+                <button className="btn-back-home-small" onClick={() => (window.location.href = "/")}>
+                    ⬅ Trang Chủ
+                </button>
+            </div>
+            
             <div className="login-left">
                 <img src={bg} alt="Background" className="login-bg-image" />
             </div>
@@ -70,7 +76,7 @@ const Login = () => {
                 </button>
 
                 <p className="login-terms">
-                    Bằng việc tiếp tục, bạn đồng ý với {" "}
+                    Bằng việc tiếp tục, bạn đồng ý với{" "}
                     <a href="#/" className="login-terms-link">
                         Điều khoản sử dụng
                     </a>
@@ -90,7 +96,7 @@ const Login = () => {
                 </p>
 
                 <p className="login-register">
-                    Chưa là thành viên? {" "}
+                    Chưa là thành viên?{" "}
                     <a href="/register" className="login-register-link">
                         Đăng ký tại đây
                     </a>
