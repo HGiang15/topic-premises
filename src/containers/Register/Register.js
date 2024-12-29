@@ -60,19 +60,19 @@ const Register = () => {
 
                 <p className="register-terms">
                     Bằng việc tiếp tục, bạn đồng ý với {" "}
-                    <a href="#" className="register-terms-link">
+                    <a href="#/" className="register-terms-link">
                         Điều khoản sử dụng
                     </a>
                     ,{" "}
-                    <a href="#" className="register-terms-link">
+                    <a href="#/" className="register-terms-link">
                         Chính sách bảo mật
                     </a>
                     ,{" "}
-                    <a href="#" className="register-terms-link">
+                    <a href="#/" className="register-terms-link">
                         Quy chế
                     </a>
                     ,{" "}
-                    <a href="#" className="register-terms-link">
+                    <a href="#/" className="register-terms-link">
                         Chính sách
                     </a>{" "}
                     của chúng tôi.
