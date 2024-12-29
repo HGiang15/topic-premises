@@ -1,10 +1,12 @@
-import React from 'react'
-import './Overview.css'
+import React from "react";
+import "./Overview.css";
 
 const Overview = () => {
-  return (
-    <div>Overview</div>
-  )
-}
+    return (
+        <div className="overview">
+            <h1>Overview</h1>
+        </div>
+    );
+};
 
-export default Overview
+export default Overview;
