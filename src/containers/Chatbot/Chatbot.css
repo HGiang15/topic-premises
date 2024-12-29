@@ -1,3 +1,7 @@
+.chatbot {
+    padding: 50px 0;
+}
+
 .chatbot-container {
     max-width: 400px;
     height: 100vh;
