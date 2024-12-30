@@ -175,30 +175,42 @@ const Home = () => {
                     </button>
                 </div>
 
-                {/* Các mặt hàng tiêu biểu */}
-        <div className="featured-products">
-        <h2>Mặt bằng tiêu biểu</h2>
+                {/* Các mặt bằng tiêu biểu */}
+                <div className="featured-products">
+                    <h2>Mặt bằng tiêu biểu</h2>
 
-        {/* Pagination for featured products */}
-        <div className="featured-pagination">
-            <button onClick={() => paginateFeatured(currentPageFeatured - 1)} disabled={currentPageFeatured === 1}>
-                &lt;
-            </button>
-            <button onClick={() => paginateFeatured(currentPageFeatured + 1)} disabled={currentPageFeatured === totalPagesFeatured}>
-                &gt;
-            </button>
-        </div>
+                    <div className="featured-pagination">
+                        <button
+                            onClick={() => paginateFeatured(currentPageFeatured - 1)}
+                            disabled={currentPageFeatured === 1}
+                        >
+                            &lt;
+                        </button>
+                        <button
+                            onClick={() => paginateFeatured(currentPageFeatured + 1)}
+                            disabled={currentPageFeatured === totalPagesFeatured}
+                        >
+                            &gt;
+                        </button>
+                    </div>
 
-        <div className="featured-product-list">
-            {products.slice(indexOfFirstItemFeatured, indexOfLastItemFeatured).map((product, index) => (
-                <div key={index} className="featured-product-card">
-                    <img src={product.images[0]} alt="Product" className="featured-product-image" />
-                    <h3 className="featured-product-title">{product.title}</h3>
+                    <div className="featured-product-list">
+                        {products.slice(indexOfFirstItemFeatured, indexOfLastItemFeatured).map((product, index) => (
+                            <div key={index} className="featured-product-card">
+                                <img src={product.images[0]} alt="Product" className="featured-product-image" />
+                                <h3 className="featured-product-title">{product.title}</h3>
+
+                                <div className="button-container">
+                                    <button className="details-button-featured">
+                                        <a href={`/detail/${index}`} className="details-link-featured">
+                                            Xem chi tiết
+                                        </a>
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            ))}
-        </div>
-    </div>
-
             </div>
         </div>
     );
