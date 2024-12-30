@@ -8,6 +8,11 @@ import product1 from "../../assets/img/product_1.png";
 import product2 from "../../assets/img/product_2.png";
 import product3 from "../../assets/img/product_3.png";
 import product4 from "../../assets/img/product_4.png";
+import product5 from "../../assets/img/product_1.jpg";
+import product6 from "../../assets/img/product_2.jpg";
+import product7 from "../../assets/img/product_3.jpg";
+import product8 from "../../assets/img/product_4.jpg";
+import product9 from "../../assets/img/product_5.jpg";
 import "./Home.css";
 
 const Home = () => {
@@ -22,7 +27,7 @@ const Home = () => {
             owner: "Nguyễn Đăng Hoàng Giang",
         },
         {
-            images: [product1, product2, product3, product4],
+            images: [product5, product6, product7, product8],
             title: "Mặt bằng kinh doanh tại Trần Khát Chân, vị trí đắc địa, tiện mở showroom",
             price: "35 triệu/tháng",
             area: "120 m²",
@@ -31,7 +36,7 @@ const Home = () => {
             owner: "Đàm Khắc Thái",
         },
         {
-            images: [product1, product2, product3, product4],
+            images: [product9, product2, product3, product4],
             title: "Cho thuê nhà nguyên căn Nguyễn Lương Bằng, thuận tiện giao thông",
             price: "18 triệu/tháng",
             area: "60 m²",
@@ -40,7 +45,7 @@ const Home = () => {
             owner: "Bùi Quang Đạo",
         },
         {
-            images: [product1, product2, product3, product4],
+            images: [product5, product2, product8, product9],
             title: "Cho thuê căn hộ cao cấp Vinhomes Times City, đầy đủ nội thất",
             price: "50 triệu/tháng",
             area: "150 m²",
@@ -49,7 +54,7 @@ const Home = () => {
             owner: "Nguyễn Nhật Minh",
         },
         {
-            images: [product1, product2, product3, product4],
+            images: [product6, product5, product8, product4],
             title: "Cho thuê căn hộ cao cấp Vinhomes Times City, đầy đủ nội thất",
             price: "50 triệu/tháng",
             area: "150 m²",
@@ -58,7 +63,7 @@ const Home = () => {
             owner: "Nguyễn Nhật Minh",
         },
         {
-            images: [product1, product2, product3, product4],
+            images: [product3, product7, product8, product9],
             title: "Cho thuê căn hộ cao cấp Vinhomes Times City, đầy đủ nội thất",
             price: "50 triệu/tháng",
             area: "150 m²",
@@ -67,7 +72,7 @@ const Home = () => {
             owner: "Nguyễn Nhật Minh",
         },
         {
-            images: [product1, product2, product3, product4],
+            images: [product7, product8, product3, product6],
             title: "Cho thuê căn hộ cao cấp Vinhomes Times City, đầy đủ nội thất",
             price: "50 triệu/tháng",
             area: "150 m²",
@@ -163,7 +168,12 @@ const Home = () => {
                                         </a>
                                     </button>
                                     <button className="details-button">
-                                        <a href={`/detail/${index}`} className="details-link">
+                                        {
+                                            // <a href={`/detail/${index}`} className="details-link">
+                                            //     Xem chi tiết
+                                            // </a>
+                                        }
+                                        <a href="/detail" className="details-link">
                                             Xem chi tiết
                                         </a>
                                     </button>
