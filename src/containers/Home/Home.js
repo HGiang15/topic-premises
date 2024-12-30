@@ -75,6 +75,15 @@ const Home = () => {
             contact: "0987654333",
             owner: "Nguyễn Nhật Minh",
         },
+        {
+            images: [product1, product2, product3, product4],
+            title: "Cho thuê căn hộ cao cấp Vinhomes Times City, đầy đủ nội thất",
+            price: "50 triệu/tháng",
+            area: "150 m²",
+            location: "Hai Bà Trưng, Hà Nội",
+            contact: "0987654333",
+            owner: "Nguyễn Nhật Minh",
+        },
     ];
 
     // Pagination
