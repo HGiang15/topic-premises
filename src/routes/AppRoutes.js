@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Routes, Route, Outlet, useLocation } from "rea
 import Home from "../containers/Home/Home";
 import Detail from "../containers/Detail/Detail";
 import Overview from "../containers/Overview/Overview";  
+import ManagePost from './../containers/ManagePost/ManagePost';
+import ManageInfo from './../containers/ManageInfo/ManageInfo';
+
 import Post from "../containers/Post/Post";  
 import Login from "../containers/Login/Login";
 import Register from "../containers/Register/Register";
@@ -11,6 +14,7 @@ import Chatbot from "../containers/Chatbot/Chatbot";
 import Header from "../components/Header/Header";
 import Filter from "../components/Filter/Filter";
 import Sidebar from "../components/Sidebar/Sidebar";
+import SidebarLeft from './../components/SidebarLeft/SidebarLeft';
 import Footer from "../components/Footer/Footer";
 import './AppRoutes.css'
 
@@ -52,6 +56,22 @@ const SimpleLayout = () => {
     );
 };
 
+// OverviewLayout: Dành riêng cho trang Overview (có SidebarLeft).
+const OverviewLayout = () => {
+    return (
+        <div>
+            <Header />
+            <div className="overview-layout-content">
+                <SidebarLeft />
+                <div className="overview-layout-main">
+                    <Outlet />
+                </div>
+            </div>
+            <Footer />
+        </div>
+    );
+};
+
 const AppRoutes = () => {
     return (
         <Router>
@@ -65,8 +85,14 @@ const AppRoutes = () => {
                 {/* route Header, Footer, không Filter */}
                 <Route element={<SimpleLayout />}>
                     <Route path="/chatbot" element={<Chatbot />} />
-                    <Route path="/overview" element={<Overview />} />
                     <Route path="/post" element={<Post />} />
+                </Route>
+
+                {/* route SidebarLeft */}
+                <Route element={<OverviewLayout />}>
+                    <Route path="/overview" element={<Overview />} />
+                    <Route path="/managepost" element={<ManagePost />} />
+                    <Route path="/manageinfo" element={<ManageInfo />} />
                 </Route>
 
                 {/* route no Header, Filter, Footer */}

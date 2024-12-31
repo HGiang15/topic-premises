@@ -1,3 +1,4 @@
+/* MainLayout */
 .main-layout-content {
     display: flex;
 }
@@ -6,3 +7,18 @@
     flex: 1;
     /* margin-right: 250px;  */
 }
+
+/* OverviewLayout */
+.overview-layout-content {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .overview-layout-content > .overview-layout-main {
+    flex: 1;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
