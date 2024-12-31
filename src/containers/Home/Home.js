@@ -221,7 +221,7 @@ const Home = () => {
 
                                 <div className="button-container">
                                     <button className="details-button-featured">
-                                        <a href={`/detail/${index}`} className="details-link-featured">
+                                        <a href="/detail" className="details-link-featured">
                                             Xem chi tiết
                                         </a>
                                     </button>

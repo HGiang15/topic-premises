@@ -31,35 +31,35 @@ const Header = () => {
 
                     {
                         // UI not login
-                        <ul className="header-nav-list right-nav">
-                            <li className="header-nav-item">
-                                <a href="/login" className="header-nav-link header-nav-button login-button">
-                                    Đăng nhập
-                                </a>
-                            </li>
-                            <li className="header-nav-item">
-                                <a href="/register" className="header-nav-link header-nav-button register-button">
-                                    Đăng ký
-                                </a>
-                            </li>
-                        </ul>
+                        // <ul className="header-nav-list right-nav">
+                        //     <li className="header-nav-item">
+                        //         <a href="/login" className="header-nav-link header-nav-button login-button">
+                        //             Đăng nhập
+                        //         </a>
+                        //     </li>
+                        //     <li className="header-nav-item">
+                        //         <a href="/register" className="header-nav-link header-nav-button register-button">
+                        //             Đăng ký
+                        //         </a>
+                        //     </li>
+                        // </ul>
                     }
 
                     {
                         // UI login
-                        // <ul className="header-nav-list right-nav logged-in-nav">
-                        //     <li className="header-nav-item user-info">
-                        //         <a href="/#" className="user-info-link">
-                        //             <span className="user-name">hgiang15</span>
-                        //             <img src={userLogin} alt="User Icon" className="user-icon" />
-                        //         </a>
-                        //     </li>
-                        //     <li className="header-nav-item">
-                        //         <a href="/#" className="header-nav-button post-button">
-                        //             Đăng tin
-                        //         </a>
-                        //     </li>
-                        // </ul>
+                        <ul className="header-nav-list right-nav logged-in-nav">
+                            <li className="header-nav-item user-info">
+                                <a href="/overview" className="user-info-link">
+                                    <span className="user-name">hgiang15</span>
+                                    <img src={userLogin} alt="User Icon" className="user-icon" />
+                                </a>
+                            </li>
+                            <li className="header-nav-item">
+                                <a href="/#" className="header-nav-button post-button">
+                                    Đăng tin
+                                </a>
+                            </li>
+                        </ul>
                     }
                 </nav>
             </div>
