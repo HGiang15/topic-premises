@@ -18,16 +18,9 @@ const Header = () => {
                                 Trang chủ
                             </a>
                         </li>
-                        <li className="header-nav-item">
-                            <a href="/chatbot" className="header-nav-link header-nav-link__hover">
-                                Chatbot
-                            </a>
-                        </li>
                     </ul>
 
-                    {
-                        // Đoạn này bỏ comment để test 2 trường hợp UI chưa login và UI login
-                    }
+                    { /* Đoạn này bỏ comment để test 2 trường hợp UI chưa login và UI login */ }
 
                     {
                         // UI not login
