@@ -181,7 +181,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.1s ease;
 }
 
 .contact-button:hover {
@@ -201,7 +201,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.1s ease;
 }
 
 .details-button:hover {
@@ -244,8 +244,8 @@
     align-items: center;
 }
 
-.pagination button {
-    padding: 10px 20px;
+.pagination-home-item {
+    padding: 10px 14px;
     background-color: #24B47B;
     color: #fff;
     border: none;
@@ -254,13 +254,35 @@
     transition: background-color 0.1s ease;
 }
 
-.pagination button:disabled {
+.pagination-home-item:disabled {
     background-color: #ddd;
     cursor: not-allowed;
 }
 
-.pagination button:hover {
+.pagination-home-item:hover {
     background-color: #20c181;
+}
+
+.pagination-page-home-item {
+    padding: 10px 15px;
+    margin: 0 5px;
+    background-color: #f1f1f1;
+    color: #24B47B;
+    border: 1px solid #24B47B;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.1s ease, color 0.1s ease;
+}
+
+.pagination-page-home-item:hover {
+    opacity: 0.9;
+}
+
+.pagination-page-home-item.active {
+    background-color: #24B47B;
+    color: #fff;
+    font-weight: bold;
+    cursor: default;
 }
 
 .pagination span {
@@ -372,4 +394,10 @@
 .details-link-featured {
     color: #fff;
     text-decoration: none;
+}
+
+.pagination-home-item:disabled:hover,
+.featured-pagination button:disabled:hover {
+    background-color: #ddd; /* Giữ nguyên màu ban đầu */
+    cursor: not-allowed; /* Giữ trạng thái con trỏ không cho phép */
 }

@@ -2,5 +2,156 @@
     background-color: #fff;
     height: 100vh;
     margin-top: 60px;
-    padding: 50px 0
+    padding: 50px 0;
+    font-family: Arial, sans-serif;
+
 }
+
+.overview-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.overview-summary {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.summary-item {
+    background: #EFF1F5;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 1;
+}
+
+.summary-item-wrapper {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    margin-bottom: 10px;
+}
+
+.summary-item-title {
+    font-weight: 600;
+    font-size: 18px;
+    color: #333;
+}
+
+.summary-item-news {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.summary-item-text {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.summary-item-link {
+    display: block;
+    margin-top: 16px;
+    font-size: 14px;
+    color: #24B47B;
+    text-decoration: none;
+}
+
+.summary-item-donated {
+    font-size: 14px;
+    margin: 20px 0;
+}
+
+.section-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.overview-details {
+    display: flex;
+    gap: 20px;
+}
+
+/* Details  */
+.details-interaction,
+.details-notifications {
+    width: 560px;
+    height: 350px;
+    background: #EFF1F5;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 1;
+}
+
+.details-interaction-wrapper {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.details-interaction-box {
+    background: #fff;
+    margin-top: 20px;
+    padding: 25px 20px;
+    border-radius: 10px;
+}
+
+.details-interaction h3,
+.details-notifications h3 {
+    font-weight: 600;
+    font-size: 18px;
+    color: #333;
+}
+
+.details-interaction-care {
+    margin: 20px 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+
+.details-interaction-list {
+    list-style: none;
+    padding: 0;
+    font-size: 14px;
+    color: #333;
+}
+
+.details-interaction-item {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    margin-bottom: 20px;
+}
+
+.details-interaction-icon {
+    width: 25px;
+    height: 25px;
+    object-fit: cover;
+}
+
+/* notifications */
+.details-notifications p {
+    font-size: 14px;
+    color: #666;
+}
+
+.details-notifications-wrapper {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    padding: 10px 5px;
+    margin: 20px 0;
+    background: #fff;
+    border-radius: 10px;
+}
+
+.details-notifications-link {
+    color: #24B47B;
+}
+
