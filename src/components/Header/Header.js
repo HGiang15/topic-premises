@@ -23,6 +23,11 @@ const Header = () => {
                                 Chatbot
                             </a>
                         </li>
+                        <li className="header-nav-item">
+                            <a href="/post" className="header-nav-link header-nav-link__hover">
+                                Post
+                            </a>
+                        </li>
                     </ul>
 
                     {
