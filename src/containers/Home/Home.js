@@ -185,12 +185,30 @@ const Home = () => {
 
                 {/* Pagination */}
                 <div className="pagination">
-                    <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>
-                        Previous
+                    <button
+                        className="pagination-home-item"
+                        onClick={() => paginate(currentPage - 1)}
+                        disabled={currentPage === 1}
+                    >
+                        &lt;
                     </button>
-                    <span>{currentPage}</span>
-                    <button onClick={() => paginate(currentPage + 1)} disabled={currentPage === totalPages}>
-                        Next
+
+                    {Array.from({ length: totalPages }, (_, index) => index + 1).map((pageNumber) => (
+                        <button
+                            key={pageNumber}
+                            className={`pagination-page-home-item ${pageNumber === currentPage ? "active" : ""}`}
+                            onClick={() => paginate(pageNumber)}
+                        >
+                            {pageNumber}
+                        </button>
+                    ))}
+
+                    <button
+                        className="pagination-home-item"
+                        onClick={() => paginate(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                    >
+                        &gt;
                     </button>
                 </div>
 

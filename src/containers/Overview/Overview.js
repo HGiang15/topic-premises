@@ -2,11 +2,10 @@ import React from "react";
 import manage from "../../assets/icons/manage.svg";
 import care from "../../assets/icons/care.svg";
 import donation from "../../assets/icons/donation.svg";
-import online from '../../assets/icons/online.svg';
-import information from '../../assets/icons/information.svg';
-import notification from '../../assets/icons/notification.svg'
-import user from '../../assets/img/user.svg';
-
+import online from "../../assets/icons/online.svg";
+import information from "../../assets/icons/information.svg";
+import notification from "../../assets/icons/notification.svg";
+import user from "../../assets/img/user.svg";
 import "./Overview.css";
 
 const Overview = () => {
@@ -41,7 +40,9 @@ const Overview = () => {
                         <h2 className="summary-item-title">Ủng hộ nhà phát triển</h2>
                     </div>
                     <p className="summary-item-donated">Hỗ trợ nhà phát triển để thêm nhiều tính năng hữu ích hơn</p>
-                    <a href="/donate" className="summary-item-link">Donate</a>
+                    <a href="/donate" className="summary-item-link">
+                        Donate
+                    </a>
                 </div>
             </div>
             <h2 className="section-title">Thông tin dành riêng cho bạn</h2>
@@ -56,8 +57,14 @@ const Overview = () => {
                         </div>
                         <p className="details-interaction-care">Có 2 người quan tâm đến tin đăng của bạn</p>
                         <ul className="details-interaction-list">
-                            <li className="details-interaction-item"><img src={user} alt="User" className="details-interaction-icon" /> Phạm Nhật Minh đã quan tâm đến tin đăng của bạn</li>
-                            <li className="details-interaction-item"><img src={user} alt="User" className="details-interaction-icon" /> Bùi Quang Đạo đã quan tâm đến tin đăng của bạn</li>
+                            <li className="details-interaction-item">
+                                <img src={user} alt="User" className="details-interaction-icon" /> Phạm Nhật Minh đã
+                                quan tâm đến tin đăng của bạn
+                            </li>
+                            <li className="details-interaction-item">
+                                <img src={user} alt="User" className="details-interaction-icon" /> Bùi Quang Đạo đã quan
+                                tâm đến tin đăng của bạn
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -68,7 +75,11 @@ const Overview = () => {
                     <div className="details-notifications-wrapper">
                         <img src={information} alt="" className="notification-icon" />
                         <p>
-                            Tin <a href="#/" className="details-notifications-link">#678910</a> sắp hết hạn
+                            Tin{" "}
+                            <a href="#/" className="details-notifications-link">
+                                #678910
+                            </a>{" "}
+                            sắp hết hạn
                         </p>
                     </div>
                 </div>
