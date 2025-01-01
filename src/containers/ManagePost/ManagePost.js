@@ -107,6 +107,7 @@ const ManagePost = () => {
         "Tất cả": posts.length,
         "Sắp hết hạn": posts.filter((post) => post.status === "Sắp hết hạn").length,
         "Đang hiển thị": posts.filter((post) => post.status === "Đang hiển thị").length,
+        "Không hiển thị": posts.filter((post) => post.status === "Không hiển thị").length, 
     };
 
     const filteredPosts = activeTab === "Tất cả" ? posts : posts.filter((post) => post.status === activeTab);
@@ -134,7 +135,7 @@ const ManagePost = () => {
 
             {/* Filter tab */}
             <div className="filter-tabs">
-                {["Tất cả", "Sắp hết hạn", "Đang hiển thị"].map((tab) => (
+                {["Tất cả", "Sắp hết hạn", "Đang hiển thị", "Không hiển thị"].map((tab) => (
                     <div
                         key={tab}
                         className={`filter-tabs-wrap ${activeTab === tab ? "active-tab" : ""}`}
