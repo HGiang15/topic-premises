@@ -19,8 +19,10 @@ const Header = () => {
                             </a>
                         </li>
                         <li className="header-nav-item">
-                            <a href="/post" className="header-nav-link header-nav-link__hover">
-                                Post
+
+                            <a href="/chatbot" className="header-nav-link header-nav-link__hover">
+                                Chatbot
+
                             </a>
                         </li>
                     </ul>
@@ -53,7 +55,7 @@ const Header = () => {
                                 </a>
                             </li>
                             <li className="header-nav-item">
-                                <a href="/#" className="header-nav-button post-button">
+                                <a href="/post" className="header-nav-button post-button">
                                     Đăng tin
                                 </a>
                             </li>

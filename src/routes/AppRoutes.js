@@ -15,6 +15,7 @@ import Sidebar from "../components/Sidebar/Sidebar";
 import SidebarLeft from './../components/SidebarLeft/SidebarLeft';
 import Footer from "../components/Footer/Footer";
 import './AppRoutes.css'
+import AddressMap from "../containers/AddressMap/AddressMap";
 
 // MainLayout: Được sử dụng cho các route chỉ có Header, Footer và Filter: /home, /detail.
 // SimpleLayout: Được sử dụng cho các route chỉ có Header và Footer:  /overview, /post.
@@ -77,11 +78,13 @@ const AppRoutes = () => {
                 <Route element={<MainLayout />}>
                     <Route path="/" element={<Home />} />
                     <Route path="/detail" element={<Detail />} />
+                    
                 </Route>
-
+                
                 {/* route Header, Footer, không Filter */}
                 <Route element={<SimpleLayout />}>
                     <Route path="/post" element={<Post />} />
+                    <Route path="/addressMap" element={<AddressMap />} />
                 </Route>
 
                 {/* route SidebarLeft */}
