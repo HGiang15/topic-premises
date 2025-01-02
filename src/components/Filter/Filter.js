@@ -1,9 +1,15 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import searchIcon from '../../assets/icons/search.svg'
 import arrowDown from '../../assets/icons/arrowDown.svg'
 import "./Filter.css";
 
 const Filter = () => {
+    const navigate = useNavigate(); // Hook để chuyển hướng
+
+    const handleMapButtonClick = () => {
+        navigate("/addressMap"); // Chuyển đến đường dẫn /addressMap
+    };
     return (
         <div className="filter-container">
             <div className="search-bar">
@@ -11,6 +17,9 @@ const Filter = () => {
                 <button className="search-button">
                     <img src={searchIcon} alt="Search icon" />
                     Tìm kiếm
+                </button>
+                <button className="map-button" onClick={handleMapButtonClick}> 
+                    <img src={searchIcon} alt="Search icon" />
                 </button>
             </div>
             <div className="filter-bar">

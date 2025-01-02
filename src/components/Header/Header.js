@@ -23,11 +23,6 @@ const Header = () => {
                                 Chatbot
                             </a>
                         </li>
-                        <li className="header-nav-item">
-                            <a href="/post" className="header-nav-link header-nav-link__hover">
-                                Post
-                            </a>
-                        </li>
                     </ul>
 
                     { /* Đoạn này bỏ comment để test 2 trường hợp UI chưa login và UI login */ }
@@ -58,7 +53,7 @@ const Header = () => {
                                 </a>
                             </li>
                             <li className="header-nav-item">
-                                <a href="/#" className="header-nav-button post-button">
+                                <a href="/post" className="header-nav-button post-button">
                                     Đăng tin
                                 </a>
                             </li>
