@@ -98,6 +98,7 @@
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 20px;
+    margin-top: 20px;
   }
   
   
@@ -129,20 +130,35 @@
   }
   .uploaded-images {
     display: flex;
+    justify-content: space-between;
     gap: 10px;
-    margin-top: 20px;
-  }
-  
-  .uploaded-image-img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
   }
   
   .uploaded-image {
+    width: 32%; 
+    height: 150px;
     border: 1px solid #ddd;
-    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f9f9f9;
+    position: relative;
   }
+  
+  .uploaded-image-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+  }
+  
+  .image-placeholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #aaa;
+    font-size: 14px;
+  }
+  
 
   /* Container cho các lựa chọn số ngày đăng */
 .day-selection-container {
@@ -219,5 +235,39 @@
   .invoice-value {
     color: #000;
     font-size: 16px;
+  }
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+  }
+  
+  .close-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .close-btn:hover {
+    background-color: #0056b3;
   }
   
