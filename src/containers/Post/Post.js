@@ -1,4 +1,3 @@
-// Post.js
 import React, { useState } from "react";
 
 import "./Post.css";
@@ -48,20 +47,26 @@ const Post = () => {
           setSelectedDistrict={setSelectedDistrict}
           selectedWard={selectedWard}
           setSelectedWard={setSelectedWard}
+          onNext={handleNextStep}
         />
       )}
 
       {step === 2 && (
-        <Step2Form images={images} setImages={setImages} handleFileChange={handleFileChange} />
+        <Step2Form
+          images={images}
+          setImages={setImages}
+          handleFileChange={handleFileChange}
+          onNext={handleNextStep}
+        />
       )}
 
       {step === 3 && (
-        <Step3Form selectedDays={selectedDays} setSelectedDays={setSelectedDays} />
+        <Step3Form
+          selectedDays={selectedDays}
+          setSelectedDays={setSelectedDays}
+          onNext={handleNextStep}
+        />
       )}
-
-      <button type="button" onClick={handleNextStep} className="post-submit-btn">
-        Tiếp
-      </button>
     </div>
   );
 };

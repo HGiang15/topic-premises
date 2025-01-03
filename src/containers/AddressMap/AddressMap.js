@@ -44,10 +44,12 @@ const AddressMap = () => {
   const [positions, setPositions] = useState([]);
   const [searchResult, setSearchResult] = useState(null);
   const [address, setAddress] = useState("");
+  const [loading, setLoading] = useState(false); // Thêm state loading
 
   useEffect(() => {
     // Tra cứu tọa độ từ danh sách địa chỉ
     const fetchCoordinates = async () => {
+      setLoading(true); // Đặt loading là true khi bắt đầu tải
       const newPositions = [];
       for (const item of addresses) {
         try {
@@ -76,6 +78,7 @@ const AddressMap = () => {
         }
       }
       setPositions(newPositions);
+      setLoading(false); // Đặt loading là false khi tải xong
     };
 
     fetchCoordinates();
@@ -86,6 +89,8 @@ const AddressMap = () => {
       alert("Vui lòng nhập địa chỉ để tìm kiếm.");
       return;
     }
+
+    setLoading(true); // Đặt loading là true khi bắt đầu tìm kiếm
 
     axios
       .get(`https://nominatim.openstreetmap.org/search`, {
@@ -106,6 +111,9 @@ const AddressMap = () => {
       .catch((error) => {
         console.error(error);
         alert("Đã có lỗi xảy ra khi tìm kiếm.");
+      })
+      .finally(() => {
+        setLoading(false); // Đặt loading là false khi tìm kiếm xong
       });
   };
 
@@ -135,42 +143,47 @@ const AddressMap = () => {
         </button>
       </div>
 
-      <MapContainer
-        center={[21.015, 105.83]}
-        zoom={15}
-        className="leaflet-container"
-      >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        />
-        <MapViewUpdater />
+      {loading ? (
+        <div className="loading-text">Đang tải...</div> // Hiển thị thông báo khi đang tải
+      ) : (
+        <MapContainer
+          center={[21.015, 105.83]}
+          zoom={15}
+          className="leaflet-container"
+        >
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          />
+          <MapViewUpdater />
 
-        {positions.map((position, index) => (
-          <Marker key={index} position={position.coords} icon={position.icon}>
-            <Popup>
-              {position.name} <br />
-              <a   target="_blank" href="/detail"
-                >Xem chi tiết</a>
-              <br />
-              <a
-                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                  position.name
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Xem trên Google Maps
-              </a>
-            </Popup>
-          </Marker>
-        ))}
-        {searchResult && (
-          <Marker position={searchResult}>
-            <Popup>Vị trí tìm thấy!</Popup>
-          </Marker>
-        )}
-      </MapContainer>
+          {positions.map((position, index) => (
+            <Marker key={index} position={position.coords} icon={position.icon}>
+              <Popup>
+                {position.name} <br />
+                <a target="_blank" href="/detail">
+                  Xem chi tiết
+                </a>
+                <br />
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                    position.name
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Xem trên Google Maps
+                </a>
+              </Popup>
+            </Marker>
+          ))}
+          {searchResult && (
+            <Marker position={searchResult}>
+              <Popup>Vị trí tìm thấy!</Popup>
+            </Marker>
+          )}
+        </MapContainer>
+      )}
     </div>
   );
 };
