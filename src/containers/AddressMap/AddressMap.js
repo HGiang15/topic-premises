@@ -4,14 +4,12 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import axios from "axios";
 import "./AddressMap.css"; // Import tệp CSS mới
-
+import AddressRedIcons from "./address-icon.webp";
+import product1 from "../../assets/img/product_1.png";
 // Fix icon issue with Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
-  iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
-  iconRetinaUrl:
-    "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png",
-  shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
+  iconUrl: AddressRedIcons, // Sử dụng URL đã import
 });
 
 // Tạo icon mũi tên đỏ
@@ -26,19 +24,41 @@ const defaultIcon = new L.Icon({
 
 const AddressMap = () => {
   const addresses = [
-    { name: "vincom", address: "Phạm ngọc thạch, đống đa, hà nội" },
-    { name: "Trường Đại học Thủy Lợi", address: "175 Tây Sơn, Hà Nội" },
-    { name: "Đại học Công Đoàn", address: "169 Tây Sơn, Hà Nội" },
-    { name: "Học viện Ngân hàng", address: "12 Chùa Bộc, Hà Nội" },
-    { name: "Đại học Y Hà Nội", address: "1 Tôn Thất Tùng, Đống Đa, Hà Nội" }, 
+    {
+      name: "vincom",
+      address: "Phạm ngọc thạch, đống đa, hà nội",
+      image: product1, // Thêm trường ảnh
+    },
+    {
+      name: "Trường Đại học Thủy Lợi",
+      address: "175 Tây Sơn, Hà Nội",
+      image: product1, // Thêm trường ảnh
+    },
+    {
+      name: "Đại học Công Đoàn",
+      address: "169 Tây Sơn, Hà Nội",
+      image: product1, // Thêm trường ảnh
+    },
+    {
+      name: "Học viện Ngân hàng",
+      address: "12 Chùa Bộc, Hà Nội",
+      image: product1, // Thêm trường ảnh
+    },
+    {
+      name: "Đại học Y Hà Nội",
+      address: "1 Tôn Thất Tùng, Đống Đa, Hà Nội",
+      image: product1, // Thêm trường ảnh
+    },
     {
       name: "Đại học công nghệ",
       address: "Nhà E3, 144 Xuân Thủy, quận Cầu Giấy, Hà Nội, Hà Nội, Việt Nam",
-    }, 
+      image: product1, // Thêm trường ảnh
+    },
     {
-        name: "Nhà Đạo",
-        address: "Liên Bảo, Vĩnh yên",
-      }, 
+      name: "Nhà Đạo",
+      address: "Liên Bảo, Vĩnh yên",
+      image: product1, // Thêm trường ảnh
+    },
   ];
 
   const [positions, setPositions] = useState([]);
@@ -144,7 +164,9 @@ const AddressMap = () => {
       </div>
 
       {loading ? (
-        <div className="loading-text">Đang tải...</div> // Hiển thị thông báo khi đang tải
+        <div className="loading-spinner">
+          <div className="spinner"></div>
+        </div>
       ) : (
         <MapContainer
           center={[21.015, 105.83]}
@@ -164,6 +186,12 @@ const AddressMap = () => {
                 <a target="_blank" href="/detail">
                   Xem chi tiết
                 </a>
+                <img
+                  src={product1}
+                  alt={position.name}
+                  className="popup-image"
+                  style={{ width: "100%", height: "auto", objectFit: "contain", }} // Đảm bảo kích thước ảnh phù hợp
+                />
                 <br />
                 <a
                   href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
