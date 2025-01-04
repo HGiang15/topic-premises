@@ -3,8 +3,9 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import axios from "axios";
-import "./AddressMap.css"; 
-import AddressRedIcons from "./address-icon.webp";
+
+import "./AddressMap.css"; // Import tệp CSS mới
+import AddressRedIcons from "../../assets/icons/address-icon.webp";
 import product1 from "../../assets/img/product_1.png";
 // Fix icon issue with Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
