@@ -21,6 +21,25 @@ const Header = () => {
                     </ul>
 
                     {
+                        // Đoạn này bỏ comment để test 2 trường hợp UI chưa login và UI login
+                    }
+
+                    {
+                        // UI not login
+                        <ul className="header-nav-list right-nav">
+                            <li className="header-nav-item">
+                                <a href="/login" className="header-nav-link header-nav-button login-button">
+                                    Đăng nhập
+                                </a>
+                            </li>
+                            <li className="header-nav-item">
+                                <a href="/register" className="header-nav-link header-nav-button register-button">
+                                    Đăng ký
+                                </a>
+                            </li>
+                        </ul>
+                    }
+                    {
                         // UI login
                         <ul className="header-nav-list right-nav logged-in-nav">
                             <li className="header-nav-item user-info">

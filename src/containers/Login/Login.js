@@ -39,7 +39,7 @@ const Login = () => {
         const userId = decodedToken.id;
         console.log("User ID:", userId);
         alert("Đăng nhập thành công!");
-        navigate("/home");
+        navigate("/");
       } else {
         setError(response.data.message || "Đăng nhập thất bại.");
       }
