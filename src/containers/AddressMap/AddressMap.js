@@ -3,13 +3,13 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import axios from "axios";
-import "./AddressMap.css"; // Import tệp CSS mới
+import "./AddressMap.css"; 
 import AddressRedIcons from "./address-icon.webp";
 import product1 from "../../assets/img/product_1.png";
 // Fix icon issue with Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
-  iconUrl: AddressRedIcons, // Sử dụng URL đã import
+  iconUrl: AddressRedIcons, 
 });
 
 // Tạo icon mũi tên đỏ
@@ -27,37 +27,37 @@ const AddressMap = () => {
     {
       name: "vincom",
       address: "Phạm ngọc thạch, đống đa, hà nội",
-      image: product1, // Thêm trường ảnh
+      image: product1, 
     },
     {
       name: "Trường Đại học Thủy Lợi",
       address: "175 Tây Sơn, Hà Nội",
-      image: product1, // Thêm trường ảnh
+      image: product1, 
     },
     {
       name: "Đại học Công Đoàn",
       address: "169 Tây Sơn, Hà Nội",
-      image: product1, // Thêm trường ảnh
+      image: product1, 
     },
     {
       name: "Học viện Ngân hàng",
       address: "12 Chùa Bộc, Hà Nội",
-      image: product1, // Thêm trường ảnh
+      image: product1, 
     },
     {
       name: "Đại học Y Hà Nội",
       address: "1 Tôn Thất Tùng, Đống Đa, Hà Nội",
-      image: product1, // Thêm trường ảnh
+      image: product1, 
     },
     {
       name: "Đại học công nghệ",
       address: "Nhà E3, 144 Xuân Thủy, quận Cầu Giấy, Hà Nội, Hà Nội, Việt Nam",
-      image: product1, // Thêm trường ảnh
+      image: product1,
     },
     {
       name: "Nhà Đạo",
       address: "Liên Bảo, Vĩnh yên",
-      image: product1, // Thêm trường ảnh
+      image: product1, 
     },
   ];
 
