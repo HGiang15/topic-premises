@@ -12,13 +12,13 @@ const Filter = () => {
     };
     return (
         <div className="filter-container">
-            <div className="search-bar">
-                <input type="text" className="search-input" placeholder="Nhập địa chỉ, giá tiền hoặc từ khóa" />
-                <button className="search-button">
+            <div className="filter-search-bar">
+                <input type="text" className="filter-search-input" placeholder="Nhập địa chỉ, giá tiền hoặc từ khóa" />
+                <button className="filter-search-button">
                     <img src={searchIcon} alt="Search icon" />
                     Tìm kiếm
                 </button>
-                <button className="map-button" onClick={handleMapButtonClick}> 
+                <button className="filter-map-button" onClick={handleMapButtonClick}> 
                     <img src={searchIcon} alt="Search icon" />
                 </button>
             </div>
