@@ -80,6 +80,13 @@ const SidebarLeft = () => {
                     <img src={user1} alt="Quản lý tài khoản" className="menu-icon" />
                     <span className="menu-text">Quản lý tài khoản</span>
                 </div>
+                <div
+                    className={`menu-item ${activeMenu === "/dashboards" ? "active" : ""}`}
+                    onClick={() => handleMenuClick("/dashboards")}
+                >
+                    <img src={user1} alt="Quản lý tài khoản" className="menu-icon" />
+                    <span className="menu-text">Biều đồ tổng quan</span>
+                </div>
             </div>
 
             {/* Modal for Recharge */}

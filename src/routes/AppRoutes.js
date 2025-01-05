@@ -16,6 +16,7 @@ import SidebarLeft from './../components/SidebarLeft/SidebarLeft';
 import Footer from "../components/Footer/Footer";
 import './AppRoutes.css'
 import AddressMap from "../containers/AddressMap/AddressMap";
+import Dashboards from "../containers/Dashboards/Dashboards";
 
 // MainLayout: Được sử dụng cho các route chỉ có Header, Footer và Filter: /home, /detail.
 // SimpleLayout: Được sử dụng cho các route chỉ có Header và Footer:  /overview, /post.
@@ -92,6 +93,7 @@ const AppRoutes = () => {
                     <Route path="/overview" element={<Overview />} />
                     <Route path="/managepost" element={<ManagePost />} />
                     <Route path="/manageinfo" element={<ManageInfo />} />
+                    <Route path="/dashboards" element={<Dashboards />} />
                 </Route>
 
                 {/* route no Header, Filter, Footer */}
