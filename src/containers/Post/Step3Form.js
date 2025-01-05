@@ -1,11 +1,17 @@
 import React, { useState } from "react";
-import moment from "moment"; // Cài đặt moment bằng npm install moment
-
-const Step3Form = ({ selectedDays, setSelectedDays }) => {
-  const [showModal, setShowModal] = useState(false); // State để điều khiển hiển thị modal
+import moment from "moment";
+import { useNavigate } from "react-router-dom";
+const Step3Form = ({ selectedDays, setSelectedDays, onNext, formData, setFormData, handleCreatePost  }) => {
+  const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false); 
 
   const handleDaySelection = (days, price) => {
     setSelectedDays({ days, price });
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      amountExpiredDays: days,
+      feeToPost: price,
+    }));
   };
 
   const today = moment().format("DD/MM/YYYY");
@@ -17,12 +23,13 @@ const Step3Form = ({ selectedDays, setSelectedDays }) => {
 
   const handlePayment = () => {
     // Hiển thị modal khi thanh toán
+    handleCreatePost();
     setShowModal(true);
   };
 
   const closeModal = () => {
-    // Đóng modal
     setShowModal(false);
+    navigate("/managepost");
   };
 
   return (

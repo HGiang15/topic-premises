@@ -10,7 +10,9 @@ const Step1Form = ({
   setSelectedDistrict,
   selectedWard,
   setSelectedWard,
-  onNext
+  onNext,
+  formData,
+  setFormData,
 }) => {
   const provinces = vietnamData.map((province) => ({
     value: province.code,
@@ -35,7 +37,12 @@ const Step1Form = ({
         value: ward.code,
         label: ward.name,
       }));
-
+  const handleInputChange = (field, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
   return (
     <div className="post-form-container">
       {/* Progress Bar */}
@@ -82,17 +89,7 @@ const Step1Form = ({
               value={selectedWard}
               onChange={(option) => setSelectedWard(option)}
               placeholder="Chọn Phường/Xã"
-              isDisabled={!selectedDistrict} // Vô hiệu hoá nếu chưa chọn huyện
-            />
-          </div>
-
-          {/* Đường/Phố */}
-          <div className="post-form-group">
-            <label className="post-label">Đường/Phố</label>
-            <input
-              type="text"
-              className="post-input"
-              placeholder="Nhập tên đường/phố"
+              isDisabled={!selectedDistrict}
             />
           </div>
 
@@ -103,6 +100,7 @@ const Step1Form = ({
               type="text"
               className="post-input"
               placeholder="Nhập địa chỉ chi tiết"
+              onChange={(e) => handleInputChange("address", e.target.value)}
             />
           </div>
         </div>
@@ -113,7 +111,8 @@ const Step1Form = ({
             <input
               type="text"
               className="post-input"
-              placeholder="Nhập tên đường/phố"
+              placeholder="Nhập loại mặt bằng"
+              onChange={(e) => handleInputChange("category", e.target.value)}
             />
           </div>
 
@@ -124,6 +123,7 @@ const Step1Form = ({
               type="text"
               className="post-input"
               placeholder="Nhập địa chỉ chi tiết"
+              onChange={(e) => handleInputChange("roomSize", e.target.value)}
             />
           </div>
           <div className="post-form-group">
@@ -131,21 +131,13 @@ const Step1Form = ({
             <input
               type="text"
               className="post-input"
-              placeholder="Nhập địa chỉ chi tiết"
+              placeholder="Nhập số m vuông"
+              onChange={(e) => handleInputChange("price", e.target.value)}
             />
           </div>
         </div>
         <div className="post-form-section">
           <h3 className="post-h3">Thông tin liên hệ</h3>
-          <div className="post-form-group">
-            <label className="post-label">Tên người liên hệ</label>
-            <input
-              type="text"
-              className="post-input"
-              placeholder="Nhập tên người liên hệ"
-            />
-          </div>
-
           {/* Địa chỉ hiện tại */}
           <div className="post-form-group">
             <label className="post-label">Email</label>
@@ -153,6 +145,7 @@ const Step1Form = ({
               type="text"
               className="post-input"
               placeholder="Nhập email"
+              onChange={(e) => handleInputChange("email", e.target.value)}
             />
           </div>
           <div className="post-form-group">
@@ -160,7 +153,8 @@ const Step1Form = ({
             <input
               type="text"
               className="post-input"
-              placeholder="Nhập địa chỉ chi tiết"
+              placeholder="Nhập số điện thoại"
+              onChange={(e) => handleInputChange("phone", e.target.value)}
             />
           </div>
         </div>
@@ -172,15 +166,18 @@ const Step1Form = ({
               type="text"
               className="post-input"
               placeholder="Nhập tiêu đề"
+              onChange={(e) => handleInputChange("title", e.target.value)}
             />
           </div>
           <div className="post-form-group">
             <label className="post-label">Mô tả</label>
-            <input
-              type="text"
+            <textarea
               className="post-input"
               placeholder="Nhập thông tin mô tả"
-            />
+              rows="4" // Số dòng chiều cao mặc định
+              onChange={(e) => handleInputChange("description", e.target.value)}
+              style={{ width: "100%", maxWidth: "800px" }} // Tùy chỉnh chiều rộng
+            ></textarea>
           </div>
         </div>
       </form>

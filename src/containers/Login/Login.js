@@ -36,6 +36,7 @@ const Login = () => {
         // Giải mã token để lấy user ID
         // Sử dụng jwtDecode đúng cách
         const decodedToken = jwtDecode(token);
+        console.log("decodedToken: ",decodedToken);
         const userId = decodedToken.id;
         console.log("User ID:", userId);
         alert("Đăng nhập thành công!");

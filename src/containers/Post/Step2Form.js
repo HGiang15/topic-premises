@@ -1,6 +1,6 @@
 import React from "react";
 
-const Step2Form = ({ images, setImages, handleFileChange, onNext }) => {
+const Step2Form = ({ images, setImages, handleFileChange, onNext, formData, setFormData, }) => {
   const handleImageChange = (e) => {
     const newImages = Array.from(e.target.files);
     
@@ -12,8 +12,6 @@ const Step2Form = ({ images, setImages, handleFileChange, onNext }) => {
         reader.onloadend = () => {
           const base64Image = reader.result; // Lấy giá trị base64
           console.log("Base64 Image:", base64Image); // Log base64 image
-          
-          // Cập nhật mảng images với ảnh đã chuyển đổi thành base64
           setImages((prevImages) => [...prevImages, base64Image]);
         };
         
@@ -24,7 +22,12 @@ const Step2Form = ({ images, setImages, handleFileChange, onNext }) => {
       alert("Bạn chỉ có thể tải tối đa 3 ảnh.");
     }
   };
-
+  const handleInputChange = (field, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
   return (
     <div className="post-form-container">
       <h3 className="post-h3">Hình ảnh</h3>
@@ -72,6 +75,7 @@ const Step2Form = ({ images, setImages, handleFileChange, onNext }) => {
             type="text"
             className="post-input"
             placeholder="Nhập link video review"
+            onChange={(e) => handleInputChange("link", e.target.value)}
           />
         </div>
       </form>
