@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
-const Step3Form = ({ selectedDays, setSelectedDays, onNext, formData, setFormData, handleCreatePost  }) => {
+
+const Step3Form = ({ selectedDays, setSelectedDays, onNext, formData, setFormData, handleCreatePost }) => {
   const navigate = useNavigate();
-  const [showModal, setShowModal] = useState(false); 
+  const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false); // Trạng thái xử lý
+  const [errorMessage, setErrorMessage] = useState(null); // Lưu thông báo lỗi
 
   const handleDaySelection = (days, price) => {
     setSelectedDays({ days, price });
@@ -21,10 +24,17 @@ const Step3Form = ({ selectedDays, setSelectedDays, onNext, formData, setFormDat
     ? moment().add(selectedDays.days, "days").format("DD/MM/YYYY")
     : null;
 
-  const handlePayment = () => {
-    // Hiển thị modal khi thanh toán
-    handleCreatePost();
-    setShowModal(true);
+  const handlePayment = async () => {
+    setLoading(true); // Bắt đầu xử lý
+    setErrorMessage(null); // Xóa lỗi trước đó
+    try {
+      await handleCreatePost(); // Gọi hàm tạo bài viết
+      setShowModal(true); // Hiển thị modal khi thành công
+    } catch (error) {
+      setErrorMessage("Đã xảy ra lỗi khi tạo bài viết. Vui lòng thử lại."); // Báo lỗi
+    } finally {
+      setLoading(false); // Kết thúc xử lý
+    }
   };
 
   const closeModal = () => {
@@ -117,8 +127,14 @@ const Step3Form = ({ selectedDays, setSelectedDays, onNext, formData, setFormDat
           </div>
         )}
 
+        {/* Hiển thị trạng thái xử lý */}
+        {loading && <p className="loading-text">Đang xử lý...</p>}
+
+        {/* Hiển thị lỗi nếu có */}
+        {errorMessage && <p className="error-text">{errorMessage}</p>}
+
         {/* Thanh toán */}
-        <button type="button" className="post-submit-btn" onClick={handlePayment}>
+        <button type="button" className="post-submit-btn" onClick={handlePayment} disabled={loading}>
           Thanh toán
         </button>
       </form>
