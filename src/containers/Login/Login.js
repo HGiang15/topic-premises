@@ -23,7 +23,6 @@ const Login = () => {
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
-
     const handleLogin = async (e) => {
       e.preventDefault();
       try {
