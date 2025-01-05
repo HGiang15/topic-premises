@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom"; // Để lấy `id` từ URL
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet-control-geocoder/dist/Control.Geocoder.css";
 import "leaflet/dist/leaflet.css";
@@ -6,54 +7,67 @@ import location from "../../assets/icons/location.svg";
 import money from "../../assets/icons/money.svg";
 import home from "../../assets/icons/home.svg";
 import time from "../../assets/icons/time.svg";
-import product1 from "../../assets/img/product_1.jpg";
-import product2 from "../../assets/img/product_2.jpg";
-import product3 from "../../assets/img/product_3.jpg";
-import product4 from "../../assets/img/product_4.jpg";
-import product5 from "../../assets/img/product_5.jpg";
 import "./Detail.css";
 
 const Detail = () => {
+    const { id } = useParams(); // Lấy id từ URL
+    const [postDetail, setPostDetail] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
     const [showFullContact, setShowFullContact] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [popupImage, setPopupImage] = useState(null);
 
+    useEffect(() => {
+        const fetchPostDetail = async () => {
+            try {
+                const response = await fetch(`http://localhost:8080/api/v1/posts/${id}`);
+                const result = await response.json();
+                if (result.status === 200) {
+                    setPostDetail(result.data);
+                } else {
+                    setError(result.message);
+                }
+            } catch (error) {
+                setError("Failed to fetch post details");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPostDetail();
+    }, [id]); // Chạy lại khi `id` thay đổi
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error}</p>;
+
+    const decodeBase64Image = (base64String) => {
+        if (base64String.startsWith("data:image")) {
+            return base64String;
+        } else {
+            const base64Data = base64String.split(",")[1];
+            const decodedUrl = atob(base64Data);
+            return decodedUrl;
+        }
+    };
+    
+
     const handleToggleContact = () => {
         setShowFullContact(!showFullContact);
     };
 
-    const propertyDetails = {
-        title: "Chính chủ cho thuê nhà 279 Phố Huế - 5 tầng, view đẹp, có thang máy, hợp làm VP/Showroom",
-        address: "270 Đường Trần Khát Chân, Phường Thanh Nhàn, Hai Bà Trưng, Hà Nội",
-        price: "23 triệu/tháng",
-        area: "80 m²",
-        timePosted: "3 ngày trước",
-        description: `
-        Cho thuê cửa hàng trong tòa văn phòng Số 157 Phạm Văn Đồng, Mai Dịch, Cầu Giấy. 200m², 7 tầng, 1 hầm, mặt tiền 11 mét,
-        thông sàn, chuẩn văn phòng, điều hòa âm trần, hệ thống PCCC đầy đủ, hệ thống chiếu sáng thiết bị vệ sinh cao cấp.
-        Vị trí tập trung nhiều văn phòng nhất Quận Cầu Giấy. Phù hợp làm showroom, ngân hàng, spa, thẩm mỹ... Diện tích tầng 1: 
-        180m² xây dựng: Giá 80 tr/tháng. Diện tích tầng 2 - 7 200m² xây dựng: Giá 40 triệu/tháng. Khách hàng có nhu cầu vui lòng liên hệ trực tiếp.`,
-        contactNumber: "0398162123",
-        listingInfo: [
-            { label: "Ngày đăng", value: "24/12/2024" },
-            { label: "Ngày hết hạn", value: "10/01/2025" },
-            { label: "Loại tin", value: "Trả phí" },
-            { label: "Mã tin", value: "#678910" },
-        ],
-        images: [product1, product2, product3, product4, product5],
-    };
-
     const handlePrev = () => {
-        setCurrentImageIndex((prevIndex) => (prevIndex === 0 ? propertyDetails.images.length - 1 : prevIndex - 1));
+        setCurrentImageIndex((prevIndex) => (prevIndex === 0 ? postDetail.media.length - 1 : prevIndex - 1));
     };
 
     const handleNext = () => {
-        setCurrentImageIndex((prevIndex) => (prevIndex === propertyDetails.images.length - 1 ? 0 : prevIndex + 1));
+        setCurrentImageIndex((prevIndex) => (prevIndex === postDetail.media.length - 1 ? 0 : prevIndex + 1));
     };
 
-    const handleImageClick = (image) => {
-        setPopupImage(image);
+    const handleImageClick = (imageUrl) => {
+        setPopupImage(imageUrl);
         setIsPopupOpen(true);
     };
 
@@ -66,28 +80,37 @@ const Detail = () => {
             <div className="detail-container">
                 {/* Image Gallery */}
                 <div className="image-gallery">
-                    <div className="large-image">
-                        <img src={propertyDetails.images[currentImageIndex]} alt="Nhà 279 Phố Huế" />
-                    </div>
-                    <div className="thumbnail-row">
-                        <button className="prev-button" onClick={handlePrev}>
-                            &#8249;
-                        </button>
-                        <div className="thumbnails">
-                            {propertyDetails.images.map((image, index) => (
+                    {postDetail?.media && postDetail.media.length > 0 ? (
+                        <>
+                            <div className="large-image">
                                 <img
-                                    key={index}
-                                    src={image}
-                                    alt={`Thumbnail ${index}`}
-                                    className={currentImageIndex === index ? "active" : ""}
-                                    onClick={() => handleImageClick(image)}
+                                    src={decodeBase64Image(postDetail.media[currentImageIndex]?.url)}
+                                    alt={postDetail.title}
                                 />
-                            ))}
-                        </div>
-                        <button className="next-button" onClick={handleNext}>
-                            &#8250;
-                        </button>
-                    </div>
+                            </div>
+                            <div className="thumbnail-row">
+                                <button className="prev-button" onClick={handlePrev}>
+                                    &#8249;
+                                </button>
+                                <div className="thumbnails">
+                                    {postDetail.media.map((image, index) => (
+                                        <img
+                                            key={index}
+                                            src={decodeBase64Image(image.url)}
+                                            alt={`Thumbnail ${index}`}
+                                            className={currentImageIndex === index ? "active" : ""}
+                                            onClick={() => handleImageClick(image.url)}
+                                        />
+                                    ))}
+                                </div>
+                                <button className="next-button" onClick={handleNext}>
+                                    &#8250;
+                                </button>
+                            </div>
+                        </>
+                    ) : (
+                        <p>Không có hình ảnh để hiển thị.</p>
+                    )}
                 </div>
 
                 {/* Popup */}
@@ -95,7 +118,7 @@ const Detail = () => {
                     <div className="image-popup">
                         <div className="overlay" onClick={closePopup}></div>
                         <div className="popup-content">
-                            <img src={popupImage} alt="Popup" />
+                            <img src={decodeBase64Image(popupImage)} alt="Popup" />
                             <button className="close-button" onClick={closePopup}>
                                 &times;
                             </button>
@@ -105,39 +128,41 @@ const Detail = () => {
 
                 {/* Detail */}
                 <div className="property-info">
-                    <h1>{propertyDetails.title}</h1>
+                    <h1>{postDetail.title}</h1>
                     <div className="address-row">
                         <img src={location} alt="Location Icon" className="icon" />
-                        <p className="address">{propertyDetails.address}</p>
+                        <p className="address">{postDetail.address}</p>
                     </div>
                     <div className="details-row">
                         <span className="detail-item detail-item-red">
                             <img src={money} alt="Money Icon" className="icon" />
-                            {propertyDetails.price}
+                            {postDetail.price.toLocaleString("vi-VN")} VNĐ
                         </span>
                         <span className="detail-item">
                             <img src={home} alt="Home Icon" className="icon" />
-                            {propertyDetails.area}
+                            {postDetail.category}
+                        </span>
+                        <span className="detail-item">
+                            <img src={home} alt="Home Icon" className="icon" />
+                            {postDetail.roomSize} m²
                         </span>
                         <span className="detail-item">
                             <img src={time} alt="Time Icon" className="icon" />
-                            {propertyDetails.timePosted}
+                            {new Date(postDetail.createAt).toLocaleDateString()}
                         </span>
                     </div>
 
                     {/* Desc */}
                     <div className="description">
                         <h2>Thông tin mô tả</h2>
-                        <p>{propertyDetails.description}</p>
+                        <p>{postDetail.description}</p>
                     </div>
 
                     {/* Contact Info */}
                     <div className="contact-info">
                         <span>
                             Liên hệ:{" "}
-                            {showFullContact
-                                ? propertyDetails.contactNumber
-                                : `${propertyDetails.contactNumber.slice(0, 7)}***`}
+                            {showFullContact ? postDetail.contactPhone : `${postDetail.contactPhone.slice(0, 7)}***`}
                         </span>
                         <button onClick={handleToggleContact} className="show-contact-button">
                             {showFullContact ? "Ẩn số" : "Hiện số"}
@@ -166,17 +191,31 @@ const Detail = () => {
                         </p>
                         <p>
                             Mọi thông tin liên quan đến tin đăng này chỉ mang tính chất tham khảo. Nếu bạn thấy rằng tin
-                            đăng này không đúng hoặc có dấu hiệu lừa đảo, <a href="#/">Hãy liên hệ với chúng tôi</a>.
+                            đăng này không đúng hoặc có dấu hiệu lừa đảo, Hãy liên hệ với chúng tôi <a href="mailto:contact@example.com"> {postDetail.contactEmail}</a>.
                         </p>
                     </div>
                     <table className="info-table">
                         <tbody>
-                            {propertyDetails.listingInfo.map((info, index) => (
-                                <tr key={index}>
-                                    <td>{info.label}</td>
-                                    <td>{info.value}</td>
-                                </tr>
-                            ))}
+                            <tr>
+                                <td>Diện tích</td>
+                                <td>{postDetail.roomSize} m²</td>
+                            </tr>
+                            <tr>
+                                <td>Giá</td>
+                                <td>{postDetail.price.toLocaleString("vi-VN")} VND</td>
+                            </tr>
+                            <tr>
+                                <td>Địa chỉ</td>
+                                <td>{postDetail.address}</td>
+                            </tr>
+                            <tr>
+                                <td>Ngày đăng</td>
+                                <td>{new Date(postDetail.createAt).toLocaleDateString()}</td>
+                            </tr>
+                            <tr>
+                                <td>Ngày hết hạn</td>
+                                <td>{new Date(postDetail.expiredDate).toLocaleDateString()}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

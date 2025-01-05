@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 
 const Dashboards = () => {
   return (
-    <div className="manage-info">
+    <div className="chart">
       <iframe
         width="600"
         height="400"
