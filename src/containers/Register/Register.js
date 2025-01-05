@@ -1,20 +1,38 @@
 import React, { useState } from "react";
 import google from "../../assets/img/google.png";
 import bg from "../../assets/img/bg_login_2.png";
-import phone from "../../assets/icons/phone.svg";
+import phoneIcon from "../../assets/icons/phone.svg";
+import userIcon from "../../assets/icons/user.svg";
+import emailIcon from "../../assets/icons/care.svg";
+import passwordIcon from "../../assets/icons/lock.svg";
 import "./Register.css";
 
 const Register = () => {
-    const [emailOrPhone, setEmailOrPhone] = useState("");
+    const [fullname, setFullname] = useState("");
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+    const [password, setPassword] = useState("");
 
-    const handleInputChange = (e) => {
-        setEmailOrPhone(e.target.value);
+    const handleFullnameChange = (e) => {
+        setFullname(e.target.value);
+    };
+
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+    };
+
+    const handlePhoneChange = (e) => {
+        setPhone(e.target.value);
+    };
+
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         // Xử lý gửi yêu cầu đăng ký ở đây
-        console.log(emailOrPhone);
+        console.log(email);
     };
 
     return (
@@ -35,15 +53,55 @@ const Register = () => {
 
                 <form className="register-form" onSubmit={handleSubmit}>
                     <div className="register-input-group">
+                        {/* Fullname */}
                         <div className="input-wrapper">
-                            <img src={phone} alt="User Icon" className="icon-user" />
+                            <img src={userIcon} alt="User Icon" className="icon-user" />
                             <input
                                 type="text"
-                                id="emailOrPhone"
+                                id="fullname"
+                                className="register-input"
+                                placeholder="Nhập tên đầy đủ của bạn"
+                                value={fullname}
+                                onChange={handleFullnameChange}
+                            />
+                        </div>
+
+                        {/* Email */}
+                        <div className="input-wrapper">
+                            <img src={emailIcon} alt="User Icon" className="icon-user" />
+                            <input
+                                type="text"
+                                id="email"
+                                className="register-input"
+                                placeholder="Nhập email đầy đủ"
+                                value={email}
+                                onChange={handleEmailChange}
+                            />
+                        </div>
+
+                        {/* Phone */}
+                        <div className="input-wrapper">
+                            <img src={phoneIcon} alt="User Icon" className="icon-user" />
+                            <input
+                                type="text"
+                                id="phone"
+                                className="register-input"
+                                placeholder="Nhập số điện thoại đầy đủ"
+                                value={phone}
+                                onChange={handlePhoneChange}
+                            />
+                        </div>
+
+                        {/* Password */}
+                        <div className="input-wrapper">
+                            <img src={passwordIcon} alt="User Icon" className="icon-user" />
+                            <input
+                                type="text"
+                                id="password"
                                 className="register-input"
                                 placeholder="SĐT hoặc Email"
-                                value={emailOrPhone}
-                                onChange={handleInputChange}
+                                value={password}
+                                onChange={handlePasswordChange}
                             />
                         </div>
                     </div>
