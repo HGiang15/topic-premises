@@ -1,11 +1,47 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import logo from "../../assets/img/logo.png";
 import userLogin from "../../assets/img/user.svg";
 import { useAuth } from "../../components/AuthContext/AuthContext.js";
 import "./Header.css";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 const Header = () => {
-    const { user, logout } = useAuth(); // Lấy thông tin user và hàm logout
+    const navigate = useNavigate(); 
+
+    const token = localStorage.getItem("token");
+    const [fullname, setFullname] = useState("Người dùng");
+    useEffect(() => {
+        if (token) {
+            try {
+                const decoded = jwtDecode(token); 
+                console.log("dec: ", decoded)
+                setFullname(decoded?.fullName || "Người dùng"); 
+            } catch (error) {
+                console.error("Lỗi giải mã token:", error);
+                setFullname("Người dùng"); 
+            }
+        }
+    }, [token]);
+
+    const handleLogout = async () => {
+        // try {
+        //     await axios.post(
+        //         "http://localhost:8080/login",
+        //         {},
+        //         {
+        //             headers: {
+        //                 Authorization: `Bearer ${token}`, 
+        //             },
+        //         }
+        //     );
+            localStorage.removeItem("token");
+            navigate("/");
+        // } catch (error) {
+        //     console.error("Đăng xuất thất bại:", error);
+        // }
+    };
 
     return (
         <header className="header">
@@ -23,12 +59,11 @@ const Header = () => {
                         </li>
                     </ul>
 
-                    {user ? (
-                        // UI khi đã đăng nhập
+                    {token ? (
                         <ul className="header-nav-list right-nav logged-in-nav">
                             <li className="header-nav-item user-info">
                                 <a href="/overview" className="user-info-link">
-                                <span className="user-name">{user.fullname || "Người dùng"}</span> {/* Hiển thị fullname */}
+                                    <span className="user-name">{fullname}</span>
                                     <img src={userLogin} alt="User Icon" className="user-icon" />
                                 </a>
                             </li>
@@ -38,13 +73,12 @@ const Header = () => {
                                 </a>
                             </li>
                             <li className="header-nav-item">
-                                <button className="logout-button" onClick={logout}>
+                                <button className="logout-button" onClick={handleLogout}>
                                     Đăng xuất
                                 </button>
                             </li>
                         </ul>
                     ) : (
-                        // UI khi chưa đăng nhập
                         <ul className="header-nav-list right-nav">
                             <li className="header-nav-item">
                                 <a href="/login" className="header-nav-link header-nav-button login-button">

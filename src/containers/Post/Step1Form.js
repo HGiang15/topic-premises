@@ -52,7 +52,7 @@ const Step1Form = ({
           <h3 className="post-h3">Thông tin địa chỉ</h3>
 
           {/* Thành phố/Tỉnh */}
-          <div className="post-form-group">
+          {/* <div className="post-form-group">
             <label className="post-label">Thành phố/Tỉnh</label>
             <Select
               options={provinces}
@@ -66,7 +66,7 @@ const Step1Form = ({
             />
           </div>
 
-          {/* Quận/Huyện */}
+ 
           <div className="post-form-group">
             <label className="post-label">Quận/Huyện</label>
             <Select
@@ -81,7 +81,6 @@ const Step1Form = ({
             />
           </div>
 
-          {/* Phường/Xã */}
           <div className="post-form-group">
             <label className="post-label">Phường/Xã</label>
             <Select
@@ -91,7 +90,7 @@ const Step1Form = ({
               placeholder="Chọn Phường/Xã"
               isDisabled={!selectedDistrict}
             />
-          </div>
+          </div> */}
 
           {/* Địa chỉ hiện tại */}
           <div className="post-form-group">
