@@ -96,10 +96,10 @@ const Register = () => {
                         <div className="input-wrapper">
                             <img src={passwordIcon} alt="User Icon" className="icon-user" />
                             <input
-                                type="text"
+                                type="password"
                                 id="password"
                                 className="register-input"
-                                placeholder="SĐT hoặc Email"
+                                placeholder="Nhập mật khẩu"
                                 value={password}
                                 onChange={handlePasswordChange}
                             />
