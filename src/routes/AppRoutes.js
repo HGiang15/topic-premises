@@ -36,7 +36,7 @@ const MainLayout = () => {
                 <div className="main-layout-container">
                     <Outlet />
                 </div>
-                {showFilterAndSidebar && <Sidebar />} 
+                {/* {showFilterAndSidebar && <Sidebar />}  */}
             </div>
             <Footer />
         </div>
