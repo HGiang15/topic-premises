@@ -10,7 +10,7 @@ import product1 from "../../assets/img/product_1.png";
 // Fix icon issue with Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
-  iconUrl: AddressRedIcons, 
+  iconUrl: AddressRedIcons,
 });
 
 // Tạo icon mũi tên đỏ
@@ -24,86 +24,66 @@ const defaultIcon = new L.Icon({
 });
 
 const AddressMap = () => {
-  const addresses = [
-    {
-      name: "vincom",
-      address: "Phạm ngọc thạch, đống đa, hà nội",
-      image: product1, 
-    },
-    {
-      name: "Trường Đại học Thủy Lợi",
-      address: "175 Tây Sơn, Hà Nội",
-      image: product1, 
-    },
-    {
-      name: "Đại học Công Đoàn",
-      address: "169 Tây Sơn, Hà Nội",
-      image: product1, 
-    },
-    {
-      name: "Học viện Ngân hàng",
-      address: "12 Chùa Bộc, Hà Nội",
-      image: product1, 
-    },
-    {
-      name: "Đại học Y Hà Nội",
-      address: "1 Tôn Thất Tùng, Đống Đa, Hà Nội",
-      image: product1, 
-    },
-    {
-      name: "Đại học công nghệ",
-      address: "Nhà E3, 144 Xuân Thủy, quận Cầu Giấy, Hà Nội, Hà Nội, Việt Nam",
-      image: product1,
-    },
-    {
-      name: "Nhà Đạo",
-      address: "Liên Bảo, Vĩnh yên",
-      image: product1, 
-    },
-  ];
-
+  const [addresses, setAddresses] = useState([]); 
   const [positions, setPositions] = useState([]);
   const [searchResult, setSearchResult] = useState(null);
   const [address, setAddress] = useState("");
-  const [loading, setLoading] = useState(false); // Thêm state loading
+  const [loading, setLoading] = useState(false); 
 
   useEffect(() => {
-    // Tra cứu tọa độ từ danh sách địa chỉ
-    const fetchCoordinates = async () => {
-      setLoading(true); // Đặt loading là true khi bắt đầu tải
-      const newPositions = [];
-      for (const item of addresses) {
-        try {
-          const response = await axios.get(
-            "https://nominatim.openstreetmap.org/search",
-            {
-              params: {
-                q: item.address,
-                format: "json",
-                addressdetails: 1,
-              },
+    const fetchAddressAndCoordinates = async () => {
+      try {
+        // Gọi API để lấy danh sách địa chỉ
+        const response = await fetch(
+          `http://localhost:8080/api/v1/posts/search-map?keyword=`
+        );
+        const result = await response.json();
+  
+        if (response.ok && result.status === 200) {
+          setAddresses(result.data); 
+          console.log("address: ", result.data);
+          const newPositions = [];
+          for (const item of result.data) {
+            try {
+              const geoResponse = await axios.get(
+                "https://nominatim.openstreetmap.org/search",
+                {
+                  params: {
+                    q: item.address,
+                    format: "json",
+                    addressdetails: 1,
+                  },
+                }
+              );
+              if (geoResponse.data && geoResponse.data.length > 0) {
+                const { lat, lon } = geoResponse.data[0];
+                newPositions.push({
+                  id: item.id,
+                  title: item.title,
+                  address: item.address,
+                  coords: [parseFloat(lat), parseFloat(lon)],
+                  icon: defaultIcon,
+                  imgUrl: item.imgUrl
+                });
+              } else {
+                console.warn(`Không tìm thấy tọa độ cho địa chỉ: ${item.address}`);
+              }
+            } catch (error) {
+              console.error(`Lỗi khi tìm tọa độ cho: ${item.title}`, error);
             }
-          );
-          if (response.data && response.data.length > 0) {
-            const { lat, lon } = response.data[0];
-            newPositions.push({
-              name: item.name,
-              coords: [parseFloat(lat), parseFloat(lon)],
-              icon: defaultIcon,
-            });
-          } else {
-            console.warn(`Không tìm thấy tọa độ cho địa chỉ: ${item.address}`);
           }
-        } catch (error) {
-          console.error(`Lỗi khi tìm tọa độ cho: ${item.name}`, error);
+          setPositions(newPositions); 
+        } else {
+          console.error("Error fetching address:", result.message);
         }
+      } catch (error) {
+        console.error("Error fetching address:", error);
       }
-      setPositions(newPositions);
-      setLoading(false); // Đặt loading là false khi tải xong
     };
-
-    fetchCoordinates();
+  
+    fetchAddressAndCoordinates();
   }, []);
+  
 
   const handleSearch = () => {
     if (address.trim() === "") {
@@ -134,7 +114,7 @@ const AddressMap = () => {
         alert("Đã có lỗi xảy ra khi tìm kiếm.");
       })
       .finally(() => {
-        setLoading(false); // Đặt loading là false khi tìm kiếm xong
+        setLoading(false); 
       });
   };
 
@@ -183,20 +163,25 @@ const AddressMap = () => {
           {positions.map((position, index) => (
             <Marker key={index} position={position.coords} icon={position.icon}>
               <Popup>
-                {position.name} <br />
-                <a target="_blank" href="/detail">
+                {position.title} <br />
+                {position.address} <br />
+                <a target="_blank" href={`/detail/${position.id}`}>
                   Xem chi tiết
                 </a>
                 <img
-                  src={product1}
-                  alt={position.name}
+                  src={position.imgUrl}
+                  alt={position.address}
                   className="popup-image"
-                  style={{ width: "100%", height: "auto", objectFit: "contain", }} // Đảm bảo kích thước ảnh phù hợp
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                    objectFit: "contain",
+                  }} // Đảm bảo kích thước ảnh phù hợp
                 />
                 <br />
                 <a
                   href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                    position.name
+                    position.address
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
