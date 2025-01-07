@@ -109,7 +109,7 @@ const ManagePost = () => {
 
             {/* search */}
             <div className="manage-post-search-bar">
-                <input type="text" placeholder="Tìm kiếm..." />
+                <input className="manage-post-search-input" type="text" placeholder="Tìm kiếm..." />
                 <button className="manage-post-search">
                     <img src={search} alt="Search icon" />
                 </button>

@@ -17,23 +17,26 @@
     width: 280px;
 }
 
-.manage-post-search-bar input {
+.manage-post-search-input {
     width: 100%;
-    padding: 10px;
+    padding: 7px;
     border: 1px solid #24B47B;
     border-radius: 4px 0 0 4px;
     outline: none;
 }
 
 .manage-post-search {
-    padding: 7px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
     background: #24B47B;
     color: #fff;
     border: 1px solid #24B47B;
     border-radius: 0 4px 4px 0;
     cursor: pointer;
-    width: 41px;
-    height: 38px;
+    width: 40px;
+    height: 39px;
 }
 
 .manage-post-search:hover {
@@ -105,7 +108,8 @@
 
 .post-status .status-label {
     display: inline-block;
-    background: #24B47B; /* Màu mặc định */
+    background: #24B47B;
+    /* Màu mặc định */
     color: #fff;
     padding: 5px 10px;
     border-radius: 6px;
@@ -114,11 +118,13 @@
 }
 
 .post-status.inactive .status-label {
-    background: #FF3B30; /* Màu đỏ */
+    background: #FF3B30;
+    /* Màu đỏ */
 }
 
 .post-status.expiring .status-label {
-    background: #FFCC00; /* Màu vàng */
+    background: #FFCC00;
+    /* Màu vàng */
 }
 
 
@@ -222,13 +228,14 @@
     animation: fadeIn 0.3s ease;
 
     max-height: 85vh;
-    overflow-y: auto; 
+    overflow-y: auto;
 }
 
 @keyframes fadeIn {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -322,13 +329,13 @@
 
 /* Custom scroll */
 .modal-edit::-webkit-scrollbar {
-    width: 8px; 
+    width: 8px;
 }
 
 .modal-edit::-webkit-scrollbar-thumb {
-    background-color: #ccc; 
-    border-radius: 10px; 
-    border: 2px solid #fff; 
+    background-color: #ccc;
+    border-radius: 10px;
+    border: 2px solid #fff;
     transition: background-color 0.3s ease;
 }
 
@@ -337,12 +344,12 @@
 }
 
 .modal-edit::-webkit-scrollbar-track {
-    background-color: #f1f1f1; 
+    background-color: #f1f1f1;
     border-radius: 10px;
 }
 
 .modal-edit::-webkit-scrollbar-track:hover {
-    background-color: #e0e0e0; 
+    background-color: #e0e0e0;
 }
 
 .modal-edit::-webkit-scrollbar-corner {
