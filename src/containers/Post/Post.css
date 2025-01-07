@@ -83,7 +83,7 @@
     flex: 1;
   }
   
-  .post-submit-btn {
+  .post-prediction-btn {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -101,6 +101,27 @@
     margin-top: 20px;
   }
   
+  .post-prediction-btn:hover {
+    background-color: #218838;
+  }
+
+  .post-submit-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px; /* Tùy chỉnh nếu cần thiết */
+    height: 40px; /* Đảm bảo chiều cao đủ để căn giữa */
+    background-color: #4CAF50; /* Màu nền */
+    color: white; /* Màu chữ */
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
   
   .post-submit-btn:hover {
     background-color: #218838;
