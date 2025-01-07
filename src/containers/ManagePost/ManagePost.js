@@ -1,13 +1,4 @@
 import React, { useState, useEffect } from "react";
-import product1 from "../../assets/img/product_1.jpg";
-import product2 from "../../assets/img/product_2.jpg";
-import product3 from "../../assets/img/product_3.jpg";
-import product4 from "../../assets/img/product_4.jpg";
-import product5 from "../../assets/img/product_5.jpg";
-import product6 from "../../assets/img/product_1.png";
-import product7 from "../../assets/img/product_2.png";
-import product8 from "../../assets/img/product_3.png";
-import product9 from "../../assets/img/product_4.png";
 import search from "../../assets/icons/search.svg";
 import edit from "../../assets/icons/edit.svg";
 import "./ManagePost.css";
