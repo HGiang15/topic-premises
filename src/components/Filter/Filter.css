@@ -6,14 +6,15 @@
     font-family: Arial, sans-serif;
 }
 
-.search-bar {
+.filter-search-bar {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
+    gap: 10px;
 }
 
-.search-input {
-    width: 950px;
+.filter-search-input {
+    width: 60%;
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -22,29 +23,54 @@
     outline: none;
 }
 
-.search-button {
+.filter-search-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    border: none;
+    background-color: #28a745;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.filter-map-button{
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 12px 20px;
     background-color: #24B47B;
-    color: #fff;
+    color: #000;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
+    font-weight: 600;
+     background-image: url('../../assets/img/map.jpg');
+     width: 200px;
 }
 
-.search-button:hover {
-    background-color: #20c885;
+.filter-map-button:hover {
+    opacity: 0.9;
+}
+.filter-search-button:hover {
+    opacity: 0.9;
 }
 
-.search-button img {
+.filter-search-button img {
     width: 16px;
     height: 16px;
     margin-right: 8px;
 }
-
+.filter-map-button img{
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    color: #000;
+}
 .filter-bar {
     text-align: left;
 }

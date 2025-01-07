@@ -1,0 +1,132 @@
+[
+    {
+      "code": "01",
+      "name": "Thành phố Hà Nội",
+      "districts": [
+        {
+          "code": "001",
+          "name": "Quận Ba Đình",
+          "wards": [
+            { "code": "00001", "name": "Phường Phúc Xá" },
+            { "code": "00002", "name": "Phường Trúc Bạch" },
+            { "code": "00003", "name": "Phường Vĩnh Phúc" }
+          ]
+        },
+        {
+          "code": "002",
+          "name": "Quận Hoàn Kiếm",
+          "wards": [
+            { "code": "00004", "name": "Phường Chương Dương" },
+            { "code": "00005", "name": "Phường Hàng Bạc" },
+            { "code": "00006", "name": "Phường Hàng Gai" }
+          ]
+        },
+        {
+          "code": "003",
+          "name": "Quận Tây Hồ",
+          "wards": [
+            { "code": "00007", "name": "Phường Quảng An" },
+            { "code": "00008", "name": "Phường Nhật Tân" },
+            { "code": "00009", "name": "Phường Tây Hồ" }
+          ]
+        },
+        {
+          "code": "004",
+          "name": "Quận Long Biên",
+          "wards": [
+            { "code": "00010", "name": "Phường Bồ Đề" },
+            { "code": "00011", "name": "Phường Giang Biên" },
+            { "code": "00012", "name": "Phường Long Biên" }
+          ]
+        },
+        {
+          "code": "005",
+          "name": "Quận Cầu Giấy",
+          "wards": [
+            { "code": "00013", "name": "Phường Dịch Vọng" },
+            { "code": "00014", "name": "Phường Mai Dịch" },
+            { "code": "00015", "name": "Phường Cầu Giấy" }
+          ]
+        },
+        {
+          "code": "006",
+          "name": "Quận Đống Đa",
+          "wards": [
+            { "code": "00016", "name": "Phường Khâm Thiên" },
+            { "code": "00017", "name": "Phường Trung Liệt" },
+            { "code": "00018", "name": "Phường Phương Liên" }
+          ]
+        },
+        {
+          "code": "007",
+          "name": "Quận Hoàng Mai",
+          "wards": [
+            { "code": "00019", "name": "Phường Thanh Trì" },
+            { "code": "00020", "name": "Phường Hoàng Liệt" },
+            { "code": "00021", "name": "Phường Lĩnh Nam" }
+          ]
+        },
+        {
+          "code": "008",
+          "name": "Quận Hai Bà Trưng",
+          "wards": [
+            { "code": "00022", "name": "Phường Minh Khai" },
+            { "code": "00023", "name": "Phường Trương Định" },
+            { "code": "00024", "name": "Phường Bách Khoa" }
+          ]
+        },
+        {
+          "code": "009",
+          "name": "Quận Bắc Từ Liêm",
+          "wards": [
+            { "code": "00025", "name": "Phường Đông Ngạc" },
+            { "code": "00026", "name": "Phường Minh Khai" },
+            { "code": "00027", "name": "Phường Phú Diễn" }
+          ]
+        },
+        {
+          "code": "010",
+          "name": "Quận Nam Từ Liêm",
+          "wards": [
+            { "code": "00028", "name": "Phường Mỹ Đình" },
+            { "code": "00029", "name": "Phường Cầu Diễn" },
+            { "code": "00030", "name": "Phường Phương Canh" }
+          ]
+        },
+        {
+          "code": "011",
+          "name": "Quận Hoài Đức",
+          "wards": [
+            { "code": "00031", "name": "Phường An Khánh" },
+            { "code": "00032", "name": "Phường Di Trạch" },
+            { "code": "00033", "name": "Phường Vân Canh" }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "79",
+      "name": "Thành phố Hồ Chí Minh",
+      "districts": [
+        {
+          "code": "760",
+          "name": "Quận 1",
+          "wards": [
+            { "code": "26732", "name": "Phường Tân Định" },
+            { "code": "26734", "name": "Phường Đa Kao" },
+            { "code": "26736", "name": "Phường Bến Nghé" }
+          ]
+        },
+        {
+          "code": "764",
+          "name": "Quận 3",
+          "wards": [
+            { "code": "26746", "name": "Phường Võ Thị Sáu" },
+            { "code": "26748", "name": "Phường Nguyễn Thái Bình" },
+            { "code": "26750", "name": "Phường Bến Thành" }
+          ]
+        }
+      ]
+    }
+  ]
+  

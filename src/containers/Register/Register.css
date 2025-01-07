@@ -51,6 +51,7 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 0.8rem;
+    margin-bottom: 12px;
 }
 
 .register-input {
@@ -129,7 +130,7 @@
 }
 
 .register-login {
-    margin-top: 14rem;
+    margin-top: 3rem;
 }
 
 .register-login-link {

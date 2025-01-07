@@ -1,18 +1,61 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+
 import google from "../../assets/img/google.png";
 import bg from "../../assets/img/bg_login_2.png";
 import user from "../../assets/icons/user.svg";
 import lock from "../../assets/icons/lock.svg";
 import eyeOpen from "../../assets/icons//eye_open.svg";
 import eyeClosed from "../../assets/icons/eye_close.svg";
-import "./Login.css";
 
+import { useAuth } from '../../components/AuthContext/AuthContext.js'
+import "./Login.css";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
+    const navigate = useNavigate();
+    const { login } = useAuth(); // Sử dụng context để quản lý trạng thái user
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState(null);
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
+    const handleLogin = async (e) => {
+      e.preventDefault();
+      try {
+          const response = await axios.post("http://localhost:8080/authenticate", {
+              username: email,
+              password: password,
+          });
+  
+          if (response.data.status === 200) {
+              const token = response.data.data;
+              localStorage.setItem("token", token);
+  
+              const decodedToken = jwtDecode(token);
+              const userData = {
+                  id: decodedToken.id,
+                  email: decodedToken.sub, // sub là email
+                  phone: decodedToken.phone, // phone
+                  fullname: decodedToken.fullname, // fullname từ token
+                  role: decodedToken.role // role
+              };
+              login(userData); // Lưu thông tin vào context
+              
+              alert("Đăng nhập thành công!");
+              navigate("/");
+          } else {
+              setError(response.data.message || "Đăng nhập thất bại.");
+          }
+      } catch (err) {
+          setError("Đăng nhập thất bại. Vui lòng kiểm tra thông tin.");
+          console.error(err);
+      }
+  };
+  
 
     return (
         <div className="login">
@@ -21,7 +64,7 @@ const Login = () => {
                     ⬅ Trang Chủ
                 </button>
             </div>
-            
+
             <div className="login-left">
                 <img src={bg} alt="Background" className="login-bg-image" />
             </div>
@@ -30,11 +73,18 @@ const Login = () => {
                 <h1 className="heading-login">Xin chào bạn</h1>
                 <p className="subheading-login">Đăng nhập để tiếp tục</p>
 
-                <form className="login-form">
+                <form className="login-form" onSubmit={handleLogin}>
                     <div className="login-input-group">
                         <div className="input-wrapper">
                             <img src={user} alt="User Icon" className="icon-user" />
-                            <input type="text" id="email" className="login-input" placeholder="SĐT hoặc Email" />
+                            <input
+                                type="text"
+                                id="email"
+                                className="login-input"
+                                placeholder="SĐT hoặc Email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
                         </div>
                     </div>
                     <div className="login-input-group">
@@ -45,6 +95,8 @@ const Login = () => {
                                 id="password"
                                 className="login-input"
                                 placeholder="Nhập mật khẩu"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                             />
                             <img
                                 src={showPassword ? eyeOpen : eyeClosed}
@@ -54,6 +106,7 @@ const Login = () => {
                             />
                         </div>
                     </div>
+                    {error && <p className="error-message">{error}</p>}
                     <button type="submit" className="btn-login">
                         Đăng nhập
                     </button>

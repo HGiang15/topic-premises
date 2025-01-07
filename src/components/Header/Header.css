@@ -109,6 +109,15 @@
     border-color: #20c885;
 }
 
+.logout-button {
+    background: #b8273e;
+    border: none;
+    color: #fff;
+    padding: 9px 10px;
+    font-size: 0.8rem;
+    border-radius: 4px;
+}
+
 /* UI Login */
 .logged-in-nav {
     display: flex;

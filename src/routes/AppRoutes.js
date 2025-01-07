@@ -5,27 +5,26 @@ import Detail from "../containers/Detail/Detail";
 import Overview from "../containers/Overview/Overview";  
 import ManagePost from './../containers/ManagePost/ManagePost';
 import ManageInfo from './../containers/ManageInfo/ManageInfo';
-
 import Post from "../containers/Post/Post";  
 import Login from "../containers/Login/Login";
 import Register from "../containers/Register/Register";
 import ForgotPassword from './../containers/ForgotPassword/ForgotPassword';
-import Chatbot from "../containers/Chatbot/Chatbot"; 
 import Header from "../components/Header/Header";
 import Filter from "../components/Filter/Filter";
 import Sidebar from "../components/Sidebar/Sidebar";
 import SidebarLeft from './../components/SidebarLeft/SidebarLeft';
 import Footer from "../components/Footer/Footer";
 import './AppRoutes.css'
+import AddressMap from "../containers/AddressMap/AddressMap";
+import Dashboards from "../containers/Dashboards/Dashboards";
 
 // MainLayout: Được sử dụng cho các route chỉ có Header, Footer và Filter: /home, /detail.
-// SimpleLayout: Được sử dụng cho các route chỉ có Header và Footer: /chatbot, /overview, /post.
+// SimpleLayout: Được sử dụng cho các route chỉ có Header và Footer:  /overview, /post.
 const MainLayout = () => {
     const location = useLocation();
 
-    // no Filter route chatbot, overview, post
+    // no Filter route overview, post
     const showFilterAndSidebar =
-        location.pathname !== "/chatbot" &&
         location.pathname !== "/overview" &&
         location.pathname !== "/post";
 
@@ -37,7 +36,7 @@ const MainLayout = () => {
                 <div className="main-layout-container">
                     <Outlet />
                 </div>
-                {showFilterAndSidebar && <Sidebar />} 
+                {/* {showFilterAndSidebar && <Sidebar />}  */}
             </div>
             <Footer />
         </div>
@@ -79,13 +78,14 @@ const AppRoutes = () => {
                 {/* route Header, Filter */}
                 <Route element={<MainLayout />}>
                     <Route path="/" element={<Home />} />
-                    <Route path="/detail" element={<Detail />} />
+                    <Route path="/detail/:id" element={<Detail />} />
+                    
                 </Route>
-
+                
                 {/* route Header, Footer, không Filter */}
                 <Route element={<SimpleLayout />}>
-                    <Route path="/chatbot" element={<Chatbot />} />
                     <Route path="/post" element={<Post />} />
+                    <Route path="/addressMap" element={<AddressMap />} />
                 </Route>
 
                 {/* route SidebarLeft */}
@@ -93,6 +93,7 @@ const AppRoutes = () => {
                     <Route path="/overview" element={<Overview />} />
                     <Route path="/managepost" element={<ManagePost />} />
                     <Route path="/manageinfo" element={<ManageInfo />} />
+                    <Route path="/dashboards" element={<Dashboards />} />
                 </Route>
 
                 {/* route no Header, Filter, Footer */}
