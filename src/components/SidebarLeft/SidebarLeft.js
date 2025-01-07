@@ -140,7 +140,7 @@ const SidebarLeft = () => {
             {isNotificationOpen && (
                 <div className="modal-backdrop" onClick={closeNotification}>
                     <div
-                        className="modal-content notification-modal"
+                        className="modal-notification notification-modal"
                         onClick={(e) => e.stopPropagation()} 
                     >
                         <button className="modal-close" onClick={closeNotification}>
