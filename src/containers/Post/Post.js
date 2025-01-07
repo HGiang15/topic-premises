@@ -76,14 +76,13 @@ const Post = () => {
         mediaUrls: formData.mediaUrls,
       };
 
-      // Gửi yêu cầu POST
       const response = await fetch("http://localhost:8080/api/v1/posts", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Sử dụng token trong header
+          Authorization: `Bearer ${token}`, 
         },
-        body: JSON.stringify(bodyData), // Dữ liệu body
+        body: JSON.stringify(bodyData), 
       });
 
       if (response.ok) {
