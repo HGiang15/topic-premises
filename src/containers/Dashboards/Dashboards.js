@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import './Dashboard.css'
 
 const Dashboards = () => {
     const iframeRefs = useRef([]);

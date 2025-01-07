@@ -4,7 +4,6 @@ import care from "../../assets/icons/care.svg";
 import donation from "../../assets/icons/donation.svg";
 import online from "../../assets/icons/online.svg";
 import information from "../../assets/icons/information.svg";
-import notification from "../../assets/icons/notification.svg";
 import user from "../../assets/img/user.svg";
 import "./Overview.css";
 

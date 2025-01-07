@@ -85,7 +85,7 @@ const SidebarLeft = () => {
                     onClick={() => handleMenuClick("/dashboards")}
                 >
                     <img src={user1} alt="Quản lý tài khoản" className="menu-icon" />
-                    <span className="menu-text">Biều đồ tổng quan</span>
+                    <span className="menu-text">Biểu đồ tổng quan</span>
                 </div>
             </div>
 

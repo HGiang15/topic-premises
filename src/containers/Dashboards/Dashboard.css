@@ -1,3 +1,6 @@
-.chart{
-    margin-top: 50px;
+.chart {
+    margin-top: 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
 }
