@@ -1,46 +1,31 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import logo from "../../assets/img/logo.png";
 import userLogin from "../../assets/img/user.svg";
-import { useAuth } from "../../components/AuthContext/AuthContext.js";
-import "./Header.css";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import "./Header.css";
 
 const Header = () => {
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
 
     const token = localStorage.getItem("token");
     const [fullname, setFullname] = useState("Người dùng");
     useEffect(() => {
         if (token) {
             try {
-                const decoded = jwtDecode(token); 
-                console.log("dec: ", decoded)
-                setFullname(decoded?.fullName || "Người dùng"); 
+                const decoded = jwtDecode(token);
+                console.log("dec: ", decoded);
+                setFullname(decoded?.fullName || "Người dùng");
             } catch (error) {
                 console.error("Lỗi giải mã token:", error);
-                setFullname("Người dùng"); 
+                setFullname("Người dùng");
             }
         }
     }, [token]);
 
     const handleLogout = async () => {
-        // try {
-        //     await axios.post(
-        //         "http://localhost:8080/login",
-        //         {},
-        //         {
-        //             headers: {
-        //                 Authorization: `Bearer ${token}`, 
-        //             },
-        //         }
-        //     );
-            localStorage.removeItem("token");
-            navigate("/");
-        // } catch (error) {
-        //     console.error("Đăng xuất thất bại:", error);
-        // }
+        localStorage.removeItem("token");
+        navigate("/");
     };
 
     return (

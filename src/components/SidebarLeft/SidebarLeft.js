@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+
 import user from "../../assets/img/user.svg";
 import user1 from "../../assets/icons/user.svg";
 import overview from "../../assets/icons/overview.svg";
@@ -10,6 +12,7 @@ import cancel from "../../assets/icons/cancel.svg";
 import "./SidebarLeft.css";
 
 const SidebarLeft = () => {
+    const [fullname, setFullname] = useState("Người dùng");
     const [activeMenu, setActiveMenu] = useState("/overview");
     const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
     const [balance, setBalance] = useState(100000); // Account balance
@@ -17,6 +20,21 @@ const SidebarLeft = () => {
     const [isNotificationOpen, setIsNotificationOpen] = useState(false); // Notification state
     const [isTransactionSuccess, setIsTransactionSuccess] = useState(false); // Success or failure of transaction
     const navigate = useNavigate();
+
+    const token = localStorage.getItem("token");
+
+    useEffect(() => {
+        if (token) {
+            try {
+                const decoded = jwtDecode(token); 
+                console.log("Decoded token:", decoded);
+                setFullname(decoded?.fullName || "Người dùng");  // Set fullname from decoded token
+            } catch (error) {
+                console.error("Error decoding token:", error);
+                setFullname("Người dùng"); 
+            }
+        }
+    }, [token]);
 
     const handleMenuClick = (path) => {
         setActiveMenu(path);
@@ -47,7 +65,7 @@ const SidebarLeft = () => {
         <div className="sidebar-left">
             <div className="sidebar-left-header">
                 <img src={user} alt="Avatar" className="sidebar-avatar" />
-                <h3 className="sidebar-left-heading">Nguyễn Đăng Hoàng Giang</h3>
+                <h3 className="sidebar-left-heading">{fullname}</h3> {/* Display fullname */}
                 <div className="account-balance">
                     <span>Số dư tài khoản</span>
                     <h4>{balance.toLocaleString()} VND</h4>
