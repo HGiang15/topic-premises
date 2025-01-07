@@ -54,12 +54,14 @@ const Dashboards = () => {
       <iframe
         ref={(el) => iframeRefs.current[2] = el}
         data-src="http://54.166.166.166:8088/superset/explore/p/QZX091w0NoA/?standalone=1&height=400"
+
         width="600"
         height="400"
         seamless
         frameBorder="0"
         scrolling="no"
         src="http://54.166.166.166:8088/superset/explore/p/QZX091w0NoA/?standalone=1&height=400"
+
       ></iframe>
     </div>
   );
