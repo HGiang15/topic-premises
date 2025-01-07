@@ -105,7 +105,7 @@
 
 .post-status .status-label {
     display: inline-block;
-    background: #24B47B;
+    background: #24B47B; /* Màu mặc định */
     color: #fff;
     padding: 5px 10px;
     border-radius: 6px;
@@ -114,12 +114,13 @@
 }
 
 .post-status.inactive .status-label {
-    background: #FF3B30; 
+    background: #FF3B30; /* Màu đỏ */
 }
 
 .post-status.expiring .status-label {
-    background: #FFCC00; 
+    background: #FFCC00; /* Màu vàng */
 }
+
 
 .post-description {
     font-size: 17px;
@@ -213,14 +214,14 @@
 .modal-edit {
     margin-top: 78px;
     background: white;
-    padding: 20px;
+    padding: 20px 30px;
     border-radius: 8px;
     width: 800px;
     max-width: 100%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     animation: fadeIn 0.3s ease;
 
-    max-height: 100vh; 
+    max-height: 85vh;
     overflow-y: auto; 
 }
 
