@@ -43,6 +43,29 @@ const Step1Form = ({
       [field]: value,
     }));
   };
+  const handlePrediction = async () => {
+    const { address, category, roomSize, price, email, phone, title, description } = formData;
+
+    const requestData = {
+      message: `Địa chỉ: ${address}, Loại mặt bằng: ${category}, Diện tích: ${roomSize}, Mức giá: ${price}, Email: ${email}, Số điện thoại: ${phone}, Tiêu đề: ${title}, Mô tả: ${description}`,
+    };
+
+    try {
+      const response = await fetch('http://127.0.0.1:5000/price-prediction', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData),
+      });
+
+      const data = await response.json();
+      const predictionTextArea = document.getElementById("pricePredictionTextarea");
+      predictionTextArea.value = data.response;
+    } catch (error) {
+      console.error("Error fetching price prediction:", error);
+    }
+  };
   return (
     <div className="post-form-container">
       {/* Progress Bar */}
@@ -133,6 +156,8 @@ const Step1Form = ({
               placeholder="Nhập số m vuông"
               onChange={(e) => handleInputChange("price", e.target.value)}
             />
+            <button type="button" className="post-prediction-btn" onClick={handlePrediction}>Dự đoán giá</button>
+            <textarea id="pricePredictionTextarea" className="post-input" placeholder="Giá dự đoán và phân tích" rows="10" readOnly></textarea>
           </div>
         </div>
         <div className="post-form-section">
