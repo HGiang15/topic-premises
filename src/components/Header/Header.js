@@ -42,6 +42,16 @@ const Header = () => {
                                 Trang chủ
                             </a>
                         </li>
+                        <li className="header-nav-item">
+                            <a href="/" className="header-nav-link header-nav-link__hover">
+                                Tin tức
+                            </a>
+                        </li>
+                        <li className="header-nav-item">
+                            <a href="/" className="header-nav-link header-nav-link__hover">
+                                Tải app
+                            </a>
+                        </li>
                     </ul>
 
                     {token ? (
