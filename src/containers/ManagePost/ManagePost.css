@@ -390,7 +390,7 @@
     font-size: 12px;
   }
   .modal-edit-img-cell {
-    position: relative; /* To position the delete button relative to this cell */
+    position: relative; 
   }
   
   .modal-edit-img-delete-btn {

@@ -77,12 +77,7 @@ const ManageInfo = () => {
                 <div className="profile-section">
                     <div className="profile-picture">
                         <img src={profileImage} alt="Avatar" className="manage-info-img" />
-                        <button
-                            className="upload-btn"
-                            onClick={handleUploadClick}
-                        >
-                            +
-                        </button>
+    
                         <input
                             ref={fileInputRef}
                             type="file"
