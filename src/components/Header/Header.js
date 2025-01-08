@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import logo from "../../assets/img/logo.png";
 import userLogin from "../../assets/img/user.svg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom"; // Import Link
 import { jwtDecode } from "jwt-decode";
 import "./Header.css";
 
@@ -10,6 +10,7 @@ const Header = () => {
     const [activeItem, setActiveItem] = useState("home");
     const token = localStorage.getItem("token");
     const [fullname, setFullname] = useState("Người dùng");
+
     useEffect(() => {
         if (token) {
             try {
@@ -31,50 +32,50 @@ const Header = () => {
     return (
         <header className="header">
             <div className="header-container">
-                <a href="/" className="header-logo">
+                <Link to="/" className="header-logo">
                     <img src={logo} alt="Logo" className="logo-image" />
                     <span className="logo-text">Real Estate</span>
-                </a>
+                </Link>
                 <nav className="header-nav">
                     <ul className="header-nav-list center-nav">
                         <li
                             className={`header-nav-item ${activeItem === "home" ? "active" : ""}`}
                             onClick={() => setActiveItem("home")}
                         >
-                            <a href="/" className="header-nav-link header-nav-link__hover">
+                            <Link to="/" className="header-nav-link header-nav-link__hover">
                                 Trang chủ
-                            </a>
+                            </Link>
                         </li>
                         <li
                             className={`header-nav-item ${activeItem === "news" ? "active" : ""}`}
                             onClick={() => setActiveItem("news")}
                         >
-                            <a href="/#" className="header-nav-link header-nav-link__hover">
+                            <Link to="/news" className="header-nav-link header-nav-link__hover">
                                 Tin tức
-                            </a>
+                            </Link>
                         </li>
                         <li
                             className={`header-nav-item ${activeItem === "app" ? "active" : ""}`}
                             onClick={() => setActiveItem("app")}
                         >
-                            <a href="/#" className="header-nav-link header-nav-link__hover">
+                            <Link to="/downloadapp" className="header-nav-link header-nav-link__hover">
                                 Tải app
-                            </a>
+                            </Link>
                         </li>
                     </ul>
 
                     {token ? (
                         <ul className="header-nav-list right-nav logged-in-nav">
                             <li className="header-nav-item user-info">
-                                <a href="/overview" className="user-info-link">
+                                <Link to="/overview" className="user-info-link">
                                     <span className="user-name">{fullname}</span>
                                     <img src={userLogin} alt="User Icon" className="user-icon" />
-                                </a>
+                                </Link>
                             </li>
                             <li className="header-nav-item">
-                                <a href="/post" className="header-nav-button post-button">
+                                <Link to="/post" className="header-nav-button post-button">
                                     Đăng tin
-                                </a>
+                                </Link>
                             </li>
                             <li className="header-nav-item">
                                 <button className="logout-button" onClick={handleLogout}>
@@ -85,14 +86,14 @@ const Header = () => {
                     ) : (
                         <ul className="header-nav-list right-nav">
                             <li className="header-nav-item">
-                                <a href="/login" className="header-nav-link header-nav-button login-button">
+                                <Link to="/login" className="header-nav-link header-nav-button login-button">
                                     Đăng nhập
-                                </a>
+                                </Link>
                             </li>
                             <li className="header-nav-item">
-                                <a href="/register" className="header-nav-link header-nav-button register-button">
+                                <Link to="/register" className="header-nav-link header-nav-button register-button">
                                     Đăng ký
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     )}

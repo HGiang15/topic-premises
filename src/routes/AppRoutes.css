@@ -8,10 +8,6 @@
   /* margin-right: 250px; */
 }
 
-.sidebar-right {
-  /* flex-shrink: 0; */
-}
-
 /* OverviewLayout */
 .overview-layout-content {
   display: flex;

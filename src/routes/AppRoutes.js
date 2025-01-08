@@ -12,6 +12,7 @@ import Register from "../containers/Register/Register";
 import ForgotPassword from './../containers/ForgotPassword/ForgotPassword';
 import AddressMap from "../containers/AddressMap/AddressMap";
 import Dashboards from "../containers/Dashboards/Dashboards";
+import News from "../containers/News/News";
 
 import Header from "../components/Header/Header";
 import SidebarLeft from './../components/SidebarLeft/SidebarLeft';
@@ -83,7 +84,7 @@ const AppRoutes = () => {
                 <Route element={<MainLayout />}>
                     <Route path="/" element={<Home />} />
                     <Route path="/detail/:id" element={<Detail />} />
-                    
+                    <Route path="/news" element={<News />} />
                 </Route>
                 
                 {/* route Header, Footer, không Filter */}
