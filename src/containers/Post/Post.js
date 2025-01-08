@@ -5,6 +5,7 @@ import Step2Form from "./Step2Form";
 import Step3Form from "./Step3Form";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import BASE_URL from "../../config";
 const Post = () => {
   const navigate = useNavigate();
   const [selectedProvince, setSelectedProvince] = useState(null);
@@ -76,7 +77,7 @@ const Post = () => {
         mediaUrls: formData.mediaUrls,
       };
 
-      const response = await fetch("http://localhost:8080/api/v1/posts", {
+      const response = await fetch(`${BASE_URL}api/v1/posts`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

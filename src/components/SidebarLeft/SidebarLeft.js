@@ -40,7 +40,9 @@ const SidebarLeft = () => {
         setActiveMenu(path);
         navigate(path);
     };
-
+    const handleDeposit = () => {
+        
+    }
     const handleRecharge = () => {
         const amount = parseInt(transactionAmount, 10);
         if (isNaN(amount) || amount <= 0) {
