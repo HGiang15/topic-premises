@@ -32,36 +32,84 @@ const Dashboards = () => {
 
     return (
         <div className="chart">
-            <iframe
-                ref={(el) => (iframeRefs.current[0] = el)}
-                data-src="http://54.166.166.166:8088/superset/explore/p/5OyMALdv4x9/?standalone=1&height=400"
-                width="600"
-                height="400"
-                seamless
-                frameBorder="0"
-                scrolling="no"
-                src="http://54.166.166.166:8088/superset/explore/p/5OyMALdv4x9/?standalone=1&height=400"
-            ></iframe>
-            <iframe
-                ref={(el) => (iframeRefs.current[1] = el)}
-                data-src="http://54.166.166.166:8088/superset/explore/p/Bgylyq8lP4O/?standalone=1&height=400"
-                width="600"
-                height="400"
-                seamless
-                frameBorder="0"
-                scrolling="no"
-                src="http://54.166.166.166:8088/superset/explore/p/Bgylyq8lP4O/?standalone=1&height=400"
-            ></iframe>
-            <iframe
-                ref={(el) => (iframeRefs.current[2] = el)}
-                data-src="http://54.166.166.166:8088/superset/explore/p/QZX091w0NoA/?standalone=1&height=400"
-                width="600"
-                height="400"
-                seamless
-                frameBorder="0"
-                scrolling="no"
-                src="http://54.166.166.166:8088/superset/explore/p/QZX091w0NoA/?standalone=1&height=400"
-            ></iframe>
+            <div className="dashboard-container">
+                <h3>Biểu đồ Tỉ lệ phần trăm của mỗi loại phòng trong tổng số bài đăng</h3>
+                <iframe
+                    ref={(el) => (iframeRefs.current[0] = el)}
+                    data-src="https://wired-comic-monkfish.ngrok-free.app/superset/explore/p/95mgb3jzN4J/?standalone=1&height=400"
+                    width="600"
+                    height="400"
+                    seamless
+                    frameBorder="0"
+                    scrolling="no"
+                    src="https://wired-comic-monkfish.ngrok-free.app/superset/explore/p/95mgb3jzN4J/?standalone=1&height=400"
+                ></iframe>
+            </div>
+            <div className="dashboard-container">
+                <h3>Biểu đồ theo dõi người dùng đăng ký theo ngày</h3>
+                <iframe
+                    ref={(el) => (iframeRefs.current[1] = el)}
+                    data-src="https://wired-comic-monkfish.ngrok-free.app/superset/explore/p/pa7z4ZoXjO9/?standalone=1&height=400"
+                    width="600"
+                    height="400"
+                    seamless
+                    frameBorder="0"
+                    scrolling="no"
+                    src="https://wired-comic-monkfish.ngrok-free.app/superset/explore/p/pa7z4ZoXjO9/?standalone=1&height=400"
+                ></iframe>
+            </div>
+            <div className="dashboard-container">
+                <h3>Biều đồ số lượng bài đăng theo từng thể loại cho thuê</h3>
+                <iframe
+                    ref={(el) => (iframeRefs.current[2] = el)}
+                    data-src="https://wired-comic-monkfish.ngrok-free.app/superset/explore/p/xVmBZE8zO01/?standalone=1&height=400"
+                    width="600"
+                    height="400"
+                    seamless
+                    frameBorder="0"
+                    scrolling="no"
+                    src="https://wired-comic-monkfish.ngrok-free.app/superset/explore/p/xVmBZE8zO01/?standalone=1&height=400"
+                ></iframe>
+            </div>
+            <div className="dashboard-container">
+                <h3>Biểu đồ Top 5 người có số bài đăng nhiều nhất</h3>
+                <iframe
+                    ref={(el) => (iframeRefs.current[3] = el)}
+                    data-src="https://wired-comic-monkfish.ngrok-free.app/superset/explore/p/D1bzNKxBory/?standalone=1&height=400"
+                    width="600"
+                    height="400"
+                    seamless
+                    frameBorder="0"
+                    scrolling="no"
+                    src="https://wired-comic-monkfish.ngrok-free.app/superset/explore/p/D1bzNKxBory/?standalone=1&height=400"
+                ></iframe>
+            </div>
+            <div className="dashboard-container">
+                <h3>Biểu đồ theo dõi diện tích cho thuê từng thể loại</h3>
+                <iframe
+                    ref={(el) => (iframeRefs.current[4] = el)}
+                    data-src="https://wired-comic-monkfish.ngrok-free.app/superset/explore/p/RdogJKxzA6q/?standalone=1&height=400"
+                    width="600"
+                    height="400"
+                    seamless
+                    frameBorder="0"
+                    scrolling="no"
+                    src="https://wired-comic-monkfish.ngrok-free.app/superset/explore/p/RdogJKxzA6q/?standalone=1&height=400"
+                ></iframe>
+            </div>
+            <div className="dashboard-container">
+                <h3>Biểu đồ theo dõi giá từng thể loại</h3>
+                <iframe
+                    ref={(el) => (iframeRefs.current[5] = el)}
+                    data-src="https://wired-comic-monkfish.ngrok-free.app/superset/explore/p/3qABl7EzpmW/?standalone=1&height=400"
+                    width="600"
+                    height="400"
+                    seamless
+                    frameBorder="0"
+                    scrolling="no"
+                    src="https://wired-comic-monkfish.ngrok-free.app/superset/explore/p/3qABl7EzpmW/?standalone=1&height=400"
+                ></iframe>
+            </div>
         </div>
     );
 };
