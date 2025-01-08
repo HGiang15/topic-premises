@@ -118,17 +118,6 @@ const Login = () => {
                     </div>
                 </form>
 
-                <div className="login-divider">
-                    <div className="divider-line"></div>
-                    <span className="divider-text">Hoặc</span>
-                    <div className="divider-line"></div>
-                </div>
-
-                <button className="login-btn-google">
-                    <img src={google} alt="Google logo" className="google-logo" />
-                    Đăng nhập với Google
-                </button>
-
                 <p className="login-terms">
                     Bằng việc tiếp tục, bạn đồng ý với{" "}
                     <a href="#/" className="login-terms-link">

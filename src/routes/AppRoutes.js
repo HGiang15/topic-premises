@@ -9,6 +9,7 @@ import ManageInfo from './../containers/ManageInfo/ManageInfo';
 import Post from "../containers/Post/Post";  
 import Login from "../containers/Login/Login";
 import Register from "../containers/Register/Register";
+import VerifyOTP from "../containers/VerifyOTP/VerifyOTP";
 import ForgotPassword from './../containers/ForgotPassword/ForgotPassword';
 import AddressMap from "../containers/AddressMap/AddressMap";
 import Dashboards from "../containers/Dashboards/Dashboards";
@@ -105,6 +106,7 @@ const AppRoutes = () => {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/forgotpassword" element={<ForgotPassword />} />
+                <Route path="/verifyotp" element={<VerifyOTP />} />
             </Routes>
         </Router>
     );
