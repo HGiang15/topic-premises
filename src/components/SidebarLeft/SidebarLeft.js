@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+
 import user from "../../assets/img/user.svg";
 import user1 from "../../assets/icons/user.svg";
 import overview from "../../assets/icons/overview.svg";
 import manage from "../../assets/icons/manage.svg";
+import chart from "../../assets/icons/chart.svg";
 import success from "../../assets/icons/success.svg";
 import cancel from "../../assets/icons/cancel.svg";
 import "./SidebarLeft.css";
 
 const SidebarLeft = () => {
+    const [fullname, setFullname] = useState("Người dùng");
     const [activeMenu, setActiveMenu] = useState("/overview");
     const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
     const [balance, setBalance] = useState(100000); // Account balance
@@ -16,6 +20,21 @@ const SidebarLeft = () => {
     const [isNotificationOpen, setIsNotificationOpen] = useState(false); // Notification state
     const [isTransactionSuccess, setIsTransactionSuccess] = useState(false); // Success or failure of transaction
     const navigate = useNavigate();
+
+    const token = localStorage.getItem("token");
+
+    useEffect(() => {
+        if (token) {
+            try {
+                const decoded = jwtDecode(token); 
+                console.log("Decoded token:", decoded);
+                setFullname(decoded?.fullName || "Người dùng");  // Set fullname from decoded token
+            } catch (error) {
+                console.error("Error decoding token:", error);
+                setFullname("Người dùng"); 
+            }
+        }
+    }, [token]);
 
     const handleMenuClick = (path) => {
         setActiveMenu(path);
@@ -25,17 +44,17 @@ const SidebarLeft = () => {
     const handleRecharge = () => {
         const amount = parseInt(transactionAmount, 10);
         if (isNaN(amount) || amount <= 0) {
-            setIsTransactionSuccess(false); // If amount is invalid, show failure notification
-            setIsNotificationOpen(true); // Open notification
-            setTransactionAmount(""); // Reset input field
-            setIsModalOpen(false); // Close modal
+            setIsTransactionSuccess(false);
+            setIsNotificationOpen(true); 
+            setTransactionAmount(""); 
+            setIsModalOpen(false);
             return;
         }
-        setBalance(balance + amount); // Add money to balance
-        setTransactionAmount(""); // Reset input field
-        setIsModalOpen(false); // Close modal
-        setIsTransactionSuccess(true); // Transaction success
-        setIsNotificationOpen(true); // Open success notification
+        setBalance(balance + amount);
+        setTransactionAmount("");
+        setIsModalOpen(false);
+        setIsTransactionSuccess(true); 
+        setIsNotificationOpen(true); 
     };
 
     const closeNotification = () => {
@@ -46,13 +65,13 @@ const SidebarLeft = () => {
         <div className="sidebar-left">
             <div className="sidebar-left-header">
                 <img src={user} alt="Avatar" className="sidebar-avatar" />
-                <h3>Nguyễn Đăng Hoàng Giang</h3>
+                <h3 className="sidebar-left-heading">{fullname}</h3> {/* Display fullname */}
                 <div className="account-balance">
                     <span>Số dư tài khoản</span>
                     <h4>{balance.toLocaleString()} VND</h4>
                     <button
                         className="recharge-button"
-                        onClick={() => setIsModalOpen(true)} // Open recharge modal
+                        onClick={() => setIsModalOpen(true)} 
                     >
                         Nạp tiền
                     </button>
@@ -84,8 +103,8 @@ const SidebarLeft = () => {
                     className={`menu-item ${activeMenu === "/dashboards" ? "active" : ""}`}
                     onClick={() => handleMenuClick("/dashboards")}
                 >
-                    <img src={user1} alt="Quản lý tài khoản" className="menu-icon" />
-                    <span className="menu-text">Biều đồ tổng quan</span>
+                    <img src={chart} alt="Quản lý tài khoản" className="menu-icon" />
+                    <span className="menu-text">Biểu đồ tổng quan</span>
                 </div>
             </div>
 
@@ -93,8 +112,8 @@ const SidebarLeft = () => {
             {isModalOpen && (
                 <div className="modal-backdrop" onClick={() => setIsModalOpen(false)}>
                     <div
-                        className="modal-content"
-                        onClick={(e) => e.stopPropagation()} // Prevent closing modal when clicking inside
+                        className="modal-recharge"
+                        onClick={(e) => e.stopPropagation()} 
                     >
                         <button className="modal-close" onClick={() => setIsModalOpen(false)}>
                             &times;
@@ -121,8 +140,8 @@ const SidebarLeft = () => {
             {isNotificationOpen && (
                 <div className="modal-backdrop" onClick={closeNotification}>
                     <div
-                        className="modal-content notification-modal"
-                        onClick={(e) => e.stopPropagation()} // Prevent closing modal when clicking inside
+                        className="modal-notification notification-modal"
+                        onClick={(e) => e.stopPropagation()} 
                     >
                         <button className="modal-close" onClick={closeNotification}>
                             &times;

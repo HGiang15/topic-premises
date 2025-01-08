@@ -4,7 +4,6 @@ import care from "../../assets/icons/care.svg";
 import donation from "../../assets/icons/donation.svg";
 import online from "../../assets/icons/online.svg";
 import information from "../../assets/icons/information.svg";
-import notification from "../../assets/icons/notification.svg";
 import user from "../../assets/img/user.svg";
 import "./Overview.css";
 
@@ -49,11 +48,11 @@ const Overview = () => {
             <div className="overview-details">
                 {/* Interaction */}
                 <div className="details-interaction">
-                    <h3>🔥 Tương tác</h3>
+                    <h3 className="details-interaction-heading">🔥 Tương tác</h3>
                     <div className="details-interaction-box">
                         <div className="details-interaction-wrapper">
                             <img src={online} alt="Quản lý tin đăng" className="detail-icon" />
-                            <p>Tin đăng</p>
+                            <p className="details-interaction-subtitle">Tin đăng</p>
                         </div>
                         <p className="details-interaction-care">Có 2 người quan tâm đến tin đăng của bạn</p>
                         <ul className="details-interaction-list">
@@ -71,10 +70,10 @@ const Overview = () => {
 
                 {/* Notifications */}
                 <div className="details-notifications">
-                    <h3>🔔 Thông báo</h3>
+                    <h3 className="details-notifications-heading">🔔 Thông báo</h3>
                     <div className="details-notifications-wrapper">
                         <img src={information} alt="" className="notification-icon" />
-                        <p>
+                        <p className="details-notifications-subtile">
                             Tin{" "}
                             <a href="#/" className="details-notifications-link">
                                 #678910

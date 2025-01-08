@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Outlet, useLocation } from "react-router-dom";
+
 import Home from "../containers/Home/Home";
 import Detail from "../containers/Detail/Detail";
 import Overview from "../containers/Overview/Overview";  
@@ -9,14 +10,15 @@ import Post from "../containers/Post/Post";
 import Login from "../containers/Login/Login";
 import Register from "../containers/Register/Register";
 import ForgotPassword from './../containers/ForgotPassword/ForgotPassword';
-import Header from "../components/Header/Header";
-import Filter from "../components/Filter/Filter";
-import Sidebar from "../components/Sidebar/Sidebar";
-import SidebarLeft from './../components/SidebarLeft/SidebarLeft';
-import Footer from "../components/Footer/Footer";
-import './AppRoutes.css'
 import AddressMap from "../containers/AddressMap/AddressMap";
 import Dashboards from "../containers/Dashboards/Dashboards";
+import News from "../containers/News/News";
+
+import Header from "../components/Header/Header";
+import SidebarLeft from './../components/SidebarLeft/SidebarLeft';
+import SidebarRight from "../components/SidebarRight/SidebarRight";
+import Footer from "../components/Footer/Footer";
+import './AppRoutes.css'
 
 // MainLayout: Được sử dụng cho các route chỉ có Header, Footer và Filter: /home, /detail.
 // SimpleLayout: Được sử dụng cho các route chỉ có Header và Footer:  /overview, /post.
@@ -28,15 +30,18 @@ const MainLayout = () => {
         location.pathname !== "/overview" &&
         location.pathname !== "/post";
 
+    const showSidebarRight =
+        location.pathname === "/" || location.pathname.startsWith("/detail");
+
     return (
         <div>
             <Header />
-            {showFilterAndSidebar && <Filter />}
+           { showFilterAndSidebar }
             <div className="main-layout-content">
                 <div className="main-layout-container">
                     <Outlet />
                 </div>
-                {/* {showFilterAndSidebar && <Sidebar />}  */}
+                {showSidebarRight && <SidebarRight />}
             </div>
             <Footer />
         </div>
@@ -79,7 +84,7 @@ const AppRoutes = () => {
                 <Route element={<MainLayout />}>
                     <Route path="/" element={<Home />} />
                     <Route path="/detail/:id" element={<Detail />} />
-                    
+                    <Route path="/news" element={<News />} />
                 </Route>
                 
                 {/* route Header, Footer, không Filter */}

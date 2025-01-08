@@ -21,8 +21,8 @@
 }
 
 /* Map  */
-.map-container {
-    height: 300px;  
+.map-container-home {
+    height: 200px;  
     width: 100%;   
     max-width: 900px; 
     border: 1px solid #ddd;
@@ -31,11 +31,39 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    background-color: #f9f9f9;
+}
+
+.map-home-heading  {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    background: #24B47B;
+    padding: 10px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+.map-home-heading:hover {
+    background: #26c082; 
+    color: #fff;
+    transform: translate(-50%, -50%) scale(1.05); 
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
 }
 
 .map {
     height: 100%;
     width: 100%;
+    z-index: 1;
 }
 
 /* Product list  */
@@ -53,12 +81,13 @@
     width: 100%;
     height: 280px;
     max-width: 1000px;
-    border: 1px solid #ddd;
     border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    background: #fff;
     padding: 10px;
+    overflow: hidden;
+    box-sizing: border-box;
+    border: 1px solid #F2F2F2;
+    box-shadow: 0px 4px 6px 0px rgba(44, 44, 44, 0.04);
 }
 
 .product-images {
@@ -102,10 +131,10 @@
 }
 
 .small-image {
-    width: 64px; /* Điều chỉnh kích thước của mỗi ảnh nhỏ */
-    height: 64px; /* Đảm bảo ảnh nhỏ có chiều cao phù hợp */
+    width: 64px; 
+    height: 64px; 
     border-radius: 5px;
-    object-fit: cover; /* Đảm bảo ảnh không bị méo */
+    object-fit: cover;
 }
 
 .product-owner {
@@ -167,7 +196,7 @@
 }
 
 .product-area {
-    width: 60px;
+    width: 70px;
 }
 
 .button-container {
@@ -245,7 +274,7 @@
 }
 
 /* Pagination */
-.pagination {
+.pagination-home {
     display: flex;
     justify-content: center;
     gap: 10px;
@@ -277,7 +306,7 @@
     margin: 0 5px;
     background-color: #f1f1f1;
     color: #24B47B;
-    border: 1px solid #24B47B;
+    border: 1px solid #ccc;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.1s ease, color 0.1s ease;
@@ -407,6 +436,33 @@
 
 .pagination-home-item:disabled:hover,
 .featured-pagination button:disabled:hover {
-    background-color: #ddd; /* Giữ nguyên màu ban đầu */
-    cursor: not-allowed; /* Giữ trạng thái con trỏ không cho phép */
+    background-color: #ddd; 
+    cursor: not-allowed; 
+}
+
+/* Loading */
+.product-loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+}
+
+.product-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(0, 0, 0, 0.1);
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }

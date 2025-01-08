@@ -1,13 +1,4 @@
-import React, { useState } from "react";
-import product1 from "../../assets/img/product_1.jpg";
-import product2 from "../../assets/img/product_2.jpg";
-import product3 from "../../assets/img/product_3.jpg";
-import product4 from "../../assets/img/product_4.jpg";
-import product5 from "../../assets/img/product_5.jpg";
-import product6 from "../../assets/img/product_1.png";
-import product7 from "../../assets/img/product_2.png";
-import product8 from "../../assets/img/product_3.png";
-import product9 from "../../assets/img/product_4.png";
+import React, { useState, useEffect } from "react";
 import search from "../../assets/icons/search.svg";
 import edit from "../../assets/icons/edit.svg";
 import "./ManagePost.css";
@@ -18,101 +9,49 @@ const ManagePost = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingPost, setEditingPost] = useState(null);
 
-    const [posts, setPosts] = useState([
-        {
-            id: "#123456",
-            datePosted: "25/12/2024",
-            expirationDate: "5/1/2025",
-            views: 15,
-            description: "Nhà mặt tiền Nguyễn Trãi, diện tích lớn, thích hợp làm cửa hàng hoặc văn phòng.",
-            status: "Không hiển thị",
-            image: product1,
-        },
-        {
-            id: "#654321",
-            datePosted: "26/12/2024",
-            expirationDate: "6/1/2025",
-            views: 10,
-            description: "Căn hộ cao cấp tại Vinhome Central Park, đầy đủ tiện nghi, view sông thoáng mát.",
-            status: "Sắp hết hạn",
-            image: product2,
-        },
-        {
-            id: "#789123",
-            datePosted: "27/12/2024",
-            expirationDate: "7/1/2025",
-            views: 8,
-            description: "Cho thuê phòng trọ giá rẻ tại Gò Vấp, gần trường học, chợ và siêu thị.",
-            status: "Đang hiển thị",
-            image: product3,
-        },
-        {
-            id: "#987654",
-            datePosted: "28/12/2024",
-            expirationDate: "8/1/2025",
-            views: 5,
-            description: "Đất thổ cư khu vực Thủ Đức, gần trung tâm thương mại, pháp lý rõ ràng.",
-            status: "Đang hiển thị",
-            image: product4,
-        },
-        {
-            id: "#112233",
-            datePosted: "29/12/2024",
-            expirationDate: "9/1/2025",
-            views: 20,
-            description: "Căn hộ studio trung tâm quận 1, nội thất hiện đại, giá cả hợp lý.",
-            status: "Sắp hết hạn",
-            image: product5,
-        },
-        {
-            id: "#445566",
-            datePosted: "30/12/2024",
-            expirationDate: "10/1/2025",
-            views: 12,
-            description: "Nhà cấp 4 tại Bình Tân, diện tích 60m2, gần chợ và trường học.",
-            status: "Không hiển thị",
-            image: product6,
-        },
-        {
-            id: "#778899",
-            datePosted: "31/12/2024",
-            expirationDate: "11/1/2025",
-            views: 7,
-            description: "Biệt thự biển Phú Quốc, tiện ích đầy đủ, view biển tuyệt đẹp.",
-            status: "Đang hiển thị",
-            image: product7,
-        },
-        {
-            id: "#778899",
-            datePosted: "31/12/2024",
-            expirationDate: "11/1/2025",
-            views: 7,
-            description: "Biệt thự biển Phú Quốc, tiện ích đầy đủ, view biển tuyệt đẹp.",
-            status: "Không hiển thị",
-            image: product8,
-        },
-        {
-            id: "#778899",
-            datePosted: "31/12/2024",
-            expirationDate: "11/1/2025",
-            views: 7,
-            description: "Biệt thự biển Phú Quốc, tiện ích đầy đủ, view biển tuyệt đẹp.",
-            status: "Sắp hết hạn",
-            image: product9,
-        },
-    ]);
+    const [posts, setPosts] = useState([]);
 
     const postsPerPage = 4;
+
+    // Fetch posts from API
+    useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+                const response = await fetch(
+                    `http://localhost:8080/api/v1/posts/user/1?pageNumber=${currentPage - 1}&size=${postsPerPage}`
+                );
+                const result = await response.json();
+                if (result.status === 200) {
+                    setPosts(result.data.content);
+                } else {
+                    console.error("Failed to fetch posts:", result.message);
+                }
+            } catch (error) {
+                console.error("Error fetching posts:", error);
+            }
+        };
+        fetchPosts();
+    }, [currentPage]);
 
     // Tính tổng bài đăng theo trạng thái
     const countByStatus = {
         "Tất cả": posts.length,
-        "Sắp hết hạn": posts.filter((post) => post.status === "Sắp hết hạn").length,
-        "Đang hiển thị": posts.filter((post) => post.status === "Đang hiển thị").length,
-        "Không hiển thị": posts.filter((post) => post.status === "Không hiển thị").length,
+        "Sắp hết hạn": posts.filter((post) => new Date(post.expiredDate) - new Date() < 7 * 24 * 60 * 60 * 1000).length,
+        "Đang hiển thị": posts.filter((post) => new Date(post.expiredDate) >= new Date()).length,
     };
 
-    const filteredPosts = activeTab === "Tất cả" ? posts : posts.filter((post) => post.status === activeTab);
+    const filteredPosts =
+        activeTab === "Tất cả"
+            ? posts
+            : posts.filter((post) => {
+                  if (activeTab === "Sắp hết hạn") {
+                      return new Date(post.expiredDate) - new Date() < 7 * 24 * 60 * 60 * 1000;
+                  }
+                  if (activeTab === "Đang hiển thị") {
+                      return new Date(post.expiredDate) >= new Date();
+                  }
+                  return false;
+              });
 
     // Tính ngày còn lại hết hạn
     const calculateRemainingDays = (expirationDate) => {
@@ -120,17 +59,28 @@ const ManagePost = () => {
         const expiration = new Date(expirationDate);
         const timeDiff = expiration - now;
         return Math.ceil(timeDiff / (1000 * 3600 * 24)); // Convert milliseconds to days
-    };    
+    };
+
+    // Tính trạng thái dựa trên ngày hết hạn
+    const getStatusClassAndText = (expiredDate) => {
+        const now = new Date();
+        const expiration = new Date(expiredDate);
+        const diffDays = Math.ceil((expiration - now) / (1000 * 3600 * 24));
+
+        if (diffDays <= 7) {
+            return { className: "expiring", text: "Sắp hết hạn" };
+        } else {
+            return { className: "", text: "Đang hiển thị" };
+        }
+    };
 
     // Pagination
-    const indexOfLastPost = currentPage * postsPerPage;
-    const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    const currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
-    const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
+    const totalPages = Math.ceil(posts.length / postsPerPage);
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
+    // Modal
     // Logic edit img and base64
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -142,14 +92,12 @@ const ManagePost = () => {
             reader.readAsDataURL(file);
         }
     };
-    
-    // Open modal edit post
+
     const handleEdit = (post) => {
         setEditingPost(post);
         setIsModalOpen(true);
     };
 
-    // Save info edit post
     const handleSave = () => {
         setPosts((prevPosts) => prevPosts.map((post) => (post.id === editingPost.id ? editingPost : post)));
         setIsModalOpen(false);
@@ -161,7 +109,7 @@ const ManagePost = () => {
 
             {/* search */}
             <div className="manage-post-search-bar">
-                <input type="text" placeholder="Tìm kiếm..." />
+                <input className="manage-post-search-input" type="text" placeholder="Tìm kiếm..." />
                 <button className="manage-post-search">
                     <img src={search} alt="Search icon" />
                 </button>
@@ -169,7 +117,7 @@ const ManagePost = () => {
 
             {/* Tabs filter */}
             <div className="filter-tabs">
-                {["Tất cả", "Sắp hết hạn", "Đang hiển thị", "Không hiển thị"].map((tab) => (
+                {["Tất cả", "Sắp hết hạn", "Đang hiển thị"].map((tab) => (
                     <div
                         key={tab}
                         className={`filter-tabs-wrap ${activeTab === tab ? "active-tab" : ""}`}
@@ -179,41 +127,36 @@ const ManagePost = () => {
                         }}
                     >
                         <span className="filter-tabs-item">{tab}</span>
-                        <span className="filter-tabs-item">({countByStatus[tab]})</span>
+                        <span className="filter-tabs-item">({countByStatus[tab] || 0})</span>
                     </div>
                 ))}
             </div>
 
-            {/* Post item  */}
+            {/* Post list */}
             <div className="post-list">
-                {currentPosts.map((post, index) => (
-                    <div key={index} className={`post-item ${post.status === "Không hiển thị" ? "inactive" : ""}`}>
+                {filteredPosts.map((post, index) => (
+                    <div key={index} className={`post-item`}>
                         {/* img */}
                         <div className="post-image">
-                            <img src={post.image} alt={`Thumbnail for post ${post.id}`} />
+                            {post.media.length > 0 && (
+                                <img src={post.media[0].url} alt={`Thumbnail for post ${post.id}`} />
+                            )}
                         </div>
 
                         <div className="post-content">
                             {/* Status */}
-                            <div
-                                className={`post-status ${
-                                    post.status === "Không hiển thị"
-                                        ? "inactive"
-                                        : post.status === "Sắp hết hạn"
-                                        ? "expiring"
-                                        : ""
-                                }`}
-                            >
-                                <span className="status-label">{post.status}</span>
+                            <div className={`post-status ${getStatusClassAndText(post.expiredDate).className}`}>
+                                <span className="status-label">{getStatusClassAndText(post.expiredDate).text}</span>
                             </div>
 
                             {/* Detail */}
-                            <p className="post-description">{post.description}</p>
+                            <p className="post-description">{post.title}</p>
                             <div className="post-details">
                                 <span className="post-details-item">Mã tin: {post.id}</span>
-                                <span className="post-details-item">Ngày đăng: {post.datePosted}</span>
+                                <span className="post-details-item">Ngày đăng: {post.createAt}</span>
                                 <span className="post-details-item">
-                                    Ngày hết hạn: {post.expirationDate} (còn {calculateRemainingDays(post.expirationDate)} ngày)
+                                    Ngày hết hạn: {post.expiredDate} (còn {calculateRemainingDays(post.expiredDate)}{" "}
+                                    ngày)
                                 </span>
                             </div>
                         </div>
@@ -270,8 +213,17 @@ const ManagePost = () => {
                                     Ảnh
                                     <img
                                         className="modal-edit-img"
-                                        src={editingPost.newImage || editingPost.image}
+                                        src={
+                                            editingPost.newImage ||
+                                            (editingPost.media && editingPost.media.length > 0
+                                                ? editingPost.media[0].url
+                                                : "../../assets/img/user.svg")
+                                        }
                                         alt={`Thumbnail for post ${editingPost.id}`}
+                                        onError={(e) => {
+                                            e.target.onerror = null; // Ngăn lặp vô hạn
+                                            e.target.src = "../../assets/img/user.svg"; // Ảnh mặc định nếu xảy ra lỗi
+                                        }}
                                     />
                                     <input
                                         type="file"
@@ -279,6 +231,18 @@ const ManagePost = () => {
                                         accept="image/*"
                                         onChange={handleImageChange}
                                     />
+                                </label>
+
+                                {/* id */}
+                                <label className="modal-edit-label">
+                                    Mã tin
+                                    <input className="modal-edit-input" type="text" value={editingPost.id} readOnly />
+                                </label>
+
+                                {/* title */}
+                                <label className="modal-edit-label">
+                                    Tiêu đề
+                                    <input className="modal-edit-input" type="text" value={editingPost.title} />
                                 </label>
 
                                 {/* Status */}
@@ -290,9 +254,14 @@ const ManagePost = () => {
                                         onChange={(e) => setEditingPost({ ...editingPost, status: e.target.value })}
                                     >
                                         <option value="Đang hiển thị">Đang hiển thị</option>
-                                        <option value="Không hiển thị">Không hiển thị</option>
                                         <option value="Sắp hết hạn">Sắp hết hạn</option>
                                     </select>
+                                </label>
+
+                                {/* category */}
+                                <label className="modal-edit-label">
+                                    Loại
+                                    <input className="modal-edit-input" type="text" value={editingPost.category} />
                                 </label>
 
                                 {/* Description */}
@@ -312,10 +281,34 @@ const ManagePost = () => {
 
                             {/* Right */}
                             <div className="modal-right">
-                                {/* id */}
+                                {/* roomsize */}
                                 <label className="modal-edit-label">
-                                    Mã tin
-                                    <input className="modal-edit-input" type="text" value={editingPost.id} readOnly />
+                                    Kích thước
+                                    <input className="modal-edit-input" type="text" value={editingPost.roomSize} />
+                                </label>
+
+                                {/* price */}
+                                <label className="modal-edit-label">
+                                    Giá
+                                    <input className="modal-edit-input" type="number" value={editingPost.price} />
+                                </label>
+
+                                {/* address */}
+                                <label className="modal-edit-label">
+                                    Địa chỉ
+                                    <input className="modal-edit-input" type="text" value={editingPost.address} />
+                                </label>
+
+                                {/* contactPhone */}
+                                <label className="modal-edit-label">
+                                    Số điện thoại
+                                    <input className="modal-edit-input" type="number" value={editingPost.contactPhone} />
+                                </label>
+
+                                {/* contactEmail */}
+                                <label className="modal-edit-label">
+                                    Email
+                                    <input className="modal-edit-input" type="text" value={editingPost.contactEmail} />
                                 </label>
 
                                 {/* Start date */}
@@ -324,8 +317,21 @@ const ManagePost = () => {
                                     <input
                                         className="modal-edit-input"
                                         type="date"
-                                        value={editingPost.datePosted}
-                                        onChange={(e) => setEditingPost({ ...editingPost, datePosted: e.target.value })}
+                                        value={editingPost.createAt}
+                                        onChange={(e) => setEditingPost({ ...editingPost, createAt: e.target.value })}
+                                        readOnly
+                                    />
+                                </label>
+
+                                {/* Modify date */}
+                                <label className="modal-edit-label">
+                                    Ngày sửa đổi
+                                    <input
+                                        className="modal-edit-input"
+                                        type="date"
+                                        value={editingPost.modifyAt}
+                                        onChange={(e) => setEditingPost({ ...editingPost, modifyAt: e.target.value })}
+                                        readOnly
                                     />
                                 </label>
 
@@ -335,10 +341,11 @@ const ManagePost = () => {
                                     <input
                                         className="modal-edit-input"
                                         type="date"
-                                        value={editingPost.expirationDate}
+                                        value={editingPost.expiredDate}
                                         onChange={(e) =>
-                                            setEditingPost({ ...editingPost, expirationDate: e.target.value })
+                                            setEditingPost({ ...editingPost, expiredDate: e.target.value })
                                         }
+                                        readOnly
                                     />
                                 </label>
                             </div>

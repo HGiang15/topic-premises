@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from '../../components/AuthContext/AuthContext.js'
 
 import google from "../../assets/img/google.png";
 import bg from "../../assets/img/bg_login_2.png";
@@ -9,9 +11,8 @@ import lock from "../../assets/icons/lock.svg";
 import eyeOpen from "../../assets/icons//eye_open.svg";
 import eyeClosed from "../../assets/icons/eye_close.svg";
 
-import { useAuth } from '../../components/AuthContext/AuthContext.js'
 import "./Login.css";
-import { useNavigate } from "react-router-dom";
+
 const Login = () => {
     const navigate = useNavigate();
     const { login } = useAuth(); // Sử dụng context để quản lý trạng thái user
@@ -38,10 +39,10 @@ const Login = () => {
               const decodedToken = jwtDecode(token);
               const userData = {
                   id: decodedToken.id,
-                  email: decodedToken.sub, // sub là email
-                  phone: decodedToken.phone, // phone
-                  fullname: decodedToken.fullname, // fullname từ token
-                  role: decodedToken.role // role
+                  email: decodedToken.sub, 
+                  phone: decodedToken.phone,
+                  fullname: decodedToken.fullname, 
+                  role: decodedToken.role 
               };
               login(userData); // Lưu thông tin vào context
               
