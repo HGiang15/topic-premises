@@ -1,5 +1,5 @@
 // Step1Form.js
-import React from "react";
+import React, {useState} from "react";
 import Select from "react-select";
 import vietnamData from "./vietnam.json"; // Adjust the import based on your file structure
 
@@ -14,11 +14,11 @@ const Step1Form = ({
   formData,
   setFormData,
 }) => {
+  const [loading, setLoading] = useState(false);
   const provinces = vietnamData.map((province) => ({
     value: province.code,
     label: province.name,
   }));
-
   const districts =
     selectedProvince &&
     vietnamData
@@ -45,7 +45,7 @@ const Step1Form = ({
   };
   const handlePrediction = async () => {
     const { address, category, roomSize, price, email, phone, title, description } = formData;
-
+    setLoading(true);
     const requestData = {
       message: `Địa chỉ: ${address}, Loại mặt bằng: ${category}, Diện tích: ${roomSize}, Mức giá: ${price}, Email: ${email}, Số điện thoại: ${phone}, Tiêu đề: ${title}, Mô tả: ${description}`,
     };
@@ -58,10 +58,11 @@ const Step1Form = ({
         },
         body: JSON.stringify(requestData),
       });
-
+      setLoading(false);
       const data = await response.json();
       const predictionTextArea = document.getElementById("pricePredictionTextarea");
       predictionTextArea.value = data.response;
+    
     } catch (error) {
       console.error("Error fetching price prediction:", error);
     }
@@ -73,48 +74,6 @@ const Step1Form = ({
       <form>
         <div className="post-form-section">
           <h3 className="post-h3">Thông tin địa chỉ</h3>
-
-          {/* Thành phố/Tỉnh */}
-          {/* <div className="post-form-group">
-            <label className="post-label">Thành phố/Tỉnh</label>
-            <Select
-              options={provinces}
-              value={selectedProvince}
-              onChange={(option) => {
-                setSelectedProvince(option);
-                setSelectedDistrict(null); // Reset district khi chọn lại province
-                setSelectedWard(null); // Reset ward khi chọn lại province
-              }}
-              placeholder="Chọn Thành phố/Tỉnh"
-            />
-          </div>
-
- 
-          <div className="post-form-group">
-            <label className="post-label">Quận/Huyện</label>
-            <Select
-              options={districts}
-              value={selectedDistrict}
-              onChange={(option) => {
-                setSelectedDistrict(option);
-                setSelectedWard(null); // Reset ward khi chọn lại district
-              }}
-              placeholder="Chọn Quận/Huyện"
-              isDisabled={!selectedProvince} // Vô hiệu hoá nếu chưa chọn tỉnh
-            />
-          </div>
-
-          <div className="post-form-group">
-            <label className="post-label">Phường/Xã</label>
-            <Select
-              options={wards}
-              value={selectedWard}
-              onChange={(option) => setSelectedWard(option)}
-              placeholder="Chọn Phường/Xã"
-              isDisabled={!selectedDistrict}
-            />
-          </div> */}
-
           {/* Địa chỉ hiện tại */}
           <div className="post-form-group">
             <label className="post-label">Địa chỉ hiện tại</label>
@@ -157,7 +116,14 @@ const Step1Form = ({
               onChange={(e) => handleInputChange("price", e.target.value)}
             />
             <button type="button" className="post-prediction-btn" onClick={handlePrediction}>Dự đoán giá</button>
-            <textarea id="pricePredictionTextarea" className="post-input" placeholder="Giá dự đoán và phân tích" rows="10" readOnly></textarea>
+            {loading ? (
+                <div className="loading-spinner">
+                    <div className="spinner"></div>
+                </div>
+            ) : (
+              <textarea id="pricePredictionTextarea" className="post-input" placeholder="Giá dự đoán và phân tích" rows="10" readOnly></textarea>
+            )}
+
           </div>
         </div>
         <div className="post-form-section">

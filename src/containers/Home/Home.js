@@ -8,7 +8,7 @@ import Filter from "../../components/Filter/Filter";
 import avatar from "../../assets/img/user.svg";
 import phone from "../../assets/icons/phone.svg";
 import "./Home.css";
-
+import BASE_URL from "../../config";
 const Home = () => {
     const [products, setProducts] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
@@ -24,7 +24,7 @@ const Home = () => {
             try {
                 setIsLoading(true);
                 const response = await fetch(
-                    `http://localhost:8080/api/v1/posts?pageNumber=${currentPage}&size=${itemsPerPage}`
+                    `${BASE_URL}api/v1/posts?pageNumber=${currentPage}&size=${itemsPerPage}`
                 );
                 const result = await response.json();
                 if (result.status === 200) {
@@ -53,14 +53,18 @@ const Home = () => {
     };
 
     const decodeBase64Image = (base64String) => {
-        if (base64String.startsWith("data:image")) {
+        if (typeof base64String === 'string' && base64String.startsWith("data:image")) {
             return base64String;
-        } else {
+        } else if (typeof base64String === 'string') {
             const base64Data = base64String.split(",")[1];
             const decodedUrl = atob(base64Data);
             return decodedUrl;
+        } else {
+            console.error("Invalid input: base64String is not a valid string.");
+            return null;
         }
     };
+    
 
     const paginate = (pageNumber) => {
         if (pageNumber >= 0 && pageNumber < totalPages) {

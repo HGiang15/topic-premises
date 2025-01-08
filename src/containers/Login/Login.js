@@ -10,7 +10,7 @@ import user from "../../assets/icons/user.svg";
 import lock from "../../assets/icons/lock.svg";
 import eyeOpen from "../../assets/icons//eye_open.svg";
 import eyeClosed from "../../assets/icons/eye_close.svg";
-
+import BASE_URL from "../../config.js";
 import "./Login.css";
 
 const Login = () => {
@@ -27,7 +27,7 @@ const Login = () => {
     const handleLogin = async (e) => {
       e.preventDefault();
       try {
-          const response = await axios.post("http://localhost:8080/authenticate", {
+          const response = await axios.post(`${BASE_URL}authenticate`, {
               username: email,
               password: password,
           });

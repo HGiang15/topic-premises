@@ -8,7 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import "./AddressMap.css";
 import AddressRedIcons from "../../assets/icons/address-icon.webp";
-
+import BASE_URL from "../../config";
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
     iconUrl: AddressRedIcons,
@@ -40,7 +40,7 @@ const AddressMap = () => {
     const fetchAddressAndCoordinates = async (searchKeyword) => {
         try {
             setLoading(true);
-            const response = await axios.get(`http://localhost:8080/api/v1/posts/search-map?keyword=${searchKeyword}`);
+            const response = await axios.get(`${BASE_URL}api/v1/posts/search-map?keyword=${searchKeyword}`);
             const result = response.data;
 
             if (response.status === 200 && result.status === 200) {
@@ -170,9 +170,9 @@ const AddressMap = () => {
                 </div>
             ) : (
                 <>
-                    <button onClick={() => setIsModalOpen(true)} className="open-modal-button">
+                    {/* <button onClick={() => setIsModalOpen(true)} className="open-modal-button">
                         Mở bản đồ lớn
-                    </button>
+                    </button> */}
 
                     <MapContainer center={[21.015, 105.83]} zoom={15} className="leaflet-container">
                         <TileLayer
@@ -223,7 +223,7 @@ const AddressMap = () => {
 
             {/* Modal hiển thị bản đồ lớn */}
             <Modal show={isModalOpen} onHide={() => setIsModalOpen(false)} fullscreen centered>
-                <Modal.Body style={{ padding: 0 }}>
+                <Modal.Body style={{ padding: 0, width: "100%", height: "100%" }}>
                     <MapContainer
                         center={[21.015, 105.83]}
                         zoom={15}

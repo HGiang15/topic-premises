@@ -43,6 +43,7 @@
 }
 
 .post-form-group {
+  margin-top: 20px;
   margin-bottom: 20px;
 }
 
@@ -300,4 +301,34 @@
 
 .close-btn:hover {
   background-color: #0056b3;
+}
+.image-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.uploaded-image-img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.remove-image-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.remove-image-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
 }
