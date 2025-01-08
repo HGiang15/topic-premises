@@ -13,10 +13,10 @@ import "./SidebarLeft.css";
 import BASE_URL from "../../config";
 const SidebarLeft = () => {
   const [fullname, setFullname] = useState("Người dùng");
-  const [price, setPrice] = useState("");
+//   const [price, setPrice] = useState("");
   const [activeMenu, setActiveMenu] = useState("/overview");
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
-  const [balance, setBalance] = useState(100000); // Account balance
+  const [balance, setBalance] = useState(""); // Account balance
   const [transactionAmount, setTransactionAmount] = useState(""); // Transaction amount
   const [isNotificationOpen, setIsNotificationOpen] = useState(false); // Notification state
   const [isTransactionSuccess, setIsTransactionSuccess] = useState(false); // Success or failure of transaction
@@ -56,9 +56,11 @@ const SidebarLeft = () => {
       if (result.status === 200) {
         // console.log("Post updated successfully");
         // fetchPosts();
+        console.log("Post updated successfully: ", result);
         const fullName = result.data.fullName;
-        
+        const price = result.data.totalMoney;
         setFullname(fullName);
+        setBalance(price);
       } else {
         // console.error("Failed to update post:", result.message);
       }

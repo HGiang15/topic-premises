@@ -86,6 +86,7 @@ const AppRoutes = () => {
                     <Route path="/" element={<Home />} />
                     <Route path="/detail/:id" element={<Detail />} />
                     <Route path="/news" element={<News />} />
+                    <Route path="/payment-success" element={<PaymentSuccess />} />
                 </Route>
                 
                 {/* route Header, Footer, không Filter */}
@@ -97,7 +98,7 @@ const AppRoutes = () => {
                 {/* route SidebarLeft */}
                 <Route element={<OverviewLayout />}>
                     <Route path="/overview" element={<Overview />} />
-                    <Route path="/payment-success" element={<PaymentSuccess />} />
+                
                     <Route path="/managepost" element={<ManagePost />} />
                     <Route path="/manageinfo" element={<ManageInfo />} />
                     <Route path="/dashboards" element={<Dashboards />} />
