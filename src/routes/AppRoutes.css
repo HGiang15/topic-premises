@@ -5,7 +5,11 @@
 
 .main-layout-container {
   flex: 1;
-  margin-right: 250px;
+  /* margin-right: 250px; */
+}
+
+.sidebar-right {
+  /* flex-shrink: 0; */
 }
 
 /* OverviewLayout */

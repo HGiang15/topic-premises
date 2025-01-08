@@ -1,0 +1,43 @@
+.sidebar-right {
+    width: 250px;
+    margin: 80px 2px 0 0;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+}
+
+.sidebar-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.ad-item {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.ad-item-link {
+    text-decoration: none;
+}
+
+.ad-item-link:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ad-image {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    height: 120px;
+    object-fit: cover;
+}
+
+.ad-text {
+    font-size: 1rem;
+    color: #555;
+}

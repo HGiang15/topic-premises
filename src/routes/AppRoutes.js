@@ -14,8 +14,8 @@ import AddressMap from "../containers/AddressMap/AddressMap";
 import Dashboards from "../containers/Dashboards/Dashboards";
 
 import Header from "../components/Header/Header";
-import Filter from "../components/Filter/Filter";
 import SidebarLeft from './../components/SidebarLeft/SidebarLeft';
+import SidebarRight from "../components/SidebarRight/SidebarRight";
 import Footer from "../components/Footer/Footer";
 import './AppRoutes.css'
 
@@ -29,6 +29,9 @@ const MainLayout = () => {
         location.pathname !== "/overview" &&
         location.pathname !== "/post";
 
+    const showSidebarRight =
+        location.pathname === "/" || location.pathname.startsWith("/detail");
+
     return (
         <div>
             <Header />
@@ -37,7 +40,7 @@ const MainLayout = () => {
                 <div className="main-layout-container">
                     <Outlet />
                 </div>
-                {/* {showFilterAndSidebar && <Sidebar />}  */}
+                {showSidebarRight && <SidebarRight />}
             </div>
             <Footer />
         </div>
