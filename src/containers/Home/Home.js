@@ -81,7 +81,7 @@ const Home = () => {
 
                 {/* Map */}
                 <div className="map-container-home" onClick={handleMapButtonClick}>
-                    <h2 className="map-heading">Bấm vào đây để tìm kiếm chi tiết trên bản đồ</h2>
+                    <h2 className="map-home-heading">Bấm vào đây để tìm kiếm chi tiết trên bản đồ</h2>
                     <MapContainer center={[21.0114, 105.8473]} zoom={20} className="map">
                         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                         <Marker position={[21.0114, 105.8473]}>

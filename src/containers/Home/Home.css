@@ -35,7 +35,7 @@
     background-color: #f9f9f9;
 }
 
-.map-heading  {
+.map-home-heading  {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -52,7 +52,7 @@
     transition: all 0.3s ease;
 }
 
-.map-heading:hover {
+.map-home-heading:hover {
     background: #26c082; 
     color: #fff;
     transform: translate(-50%, -50%) scale(1.05); 
