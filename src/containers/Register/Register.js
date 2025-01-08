@@ -3,35 +3,77 @@ import google from "../../assets/img/google.png";
 import bg from "../../assets/img/bg_login_2.png";
 import phoneIcon from "../../assets/icons/phone.svg";
 import userIcon from "../../assets/icons/user.svg";
-import emailIcon from "../../assets/icons/care.svg";
+import emailIcon from "../../assets/icons/email.svg";
 import passwordIcon from "../../assets/icons/lock.svg";
 import "./Register.css";
 
 const Register = () => {
-    const [fullname, setFullname] = useState("");
-    const [email, setEmail] = useState("");
-    const [phone, setPhone] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
+    const [formData, setFormData] = useState({
+        fullname: "",
+        email: "",
+        phone: "",
+        password: "",
+        confirmPassword: "",
+    });
 
-    const handleFullnameChange = (e) => {
-        setFullname(e.target.value);
+    const [loading, setLoading] = useState(false);
+    const [errors, setErrors] = useState({});
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
     };
 
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-    };
+    const validateFullName = (name) => /^[a-zA-Z\s]{3,}$/.test(name);
+    const validateEmail = (email) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+    const validatePhone = (phone) => /^[0-9]{10,15}$/.test(phone);
+    const validatePassword = (password) =>
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/.test(password);
 
-    const handlePhoneChange = (e) => {
-        setPhone(e.target.value);
-    };
-
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
+    const validateForm = () => {
+        const newErrors = {};
+    
+        // Kiểm tra xem trường có bị bỏ trống không
+        if (!formData.fullname) {
+            newErrors.fullname = "Không được để trống.";
+        } else if (!validateFullName(formData.fullname)) {
+            newErrors.fullname = "Tên phải chứa ít nhất 3 ký tự và không được chứa số hoặc ký tự đặc biệt.";
+        }
+    
+        if (!formData.email) {
+            newErrors.email = "Không được để trống.";
+        } else if (!validateEmail(formData.email)) {
+            newErrors.email = "Email không hợp lệ.";
+        }
+    
+        if (!formData.phone) {
+            newErrors.phone = "Không được để trống.";
+        } else if (!validatePhone(formData.phone)) {
+            newErrors.phone = "Số điện thoại chỉ được chứa số và phải có từ 10 đến 15 chữ số.";
+        }
+    
+        if (!formData.password) {
+            newErrors.password = "Không được để trống.";
+        } else if (!validatePassword(formData.password)) {
+            newErrors.password = "Mật khẩu phải có ít nhất 10 ký tự, bao gồm chữ thường, chữ hoa, số và ký tự đặc biệt.";
+        }
+    
+        if (!formData.confirmPassword) {
+            newErrors.confirmPassword = "Không được để trống.";
+        } else if (formData.password !== formData.confirmPassword) {
+            newErrors.confirmPassword = "Mật khẩu và xác nhận mật khẩu không khớp.";
+        }
+    
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!validateForm()) return;
+
+        setLoading(true);
 
         try {
             const response = await fetch("http://localhost:8080/register", {
@@ -40,10 +82,10 @@ const Register = () => {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    fullName: fullname,
-                    email: email,
-                    phone: phone,
-                    password: password,
+                    fullName: formData.fullname,
+                    email: formData.email,
+                    phone: formData.phone,
+                    password: formData.password,
                     image: null,
                 }),
             });
@@ -51,18 +93,28 @@ const Register = () => {
             const result = await response.json();
 
             if (response.ok && result.status === 200) {
-                window.location.href = "/";
+                setTimeout(() => {
+                    window.location.href = "/";
+                }, 1500);
             } else {
-                // Xử lý lỗi
-                setError(result.message || "Đăng ký thất bại, vui lòng thử lại.");
+                setErrors({ general: result.message || "Đăng ký thất bại, vui lòng thử lại." });
             }
         } catch (err) {
-            setError("Không thể kết nối với máy chủ, vui lòng thử lại.");
+            setErrors({ general: "Không thể kết nối với máy chủ, vui lòng thử lại." });
+        } finally {
+            setTimeout(() => setLoading(false), 2000);
         }
     };
 
     return (
         <div className="register">
+            {loading && (
+                <div className="register-loading-overlay">
+                    <div className="register-spinner"></div>
+                    <p>Đang tải...</p>
+                </div>
+            )}
+
             <div className="back-to-home-small">
                 <button className="btn-back-home-small" onClick={() => (window.location.href = "/")}>
                     ⬅ Trang Chủ
@@ -84,52 +136,70 @@ const Register = () => {
                             <img src={userIcon} alt="User Icon" className="icon-user" />
                             <input
                                 type="text"
-                                id="fullname"
+                                name="fullname"
                                 className="register-input"
                                 placeholder="Nhập tên đầy đủ của bạn"
-                                value={fullname}
-                                onChange={handleFullnameChange}
+                                value={formData.fullname}
+                                onChange={handleChange}
                             />
                         </div>
+                        {errors.fullname && <p className="error-message">{errors.fullname}</p>}
 
                         {/* Email */}
                         <div className="input-wrapper">
-                            <img src={emailIcon} alt="User Icon" className="icon-user" />
+                            <img src={emailIcon} alt="Email Icon" className="icon-user" />
                             <input
                                 type="text"
-                                id="email"
+                                name="email"
                                 className="register-input"
-                                placeholder="Nhập email đầy đủ"
-                                value={email}
-                                onChange={handleEmailChange}
+                                placeholder="Nhập email của bạn"
+                                value={formData.email}
+                                onChange={handleChange}
                             />
                         </div>
+                        {errors.email && <p className="error-message">{errors.email}</p>}
 
                         {/* Phone */}
                         <div className="input-wrapper">
-                            <img src={phoneIcon} alt="User Icon" className="icon-user" />
+                            <img src={phoneIcon} alt="Phone Icon" className="icon-user" />
                             <input
                                 type="text"
-                                id="phone"
+                                name="phone"
                                 className="register-input"
-                                placeholder="Nhập số điện thoại đầy đủ"
-                                value={phone}
-                                onChange={handlePhoneChange}
+                                placeholder="Nhập số điện thoại của bạn"
+                                value={formData.phone}
+                                onChange={handleChange}
                             />
                         </div>
+                        {errors.phone && <p className="error-message">{errors.phone}</p>}
 
                         {/* Password */}
                         <div className="input-wrapper">
-                            <img src={passwordIcon} alt="User Icon" className="icon-user" />
+                            <img src={passwordIcon} alt="Password Icon" className="icon-user" />
                             <input
                                 type="password"
-                                id="password"
+                                name="password"
                                 className="register-input"
                                 placeholder="Nhập mật khẩu"
-                                value={password}
-                                onChange={handlePasswordChange}
+                                value={formData.password}
+                                onChange={handleChange}
                             />
                         </div>
+                        {errors.password && <p className="error-message">{errors.password}</p>}
+
+                        {/* ChangePassword */}
+                        <div className="input-wrapper">
+                            <img src={passwordIcon} alt="Confirm Password Icon" className="icon-user" />
+                            <input
+                                type="password"
+                                name="confirmPassword"
+                                className="register-input"
+                                placeholder="Xác nhận mật khẩu"
+                                value={formData.confirmPassword}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
                     </div>
 
                     <button type="submit" className="btn-register">
@@ -137,40 +207,34 @@ const Register = () => {
                     </button>
                 </form>
 
-                <div className="register-divider">
-                    <div className="divider-line"></div>
-                    <span className="divider-text">Hoặc</span>
-                    <div className="divider-line"></div>
-                </div>
-
-                <button className="register-btn-google">
-                    <img src={google} alt="Google logo" className="google-logo" />
-                    Đăng ký với Google
-                </button>
-
                 <p className="register-terms">
-                    Bằng việc tiếp tục, bạn đồng ý với{" "}
+                    Bằng việc tiếp tục, bạn đồng ý với
                     <a href="#/" className="register-terms-link">
+                        {" "}
                         Điều khoản sử dụng
                     </a>
-                    ,{" "}
+                    ,
                     <a href="#/" className="register-terms-link">
+                        {" "}
                         Chính sách bảo mật
                     </a>
-                    ,{" "}
+                    ,
                     <a href="#/" className="register-terms-link">
+                        {" "}
                         Quy chế
                     </a>
-                    ,{" "}
+                    , và
                     <a href="#/" className="register-terms-link">
+                        {" "}
                         Chính sách
                     </a>{" "}
                     của chúng tôi.
                 </p>
 
                 <p className="register-login">
-                    Đã có tài khoản?{" "}
+                    Đã có tài khoản?
                     <a href="/login" className="register-login-link">
+                        {" "}
                         Đăng nhập tại đây
                     </a>
                 </p>

@@ -111,53 +111,14 @@
     background-color: #10bc77;
 }
 
-.login-divider {
-    display: flex;
-    align-items: center;
-    margin: 2rem 0;
-}
-
-.divider-line {
-    flex: 1;
-    height: 1px;
-    background: #ccc;
-}
-
-.divider-text {
-    margin: 0 1rem;
-    font-size: 0.9rem;
-    color: #666;
-    white-space: nowrap;
-}
-
-.login-btn-google {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 0.8rem;
-    background-color: #fff;
-    color: #333;
-    font-size: 1rem;
-    font-weight: bold;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
 .google-logo {
     width: 20px;
     height: 20px;
     margin-right: 0.5rem;
 }
 
-.login-btn-google:hover {
-    background-color: #f5f5f5;
-}
-
 .login-register {
-    margin-top: 4rem;
+    margin-top: 1rem;
 }
 
 .login-terms {
@@ -166,7 +127,7 @@
 
 .login-terms,
 .login-register {
-    font-size: 14px;
+    font-size: 12px;
     color: #666;
 }
 

@@ -114,7 +114,7 @@ const ManageInfo = () => {
                             onChange={(e) => setCurrentPassword(e.target.value)}
                         />
                         {errors.currentPassword && (
-                            <p className="error-message">{errors.currentPassword}</p>
+                            <p className="info-error-message">{errors.currentPassword}</p>
                         )}
                     </div>
 
@@ -127,7 +127,7 @@ const ManageInfo = () => {
                             onChange={(e) => setNewPassword(e.target.value)}
                         />
                         {errors.newPassword && (
-                            <p className="error-message">{errors.newPassword}</p>
+                            <p className="info-error-message">{errors.newPassword}</p>
                         )}
                     </div>
 
@@ -140,7 +140,7 @@ const ManageInfo = () => {
                             onChange={(e) => setConfirmPassword(e.target.value)}
                         />
                         {errors.confirmPassword && (
-                            <p className="error-message">{errors.confirmPassword}</p>
+                            <p className="info-error-message">{errors.confirmPassword}</p>
                         )}
                     </div>
 
