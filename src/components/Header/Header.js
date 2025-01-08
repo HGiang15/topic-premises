@@ -7,7 +7,7 @@ import "./Header.css";
 
 const Header = () => {
     const navigate = useNavigate();
-
+    const [activeItem, setActiveItem] = useState("home");
     const token = localStorage.getItem("token");
     const [fullname, setFullname] = useState("Người dùng");
     useEffect(() => {
@@ -37,18 +37,27 @@ const Header = () => {
                 </a>
                 <nav className="header-nav">
                     <ul className="header-nav-list center-nav">
-                        <li className="header-nav-item">
+                        <li
+                            className={`header-nav-item ${activeItem === "home" ? "active" : ""}`}
+                            onClick={() => setActiveItem("home")}
+                        >
                             <a href="/" className="header-nav-link header-nav-link__hover">
                                 Trang chủ
                             </a>
                         </li>
-                        <li className="header-nav-item">
-                            <a href="/" className="header-nav-link header-nav-link__hover">
+                        <li
+                            className={`header-nav-item ${activeItem === "news" ? "active" : ""}`}
+                            onClick={() => setActiveItem("news")}
+                        >
+                            <a href="/#" className="header-nav-link header-nav-link__hover">
                                 Tin tức
                             </a>
                         </li>
-                        <li className="header-nav-item">
-                            <a href="/" className="header-nav-link header-nav-link__hover">
+                        <li
+                            className={`header-nav-item ${activeItem === "app" ? "active" : ""}`}
+                            onClick={() => setActiveItem("app")}
+                        >
+                            <a href="/#" className="header-nav-link header-nav-link__hover">
                                 Tải app
                             </a>
                         </li>
