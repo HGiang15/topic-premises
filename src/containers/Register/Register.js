@@ -12,6 +12,7 @@ const Register = () => {
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
 
     const handleFullnameChange = (e) => {
         setFullname(e.target.value);
@@ -29,10 +30,35 @@ const Register = () => {
         setPassword(e.target.value);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Xử lý gửi yêu cầu đăng ký ở đây
-        console.log(email);
+
+        try {
+            const response = await fetch("http://localhost:8080/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    fullName: fullname,
+                    email: email,
+                    phone: phone,
+                    password: password,
+                    image: null,
+                }),
+            });
+
+            const result = await response.json();
+
+            if (response.ok && result.status === 200) {
+                window.location.href = "/";
+            } else {
+                // Xử lý lỗi
+                setError(result.message || "Đăng ký thất bại, vui lòng thử lại.");
+            }
+        } catch (err) {
+            setError("Không thể kết nối với máy chủ, vui lòng thử lại.");
+        }
     };
 
     return (
