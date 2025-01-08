@@ -319,6 +319,7 @@ const ManagePost = () => {
                                         type="date"
                                         value={editingPost.createAt}
                                         onChange={(e) => setEditingPost({ ...editingPost, createAt: e.target.value })}
+                                        readOnly
                                     />
                                 </label>
 
@@ -330,6 +331,7 @@ const ManagePost = () => {
                                         type="date"
                                         value={editingPost.modifyAt}
                                         onChange={(e) => setEditingPost({ ...editingPost, modifyAt: e.target.value })}
+                                        readOnly
                                     />
                                 </label>
 
@@ -343,6 +345,7 @@ const ManagePost = () => {
                                         onChange={(e) =>
                                             setEditingPost({ ...editingPost, expiredDate: e.target.value })
                                         }
+                                        readOnly
                                     />
                                 </label>
                             </div>

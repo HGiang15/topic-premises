@@ -32,7 +32,7 @@ const MainLayout = () => {
     return (
         <div>
             <Header />
-            {showFilterAndSidebar && <Filter />}
+           { showFilterAndSidebar }
             <div className="main-layout-content">
                 <div className="main-layout-container">
                     <Outlet />

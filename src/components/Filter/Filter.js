@@ -1,27 +1,51 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import searchIcon from '../../assets/icons/search.svg'
-import arrowDown from '../../assets/icons/arrowDown.svg'
+import React, { useState } from "react";
+import searchIcon from "../../assets/icons/search.svg";
+import arrowDown from "../../assets/icons/arrowDown.svg";
 import "./Filter.css";
 
-const Filter = () => {
-    const navigate = useNavigate(); // Hook để chuyển hướng
+const Filter = ({ onSearch, setIsLoadingSearch }) => {
+    const [keyword, setKeyword] = useState("");
 
-    const handleMapButtonClick = () => {
-        navigate("/addressMap"); // Chuyển đến đường dẫn /addressMap
+    const handleSearch = async () => {
+        try {
+            setIsLoadingSearch(true);
+            const response = await fetch(
+                `http://localhost:8080/api/v1/posts/search?keyword=${keyword}&pageNumber=0&size=10`
+            );
+            const result = await response.json();
+            if (result.status === 200) {
+                onSearch(result.data.content); 
+            } else {
+                console.error("Error searching:", result.message);
+            }
+        } catch (error) {
+            console.error("Error searching:", error);
+        }
     };
+
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            handleSearch();
+        }
+    };
+
     return (
         <div className="filter-container">
             <div className="filter-search-bar">
-                <input type="text" className="filter-search-input" placeholder="Nhập địa chỉ, giá tiền hoặc từ khóa" />
-                <button className="filter-search-button">
+                <input
+                    type="text"
+                    className="filter-search-input"
+                    placeholder="Nhập địa chỉ, giá tiền hoặc từ khóa"
+                    value={keyword}
+                    onChange={(e) => setKeyword(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                />
+                <button className="filter-search-button" onClick={handleSearch}>
                     <img src={searchIcon} alt="Search icon" />
                     Tìm kiếm
                 </button>
-                <button className="filter-map-button" onClick={handleMapButtonClick}> 
-                    <img src={searchIcon} alt="Search icon" />
-                </button>
             </div>
+
             <div className="filter-bar">
                 <div className="filter-options">
                     <div className="custom-select">
