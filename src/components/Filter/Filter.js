@@ -35,7 +35,7 @@ const Filter = ({ onSearch, setIsLoadingSearch }) => {
                 <input
                     type="text"
                     className="filter-search-input"
-                    placeholder="Nhập địa chỉ, giá tiền hoặc từ khóa"
+                    placeholder="Nhập tiêu đề địa chỉ, mô tả hoặc loại hình"
                     value={keyword}
                     onChange={(e) => setKeyword(e.target.value)}
                     onKeyDown={handleKeyDown}
