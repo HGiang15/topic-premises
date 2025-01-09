@@ -10,7 +10,7 @@ import money from "../../assets/icons/money.svg";
 import home from "../../assets/icons/home.svg";
 import time from "../../assets/icons/time.svg";
 import "./Detail.css";
-
+import BASE_URL from "../../config";
 const Detail = () => {
     const { id } = useParams(); // Lấy id từ URL
     const [postDetail, setPostDetail] = useState(null);
@@ -26,7 +26,7 @@ const Detail = () => {
     useEffect(() => {
         const fetchPostDetail = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/v1/posts/${id}`);
+                const response = await fetch(`${BASE_URL}api/v1/posts/${id}`);
                 const result = await response.json();
                 if (result.status === 200) {
                     setPostDetail(result.data);
@@ -93,14 +93,18 @@ const Detail = () => {
     if (error) return <p>Error: {error}</p>;
 
     const decodeBase64Image = (base64String) => {
-        if (base64String.startsWith("data:image")) {
+        if (typeof base64String === 'string' && base64String.startsWith("data:image")) {
             return base64String;
-        } else {
+        } else if (typeof base64String === 'string') {
             const base64Data = base64String.split(",")[1];
             const decodedUrl = atob(base64Data);
             return decodedUrl;
+        } else {
+            console.error("Invalid input: base64String is not a valid string.");
+            return null;
         }
     };
+    
 
     const handleToggleContact = () => {
         setShowFullContact(!showFullContact);

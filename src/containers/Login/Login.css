@@ -111,6 +111,13 @@
     background-color: #10bc77;
 }
 
+
+.google-logo {
+    width: 20px;
+    height: 20px;
+    margin-right: 0.5rem;
+}
+
 .login-register {
     margin-top: 1rem;
 }

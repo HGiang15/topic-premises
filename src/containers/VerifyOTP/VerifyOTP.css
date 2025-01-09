@@ -24,10 +24,17 @@
 }
 
 .subheading-verify {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.subheading-register {
     font-size: 16px;
     color: #666;
     margin-bottom: 0.5rem;
 }
+
 
 .verify-form {
     margin-bottom: 1rem;
@@ -88,6 +95,7 @@
     text-decoration: none;
 }
 
+
 .verify-login-link:hover {
     text-decoration: underline;
 }
@@ -102,6 +110,7 @@
     color: #666;
     margin-bottom: 0;
 }
+
 
 .verify-terms-link,
 .verify-login-link {

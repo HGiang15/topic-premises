@@ -9,6 +9,7 @@ import passwordIcon from "../../assets/icons/lock.svg";
 import "./Register.css";
 
 const Register = () => {
+
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
@@ -26,7 +27,6 @@ const Register = () => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
-
     const validateFullName = (name) => /^[^\d]+$/.test(name); 
     const validateEmail = (email) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
     const validatePhone = (phone) => /^[0-9]{10,15}$/.test(phone);
@@ -36,6 +36,7 @@ const Register = () => {
     const validateForm = () => {
         const newErrors = {};
     
+
         if (!formData.fullname) {
             newErrors.fullname = "Không được để trống.";
         } else if (!validateFullName(formData.fullname)) {
@@ -58,6 +59,7 @@ const Register = () => {
             newErrors.password = "Không được để trống.";
         } else if (!validatePassword(formData.password)) {
             newErrors.password = "Mật khẩu phải có ít nhất 10 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt.";
+
         }
     
         if (!formData.confirmPassword) {
@@ -100,6 +102,7 @@ const Register = () => {
             } else {
                 setErrors({ general: result.message || "Đăng ký thất bại, vui lòng thử lại." });
             }
+
 
         } catch (err) {
             setErrors({ general: "Không thể kết nối với máy chủ, vui lòng thử lại." });
@@ -201,6 +204,7 @@ const Register = () => {
                                 onChange={handleChange}
                             />
                         </div>
+
                         {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
                     </div>
 
