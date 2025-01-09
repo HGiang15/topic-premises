@@ -228,7 +228,7 @@ const Detail = () => {
 
                 {/* Map */}
                 <h2 className="map-heading">Xem trên bản đồ</h2>
-                <div className="map-container" onClick={handleMapButtonClick}>
+                <div className="map-container">
                     {loading ? (
                         <div className="loading-spinner">
                             <div className="spinner"></div>

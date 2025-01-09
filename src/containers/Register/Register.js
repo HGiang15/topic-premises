@@ -56,6 +56,7 @@ const Register = () => {
 
         if (!formData.password) {
             newErrors.password = "Không được để trống.";
+
         } else if (!validatePassword(formData.password)) {
             newErrors.password =
                 "Mật khẩu phải có ít nhất 10 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt.";

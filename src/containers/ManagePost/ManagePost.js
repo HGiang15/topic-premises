@@ -35,7 +35,6 @@ const ManagePost = () => {
     }
   };
   useEffect(() => {
-   
     fetchPosts();
   }, [currentPage]);
 
@@ -121,7 +120,7 @@ const ManagePost = () => {
     try {
       const decoded = jwtDecode(token);
       const id = editingPost?.id;
-      console.log("edit",editingPost)
+      console.log("edit", editingPost);
       const body = {
         title: editingPost?.title,
         address: editingPost?.address,
@@ -135,7 +134,7 @@ const ManagePost = () => {
         link: editingPost?.link,
         mediaUrls: editingPost?.media?.map((item) => item.url),
       };
-      const response = await fetch(`${BASE_URL}api/posts/${id}`, {
+      const response = await fetch(`${BASE_URL}api/v1/posts/${id}`, {
         method: "PUT", // Sử dụng PUT thay vì GET
         headers: {
           "Content-Type": "application/json",
@@ -165,13 +164,13 @@ const ManagePost = () => {
   };
   const handleImageChange = (e) => {
     const newFiles = Array.from(e.target.files);
-  
+
     newFiles.forEach((file) => {
       if (file.size > 150 * 1024) {
         alert("Ảnh phải có kích thước nhỏ hơn 150KB.");
       } else if (editingPost.media.length < 3) {
         const reader = new FileReader();
-  
+
         reader.onloadend = () => {
           const base64Image = reader.result; // Lấy giá trị base64
           console.log("Base64 Image:", base64Image); // Log giá trị Base64
@@ -187,15 +186,14 @@ const ManagePost = () => {
             return { ...prev, media: updatedMedia };
           });
         };
-  
+
         reader.readAsDataURL(file); // Đọc file thành Base64
       } else {
         alert("Bạn chỉ có thể tải tối đa 3 ảnh.");
       }
     });
   };
-  
-  
+
   return (
     <div className="manage-post">
       <h1 className="manage-post-title">Danh sách tin</h1>
@@ -275,7 +273,9 @@ const ManagePost = () => {
 
             {/* Actions */}
             <div className="post-actions">
-              <span>Xem tin: {post.views}</span>
+              <a href={`/detail/${post.id}`} className="details-link">
+                Xem
+              </a>
               <button onClick={() => handleEdit(post)} className="edit-btn">
                 <img src={edit} alt="Edit icon" /> Sửa tin
               </button>
@@ -355,14 +355,11 @@ const ManagePost = () => {
                   })}
                 </div>
 
-                <input
-                  type="file"
-                  className="modal-edit-input"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                />
-
-                {/* </label> */}
+                <div className="upload-button-container">
+                  <label htmlFor="file-upload" className="custom-file-upload">
+                    Tải ảnh
+                  </label>
+                </div>
 
                 {/* id */}
                 <label className="modal-edit-label">
