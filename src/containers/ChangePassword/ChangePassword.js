@@ -15,6 +15,7 @@ const ChangePassword = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [success, setSuccess] = useState(false);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -54,7 +55,7 @@ const ChangePassword = () => {
             if (response.ok && result.status === 200) {
                 setTimeout(() => {
                     setLoading(false);
-                    navigate("/login");
+                    setSuccess(true); // Khi đổi mật khẩu thành công, hiển thị popup
                 }, 1000);
             } else {
                 throw new Error(result.message || "Đổi mật khẩu thất bại.");
@@ -63,6 +64,12 @@ const ChangePassword = () => {
             setError(err.message);
             setLoading(false);
         }
+    };
+
+    // Hàm để đóng popup và điều hướng đến trang login
+    const handleClosePopup = () => {
+        setSuccess(false);
+        navigate("/login");
     };
 
     return (
@@ -161,6 +168,19 @@ const ChangePassword = () => {
                     </a>
                 </p>
             </div>
+
+            {/* Popup thông báo khi đổi mật khẩu thành công */}
+            {success && (
+                <div className="popup-change-success">
+                    <div className="popup-change-content">
+                        <h3 className="popup-change-heading">Đổi mật khẩu thành công!</h3>
+                        <button className="btn-close-change-popup" onClick={handleClosePopup}>
+                            Đóng
+                        </button>
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 };

@@ -59,7 +59,7 @@ const Login = () => {
                 setIsLoading(false);
             }
         } catch (err) {
-            setError("Đăng nhập thất bại. Vui lòng kiểm tra thông tin.");
+            setError("Tài khoản hoặc mật khẩu không đúng.");
             setIsLoading(false);
         }
     };
