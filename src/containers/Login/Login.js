@@ -4,7 +4,6 @@ import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../../components/AuthContext/AuthContext.js'
 
-import google from "../../assets/img/google.png";
 import bg from "../../assets/img/bg_login_2.png";
 import user from "../../assets/icons/user.svg";
 import lock from "../../assets/icons/lock.svg";
@@ -117,17 +116,6 @@ const Login = () => {
                         </a>
                     </div>
                 </form>
-
-                <div className="login-divider">
-                    <div className="divider-line"></div>
-                    <span className="divider-text">Hoặc</span>
-                    <div className="divider-line"></div>
-                </div>
-
-                <button className="login-btn-google">
-                    <img src={google} alt="Google logo" className="google-logo" />
-                    Đăng nhập với Google
-                </button>
 
                 <p className="login-terms">
                     Bằng việc tiếp tục, bạn đồng ý với{" "}

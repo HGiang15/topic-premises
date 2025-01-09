@@ -18,7 +18,7 @@
     max-width: 500px;
     height: 686px;
     background: #fff;
-    padding: 2rem;
+    padding: 1.2rem;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
@@ -32,7 +32,7 @@
 .subheading-register {
     font-size: 16px;
     color: #666;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.5rem;
 }
 
 .register-form {
@@ -64,7 +64,8 @@
 .icon-user {
     margin-right: 0.5rem;
     color: #666;
-    font-size: 1.2rem;
+    width: 25px;
+    height: 25px;
 }
 
 .btn-register {
@@ -84,40 +85,6 @@
     background-color: #10bc77;
 }
 
-.register-divider {
-    display: flex;
-    align-items: center;
-    margin: 2rem 0;
-}
-
-.divider-line {
-    flex: 1;
-    height: 1px;
-    background: #ccc;
-}
-
-.divider-text {
-    margin: 0 1rem;
-    font-size: 0.9rem;
-    color: #666;
-    white-space: nowrap;
-}
-
-.register-btn-google {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 0.8rem;
-    background-color: #fff;
-    color: #333;
-    font-size: 1rem;
-    font-weight: bold;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
 
 .google-logo {
     width: 20px;
@@ -125,12 +92,9 @@
     margin-right: 0.5rem;
 }
 
-.register-btn-google:hover {
-    background-color: #f5f5f5;
-}
 
 .register-login {
-    margin-top: -0.3rem;
+    margin-top: 1rem;
 }
 
 .register-login-link {
@@ -143,13 +107,14 @@
 }
 
 .register-terms {
-    margin-top: 30px;
+    margin-top: 10px;
 }
 
 .register-terms,
 .register-login {
-    font-size: 14px;
+    font-size: 12px;
     color: #666;
+    margin-bottom: 0;
 }
 
 .register-terms-link,
@@ -189,4 +154,47 @@
 
 .btn-back-home-small:hover {
     background-color: #28ca8a;
+}
+
+/* Loading */
+.register-loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.register-spinner {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid #fff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 10px;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin: 4px 0;
 }
