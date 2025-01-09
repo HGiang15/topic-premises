@@ -166,8 +166,8 @@ const ManagePost = () => {
     const newFiles = Array.from(e.target.files);
 
     newFiles.forEach((file) => {
-      if (file.size > 150 * 1024) {
-        alert("Ảnh phải có kích thước nhỏ hơn 150KB.");
+      if (file.size > 200 * 1024) {
+        alert("Ảnh phải có kích thước nhỏ hơn 200KB.");
       } else if (editingPost.media.length < 3) {
         const reader = new FileReader();
 
@@ -355,12 +355,12 @@ const ManagePost = () => {
                   })}
                 </div>
 
-                <div className="upload-button-container">
-                  <label htmlFor="file-upload" className="custom-file-upload">
-                    Tải ảnh
-                  </label>
-                </div>
-
+                <input
+                  type="file"
+                  className="modal-edit-input"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                />
                 {/* id */}
                 <label className="modal-edit-label">
                   Mã tin

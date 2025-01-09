@@ -93,17 +93,32 @@ const Detail = () => {
     if (error) return <p>Error: {error}</p>;
 
     const decodeBase64Image = (base64String) => {
-        if (typeof base64String === 'string' && base64String.startsWith("data:image")) {
-            return base64String;
-        } else if (typeof base64String === 'string') {
-            const base64Data = base64String.split(",")[1];
-            const decodedUrl = atob(base64Data);
-            return decodedUrl;
-        } else {
-            console.error("Invalid input: base64String is not a valid string.");
-            return null;
+        try {
+            // Kiểm tra nếu chuỗi là một Base64 hợp lệ và bắt đầu với "data:image"
+            if (typeof base64String === 'string' && base64String.startsWith("data:image")) {
+                return base64String; // Trả về nguyên chuỗi nếu đã hợp lệ
+            }
+            
+            // Kiểm tra nếu chuỗi là Base64 hợp lệ nhưng không có tiền tố "data:image"
+            if (typeof base64String === 'string') {
+                const base64Data = base64String.split(",")[1]; // Tách dữ liệu sau dấu phẩy
+                if (!base64Data) {
+                    throw new Error("Chuỗi không chứa dữ liệu hợp lệ sau dấu phẩy.");
+                }
+                
+                // Giải mã dữ liệu Base64
+                const decodedData = atob(base64Data);
+                return decodedData; // Trả về dữ liệu đã giải mã
+            }
+    
+            // Trường hợp không phải là chuỗi hợp lệ
+            throw new Error("Đầu vào không phải là một chuỗi hợp lệ.");
+        } catch (error) {
+            console.error("Lỗi giải mã Base64:", error.message);
+            return null; // Trả về null nếu xảy ra lỗi
         }
     };
+    
     
 
     const handleToggleContact = () => {
