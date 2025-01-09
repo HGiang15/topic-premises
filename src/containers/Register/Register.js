@@ -209,8 +209,8 @@ const Register = () => {
                         </div>
                         {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
                     </div>
-                    
-                    {errors.general && <p className="error-message">{errors.general}</p>}
+
+                    {errors.general && <p className="error-message error-message-general">{errors.general}</p>}
 
                     <button type="submit" className="btn-register">
                         Đăng ký
