@@ -17,7 +17,7 @@ const Home = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [isLoadingSearch, setIsLoadingSearch] = useState(false);
     const navigate = useNavigate();
-    const itemsPerPage = 3;
+    const itemsPerPage = 10;
 
     useEffect(() => {
         const fetchProducts = async () => {
