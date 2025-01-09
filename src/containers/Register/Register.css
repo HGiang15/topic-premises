@@ -85,14 +85,6 @@
     background-color: #10bc77;
 }
 
-
-.google-logo {
-    width: 20px;
-    height: 20px;
-    margin-right: 0.5rem;
-}
-
-
 .register-login {
     margin-top: 1rem;
 }
@@ -137,7 +129,7 @@
 .back-to-home-small {
     position: absolute;
     top: 1rem;
-    left: 1rem; 
+    left: 1rem;
     z-index: 100;
 }
 
@@ -188,6 +180,7 @@
     from {
         transform: rotate(0deg);
     }
+
     to {
         transform: rotate(360deg);
     }
