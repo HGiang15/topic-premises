@@ -63,20 +63,23 @@ const Step2Form = ({
           {[...Array(3)].map((_, index) => (
             <div key={index} className="uploaded-image">
               {images[index] ? (
+                <>
                 <div className="image-wrapper">
                   <img
                     src={images[index]}
                     alt={`Image ${index + 1}`}
                     className="uploaded-image-img"
                   />
-                  <button
+                 
+                </div>
+                <button
                     type="button"
                     className="remove-image-btn"
                     onClick={() => handleImageRemove(index)}
                   >
                     ✖
                   </button>
-                </div>
+                </>
               ) : (
                 <div className="image-placeholder">
                   <p>Chưa có ảnh</p>

@@ -51,16 +51,16 @@ const Post = () => {
 
   const handleCreatePost = async () => {
     try {
-      // Token cứng đã cho
       const token = localStorage.getItem("token");
-
+  
       if (!token) {
         console.error("No token found in localStorage");
-        return;
+        throw new Error("Vui lòng đăng nhập để thực hiện chức năng này.");
       }
+  
       const decodedToken = jwtDecode(token);
       const userId = decodedToken.id;
-      // Dữ liệu body cứng
+  
       const bodyData = {
         title: formData.title,
         address: formData.address,
@@ -76,27 +76,28 @@ const Post = () => {
         link: formData.link,
         mediaUrls: formData.mediaUrls,
       };
-
+  
       const response = await fetch(`${BASE_URL}api/v1/posts`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, 
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(bodyData), 
+        body: JSON.stringify(bodyData),
       });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Post created successfully:", data);
-      } else {
-        console.error("Error creating post:", response.statusText);
+  
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        throw new Error(errorResponse.message || "Có lỗi xảy ra.");
       }
+  
+      const data = await response.json();
+      return data; // Trả về dữ liệu khi thành công
     } catch (error) {
       console.error("Error during API call:", error);
+      throw error; // Ném lỗi để xử lý ở `handlePayment`
     }
   };
-
   return (
     <div className="post-container">
       <div className="progress-bar">
