@@ -99,20 +99,20 @@ const Step1Form = ({
 
           {/* Địa chỉ hiện tại */}
           <div className="post-form-group">
-            <label className="post-label">Diện Tích</label>
+            <label className="post-label">Diện Tích (m²)</label>
             <input
               type="text"
               className="post-input"
-              placeholder="Nhập địa chỉ chi tiết"
+              placeholder="Nhập diện tích"
               onChange={(e) => handleInputChange("roomSize", e.target.value)}
             />
           </div>
           <div className="post-form-group">
-            <label className="post-label">Mức giá</label>
+            <label className="post-label">Mức giá (VNĐ)</label>
             <input
               type="text"
               className="post-input"
-              placeholder="Nhập số m vuông"
+              placeholder="Nhập mức giá"
               onChange={(e) => handleInputChange("price", e.target.value)}
             />
             <button type="button" className="post-prediction-btn" onClick={handlePrediction}>Dự đoán giá</button>

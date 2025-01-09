@@ -12,8 +12,8 @@ const Step2Form = ({
     const newImages = Array.from(e.target.files);
 
     newImages.forEach((file) => {
-      if (file.size > 150 * 1024) {
-        alert("Ảnh phải có kích thước nhỏ hơn 150KB.");
+      if (file.size > 200 * 1024) {
+        alert("Ảnh phải có kích thước nhỏ hơn 200KB.");
       } else if (images.length < 3) {
         const reader = new FileReader();
 

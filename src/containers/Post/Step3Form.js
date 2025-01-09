@@ -2,7 +2,14 @@ import React, { useState } from "react";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 
-const Step3Form = ({ selectedDays, setSelectedDays, onNext, formData, setFormData, handleCreatePost }) => {
+const Step3Form = ({
+  selectedDays,
+  setSelectedDays,
+  onNext,
+  formData,
+  setFormData,
+  handleCreatePost,
+}) => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false); // Trạng thái xử lý
@@ -134,17 +141,22 @@ const Step3Form = ({ selectedDays, setSelectedDays, onNext, formData, setFormDat
         {errorMessage && <p className="error-text">{errorMessage}</p>}
 
         {/* Thanh toán */}
-        <button type="button" className="post-submit-btn" onClick={handlePayment} disabled={loading}>
+        <button
+          type="button"
+          className="post-submit-btn"
+          onClick={handlePayment}
+          disabled={loading}
+        >
           Thanh toán
         </button>
       </form>
 
       {/* Modal thông báo thanh toán thành công */}
       {showModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h4>Thanh toán thành công!</h4>
-            <p>Cảm ơn bạn đã thực hiện giao dịch.</p>
+        <div className="modal-overlay-step3">
+          <div className="modal-content-step3">
+            <h4 className="modal-title">Thanh toán thành công!</h4>
+            <p className="modal-message">Cảm ơn bạn đã thực hiện giao dịch.</p>
             <button onClick={closeModal} className="close-btn">
               Đóng
             </button>
