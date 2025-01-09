@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from '../../components/AuthContext/AuthContext.js'
+import { useAuth } from "../../components/AuthContext/AuthContext.js";
 
 import bg from "../../assets/img/bg_login_2.png";
 import user from "../../assets/icons/user.svg";
@@ -18,47 +18,59 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
+
     const handleLogin = async (e) => {
-      e.preventDefault();
-      try {
-          const response = await axios.post(`${BASE_URL}authenticate`, {
-              username: email,
-              password: password,
-          });
-  
-          if (response.data.status === 200) {
-              const token = response.data.data;
-              localStorage.setItem("token", token);
-  
-              const decodedToken = jwtDecode(token);
-              const userData = {
-                  id: decodedToken.id,
-                  email: decodedToken.sub, 
-                  phone: decodedToken.phone,
-                  fullname: decodedToken.fullname, 
-                  role: decodedToken.role 
-              };
-              login(userData); // Lưu thông tin vào context
-              
-              alert("Đăng nhập thành công!");
-              navigate("/");
-          } else {
-              setError(response.data.message || "Đăng nhập thất bại.");
-          }
-      } catch (err) {
-          setError("Đăng nhập thất bại. Vui lòng kiểm tra thông tin.");
-          console.error(err);
-      }
-  };
-  
+        e.preventDefault();
+        setIsLoading(true);
+        setError(null);
+
+        try {
+            const response = await axios.post(`${BASE_URL}authenticate`, {
+                username: email,
+                password: password,
+            });
+
+            if (response.data.status === 200) {
+                const token = response.data.data;
+                localStorage.setItem("token", token);
+
+                const decodedToken = jwtDecode(token);
+                const userData = {
+                    id: decodedToken.id,
+                    email: decodedToken.sub,
+                    phone: decodedToken.phone,
+                    fullname: decodedToken.fullname,
+                    role: decodedToken.role,
+                };
+                login(userData); // Lưu thông tin vào context
+
+                setTimeout(() => {
+                    setIsLoading(false);
+                    navigate("/");
+                }, 1500);
+            } else {
+                setError(response.data.message || "Đăng nhập thất bại.");
+                setIsLoading(false);
+            }
+        } catch (err) {
+            setError("Đăng nhập thất bại. Vui lòng kiểm tra thông tin.");
+            setIsLoading(false);
+        }
+    };
 
     return (
         <div className="login">
+            {isLoading && (
+                <div className="login-loading-overlay">
+                    <div className="login-spinner"></div>
+                </div>
+            )}
             <div className="back-to-home-small">
                 <button className="btn-back-home-small" onClick={() => (window.location.href = "/")}>
                     ⬅ Trang Chủ

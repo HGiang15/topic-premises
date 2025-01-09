@@ -6,6 +6,8 @@ import phoneIcon from "../../assets/icons/phone.svg";
 import userIcon from "../../assets/icons/user.svg";
 import emailIcon from "../../assets/icons/email.svg";
 import passwordIcon from "../../assets/icons/lock.svg";
+import eyeOpen from "../../assets/icons//eye_open.svg";
+import eyeClosed from "../../assets/icons/eye_close.svg";
 import "./Register.css";
 
 const Register = () => {
@@ -21,10 +23,20 @@ const Register = () => {
 
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState({});
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+    };
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const toggleConfirmPasswordVisibility = () => {
+        setShowConfirmPassword(!showConfirmPassword);
     };
 
     const validateFullName = (name) => /^[^\d]+$/.test(name);
@@ -73,47 +85,52 @@ const Register = () => {
     };
 
     const handleSubmit = async (e) => {
-    e.preventDefault();
+        e.preventDefault();
 
-    if (!validateForm()) return;
+        if (!validateForm()) return;
 
-    setLoading(true);
+        setLoading(true);
 
-    try {
-        const response = await fetch("http://localhost:8080/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                fullName: formData.fullname,
-                email: formData.email,
-                phone: formData.phone,
-                password: formData.password,
-                image: null,
-            }),
-        });
+        try {
+            const response = await fetch("http://localhost:8080/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    fullName: formData.fullname,
+                    email: formData.email,
+                    phone: formData.phone,
+                    password: formData.password,
+                    image: null,
+                }),
+            });
 
-        const result = await response.json();
+            const result = await response.json();
 
-        if (response.ok && result.status === 200) {
-            // Đăng ký thành công, chuyển đến trang verify OTP
-            navigate("/verifyotp", { state: { email: formData.email, password: formData.password } });
-        } else {
-            // Kiểm tra thông báo lỗi "Email or phone existed"
-            if (result.data === "Email or phone existed") {
-                setErrors({ general: "Email hoặc số điện thoại đã tồn tại. Vui lòng sử dụng email hoặc số điện thoại khác." });
+            if (response.ok && result.status === 200) {
+                setTimeout(() => {
+                    setLoading(false);
+                    navigate("/verifyotp", {
+                        state: { email: formData.email, password: formData.password },
+                    });
+                }, 1000);
             } else {
-                setErrors({ general: result.message || "Đăng ký thất bại, vui lòng thử lại." });
+                // Kiểm tra thông báo lỗi "Email or phone existed"
+                if (result.data === "Email or phone existed") {
+                    setErrors({
+                        general: "Email hoặc số điện thoại đã tồn tại. Vui lòng sử dụng email hoặc số điện thoại khác.",
+                    });
+                } else {
+                    setErrors({ general: result.message || "Đăng ký thất bại, vui lòng thử lại." });
+                }
+                setLoading(false);
             }
+        } catch (err) {
+            setErrors({ general: "Không thể kết nối với máy chủ, vui lòng thử lại." });
+            setLoading(false);
         }
-    } catch (err) {
-        setErrors({ general: "Không thể kết nối với máy chủ, vui lòng thử lại." });
-    } finally {
-        setTimeout(() => setLoading(false), 2000);
-    }
-};
-
+    };
 
     return (
         <div className="register">
@@ -186,26 +203,38 @@ const Register = () => {
                         <div className="input-wrapper">
                             <img src={passwordIcon} alt="Password Icon" className="icon-user" />
                             <input
-                                type="password"
+                                type={showPassword ? "text" : "password"}
                                 name="password"
                                 className="register-input"
                                 placeholder="Nhập mật khẩu"
                                 value={formData.password}
                                 onChange={handleChange}
                             />
+                            <img
+                                src={showPassword ? eyeOpen : eyeClosed}
+                                alt="Toggle Password Visibility"
+                                className="icon-eye"
+                                onClick={togglePasswordVisibility}
+                            />
                         </div>
                         {errors.password && <p className="error-message">{errors.password}</p>}
 
-                        {/* ChangePassword */}
+                        {/* Confirm Password */}
                         <div className="input-wrapper">
                             <img src={passwordIcon} alt="Confirm Password Icon" className="icon-user" />
                             <input
-                                type="password"
+                                type={showConfirmPassword ? "text" : "password"}
                                 name="confirmPassword"
                                 className="register-input"
                                 placeholder="Xác nhận mật khẩu"
                                 value={formData.confirmPassword}
                                 onChange={handleChange}
+                            />
+                            <img
+                                src={showConfirmPassword ? eyeOpen : eyeClosed}
+                                alt="Toggle Confirm Password Visibility"
+                                className="icon-eye"
+                                onClick={toggleConfirmPasswordVisibility}
                             />
                         </div>
                         {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}

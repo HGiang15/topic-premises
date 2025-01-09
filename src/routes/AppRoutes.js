@@ -7,13 +7,16 @@ import Overview from "../containers/Overview/Overview";
 import ManagePost from './../containers/ManagePost/ManagePost';
 import ManageInfo from './../containers/ManageInfo/ManageInfo';
 import Post from "../containers/Post/Post";  
-import Login from "../containers/Login/Login";
-import Register from "../containers/Register/Register";
-import VerifyOTP from "../containers/VerifyOTP/VerifyOTP";
 import ForgotPassword from './../containers/ForgotPassword/ForgotPassword';
 import AddressMap from "../containers/AddressMap/AddressMap";
 import Dashboards from "../containers/Dashboards/Dashboards";
 import News from "../containers/News/News";
+
+import Login from "../containers/Login/Login";
+import Register from "../containers/Register/Register";
+import VerifyOTP from "../containers/VerifyOTP/VerifyOTP";
+import VerifyOTPForgot from '../containers/VerifyOTPForgot/VerifyOTPForgot'
+import ChangePassword from './../containers/ChangePassword/ChangePassword';
 
 import Header from "../components/Header/Header";
 import SidebarLeft from './../components/SidebarLeft/SidebarLeft';
@@ -110,6 +113,8 @@ const AppRoutes = () => {
                 <Route path="/register" element={<Register />} />
                 <Route path="/forgotpassword" element={<ForgotPassword />} />
                 <Route path="/verifyotp" element={<VerifyOTP />} />
+                <Route path="/verifyotpforgot" element={<VerifyOTPForgot />} />
+                <Route path="/changepass" element={<ChangePassword />} />
             </Routes>
         </Router>
     );
