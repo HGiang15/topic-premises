@@ -27,7 +27,7 @@ const Register = () => {
         setFormData({ ...formData, [name]: value });
     };
 
-    const validateFullName = (name) => /^[^\d]+$/.test(name); 
+    const validateFullName = (name) => /^[^\d]+$/.test(name);
     const validateEmail = (email) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
     const validatePhone = (phone) => /^[0-9]{10,15}$/.test(phone);
     const validatePassword = (password) =>
@@ -35,78 +35,84 @@ const Register = () => {
 
     const validateForm = () => {
         const newErrors = {};
-    
+
         if (!formData.fullname) {
             newErrors.fullname = "Không được để trống.";
         } else if (!validateFullName(formData.fullname)) {
             newErrors.fullname = "Tên không được chứa số.";
         }
-    
+
         if (!formData.email) {
             newErrors.email = "Không được để trống.";
         } else if (!validateEmail(formData.email)) {
             newErrors.email = "Email không hợp lệ.";
         }
-    
+
         if (!formData.phone) {
             newErrors.phone = "Không được để trống.";
         } else if (!validatePhone(formData.phone)) {
             newErrors.phone = "Số điện thoại chỉ được chứa số và phải có từ 10 đến 15 chữ số.";
         }
-    
+
         if (!formData.password) {
             newErrors.password = "Không được để trống.";
         } else if (!validatePassword(formData.password)) {
-            newErrors.password = "Mật khẩu phải có ít nhất 10 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt.";
+            newErrors.password =
+                "Mật khẩu phải có ít nhất 10 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt.";
         }
-    
+
         if (!formData.confirmPassword) {
             newErrors.confirmPassword = "Không được để trống.";
         } else if (formData.password !== formData.confirmPassword) {
             newErrors.confirmPassword = "Mật khẩu và xác nhận mật khẩu không khớp.";
         }
-    
+
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+    e.preventDefault();
 
-        if (!validateForm()) return;
+    if (!validateForm()) return;
 
-        setLoading(true);
+    setLoading(true);
 
-        try {
-            const response = await fetch("http://localhost:8080/register", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    fullName: formData.fullname,
-                    email: formData.email,
-                    phone: formData.phone,
-                    password: formData.password,
-                    image: null,
-                }),
-            });
+    try {
+        const response = await fetch("http://localhost:8080/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                fullName: formData.fullname,
+                email: formData.email,
+                phone: formData.phone,
+                password: formData.password,
+                image: null,
+            }),
+        });
 
-            const result = await response.json();
+        const result = await response.json();
 
-            if (response.ok && result.status === 200) {
-                // gửi pass và email sang
-                navigate("/verifyotp", { state: { email: formData.email, password: formData.password } });
+        if (response.ok && result.status === 200) {
+            // Đăng ký thành công, chuyển đến trang verify OTP
+            navigate("/verifyotp", { state: { email: formData.email, password: formData.password } });
+        } else {
+            // Kiểm tra thông báo lỗi "Email or phone existed"
+            if (result.data === "Email or phone existed") {
+                setErrors({ general: "Email hoặc số điện thoại đã tồn tại. Vui lòng sử dụng email hoặc số điện thoại khác." });
             } else {
                 setErrors({ general: result.message || "Đăng ký thất bại, vui lòng thử lại." });
             }
-
-        } catch (err) {
-            setErrors({ general: "Không thể kết nối với máy chủ, vui lòng thử lại." });
-        } finally {
-            setTimeout(() => setLoading(false), 2000);
         }
-    };
+    } catch (err) {
+        setErrors({ general: "Không thể kết nối với máy chủ, vui lòng thử lại." });
+    } finally {
+        setTimeout(() => setLoading(false), 2000);
+    }
+};
+
 
     return (
         <div className="register">
@@ -203,6 +209,8 @@ const Register = () => {
                         </div>
                         {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
                     </div>
+                    
+                    {errors.general && <p className="error-message">{errors.general}</p>}
 
                     <button type="submit" className="btn-register">
                         Đăng ký
