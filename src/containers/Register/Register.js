@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import google from "../../assets/img/google.png";
+import { useNavigate } from "react-router-dom";
+
 import bg from "../../assets/img/bg_login_2.png";
 import phoneIcon from "../../assets/icons/phone.svg";
 import userIcon from "../../assets/icons/user.svg";
@@ -8,6 +9,8 @@ import passwordIcon from "../../assets/icons/lock.svg";
 import "./Register.css";
 
 const Register = () => {
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         fullname: "",
         email: "",
@@ -24,7 +27,7 @@ const Register = () => {
         setFormData({ ...formData, [name]: value });
     };
 
-    const validateFullName = (name) => /^[a-zA-Z\s]{3,}$/.test(name);
+    const validateFullName = (name) => /^[^\d]+$/.test(name); 
     const validateEmail = (email) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
     const validatePhone = (phone) => /^[0-9]{10,15}$/.test(phone);
     const validatePassword = (password) =>
@@ -33,11 +36,10 @@ const Register = () => {
     const validateForm = () => {
         const newErrors = {};
     
-        // Kiểm tra xem trường có bị bỏ trống không
         if (!formData.fullname) {
             newErrors.fullname = "Không được để trống.";
         } else if (!validateFullName(formData.fullname)) {
-            newErrors.fullname = "Tên phải chứa ít nhất 3 ký tự và không được chứa số hoặc ký tự đặc biệt.";
+            newErrors.fullname = "Tên không được chứa số.";
         }
     
         if (!formData.email) {
@@ -55,7 +57,7 @@ const Register = () => {
         if (!formData.password) {
             newErrors.password = "Không được để trống.";
         } else if (!validatePassword(formData.password)) {
-            newErrors.password = "Mật khẩu phải có ít nhất 10 ký tự, bao gồm chữ thường, chữ hoa, số và ký tự đặc biệt.";
+            newErrors.password = "Mật khẩu phải có ít nhất 10 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt.";
         }
     
         if (!formData.confirmPassword) {
@@ -93,12 +95,12 @@ const Register = () => {
             const result = await response.json();
 
             if (response.ok && result.status === 200) {
-                setTimeout(() => {
-                    window.location.href = "/";
-                }, 1500);
+                // gửi pass và email sang
+                navigate("/verifyotp", { state: { email: formData.email, password: formData.password } });
             } else {
                 setErrors({ general: result.message || "Đăng ký thất bại, vui lòng thử lại." });
             }
+
         } catch (err) {
             setErrors({ general: "Không thể kết nối với máy chủ, vui lòng thử lại." });
         } finally {

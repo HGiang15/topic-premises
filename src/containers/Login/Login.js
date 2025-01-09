@@ -4,7 +4,6 @@ import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../../components/AuthContext/AuthContext.js'
 
-import google from "../../assets/img/google.png";
 import bg from "../../assets/img/bg_login_2.png";
 import user from "../../assets/icons/user.svg";
 import lock from "../../assets/icons/lock.svg";
