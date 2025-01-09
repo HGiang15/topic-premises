@@ -36,9 +36,10 @@ const Step3Form = ({
     setErrorMessage(null); // Xóa lỗi trước đó
     try {
       await handleCreatePost(); // Gọi hàm tạo bài viết
-      setShowModal(true); // Hiển thị modal khi thành công
+      setShowModal(true); // Hiển thị modal thành công
     } catch (error) {
-      setErrorMessage("Đã xảy ra lỗi khi tạo bài viết. Vui lòng thử lại."); // Báo lỗi
+      setErrorMessage("Số dư tài khoản không đủ."); // Lưu thông báo lỗi
+      setShowModal(true); // Vẫn hiển thị modal nhưng cho lỗi
     } finally {
       setLoading(false); // Kết thúc xử lý
     }
@@ -155,8 +156,14 @@ const Step3Form = ({
       {showModal && (
         <div className="modal-overlay-step3">
           <div className="modal-content-step3">
-            <h4 className="modal-title">Thanh toán thành công!</h4>
-            <p className="modal-message">Cảm ơn bạn đã thực hiện giao dịch.</p>
+            <h4 className="modal-title">
+              {errorMessage ? "Thanh toán thất bại" : "Thanh toán thành công!"}
+            </h4>
+            <p className="modal-message">
+              {errorMessage
+                ? errorMessage
+                : "Cảm ơn bạn đã thực hiện giao dịch."}
+            </p>
             <button onClick={closeModal} className="close-btn">
               Đóng
             </button>

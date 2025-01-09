@@ -74,7 +74,6 @@ const SidebarLeft = () => {
   };
   const handleDeposit = async () => {
     try {
-        debugger
       const decoded = jwtDecode(token);
       const id = decoded?.id;
       const body = {
