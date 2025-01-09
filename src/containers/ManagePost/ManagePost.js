@@ -4,6 +4,7 @@ import edit from "../../assets/icons/edit.svg";
 import "./ManagePost.css";
 import { jwtDecode } from "jwt-decode";
 import BASE_URL from "../../config";
+import ExtendPostModal from "./ExtendPostModal";
 const ManagePost = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [activeTab, setActiveTab] = useState("Tất cả");
@@ -193,7 +194,19 @@ const ManagePost = () => {
       }
     });
   };
+  const [showExtendModal, setShowExtendModal] = useState(false);
+  const [selectedPostId, setSelectedPostId] = useState(null);
 
+
+  const handleExtendPost = (selectedDays) => {
+    // Gọi API hoặc xử lý gia hạn cho bài đăng được chọn
+    console.log(`Gia hạn bài đăng với ID: ${selectedPostId} và gói: ${selectedDays}`);
+    
+    // Sau khi xử lý xong, đóng modal
+    setSelectedPostId(null); // Đặt lại trạng thái để đóng modal
+    setShowExtendModal(false);
+  };
+  
   return (
     <div className="manage-post">
       <h1 className="manage-post-title">Danh sách tin</h1>
@@ -279,7 +292,20 @@ const ManagePost = () => {
               <button onClick={() => handleEdit(post)} className="edit-btn">
                 <img src={edit} alt="Edit icon" /> Sửa tin
               </button>
-              <button className="extend-btn">Gia hạn tin</button>
+              <button
+                className="extend-btn"
+                onClick={() => setSelectedPostId(post.id)}
+              >
+                Gia hạn tin
+              </button>
+
+              {selectedPostId === post.id && (
+                <ExtendPostModal
+                  onClose={() => setSelectedPostId(null)}
+                  onSubmit={handleExtendPost}
+                  id={post.id}
+                />
+              )}
             </div>
           </div>
         ))}
