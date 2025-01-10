@@ -45,12 +45,14 @@ const Home = () => {
         fetchProducts();
     }, [currentPage]);
 
-    const handleSearchResults = (searchResults) => {
+    const handleSearchResults = (searchResults, totalElements, totalPages) => {
         setIsLoadingSearch(false);
         setProducts(searchResults);
-        setCurrentPage(0);
-        setTotalPages(1);
+        setCurrentPage(0); // Reset về trang đầu
+        setTotalResults(totalElements); // Cập nhật tổng số kết quả
+        setTotalPages(totalPages); // Cập nhật tổng số trang
     };
+    
 
     // base64
     const decodeBase64Image = (base64String) => {
@@ -87,7 +89,12 @@ const Home = () => {
     return (
         <div className="home">
             <div className="home-container">
-                <Filter onSearch={handleSearchResults} setIsLoadingSearch={setIsLoadingSearch} />
+                <Filter
+                    onSearch={handleSearchResults}
+                    setIsLoadingSearch={setIsLoadingSearch}
+                    pageNumber={currentPage} // Pass currentPage to Filter
+                    size={itemsPerPage} // Pass itemsPerPage to Filter
+                />
 
                 <div className="map-container-home" onClick={handleMapButtonClick}>
                     <h2 className="map-home-heading">Bấm vào đây để tìm kiếm chi tiết trên bản đồ</h2>
@@ -102,8 +109,7 @@ const Home = () => {
                 <div className="results-header">
                     <h2>Cho thuê mặt bằng kinh doanh Hà Nội</h2>
                     <p>
-                        Hiện có <strong>{totalResults}</strong> kết quả trên tổng số <strong>{totalPages}</strong>{" "}
-                        trang.
+                        Hiện có <strong>{totalResults}</strong> kết quả trên tổng số <strong>{totalPages}</strong> trang.
                     </p>
                 </div>
 

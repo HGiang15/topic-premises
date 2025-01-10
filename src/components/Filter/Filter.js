@@ -3,19 +3,20 @@ import searchIcon from "../../assets/icons/search.svg";
 import arrowDown from "../../assets/icons/arrowDown.svg";
 import "./Filter.css";
 import BASE_URL from "../../config";
-const Filter = ({ onSearch, setIsLoadingSearch }) => {
+
+const Filter = ({ onSearch, setIsLoadingSearch, pageNumber, size }) => {
     const [keyword, setKeyword] = useState("");
 
     const handleSearch = async () => {
         try {
             setIsLoadingSearch(true);
             const response = await fetch(
-                `${BASE_URL}api/v1/posts/search?keyword=${keyword}&pageNumber=0&size=10`
+                `${BASE_URL}api/v1/posts/search?keyword=${keyword}&pageNumber=${pageNumber}&size=${size}`
             );
             const result = await response.json();
             if (result.status === 200) {
-                onSearch(result.data.content); 
-            } else {
+                const { content, totalElements, totalPages } = result.data;
+                onSearch(content, totalElements, totalPages);
                 console.error("Error searching:", result.message);
             }
         } catch (error) {
@@ -64,28 +65,6 @@ const Filter = ({ onSearch, setIsLoadingSearch }) => {
                             <option value="3">3-4 tỷ</option>
                             <option value="4">5-6 tỷ</option>
                             <option value="5">7-8 tỷ</option>
-                        </select>
-                        <img src={arrowDown} alt="Arrow Down" className="dropdown-icon" />
-                    </div>
-                    <div className="custom-select">
-                        <select className="filter-select">
-                            <option value="">Tỉnh/TP</option>
-                            <option value="HCM">Hồ Chí Minh</option>
-                            <option value="HN">Hà Nội</option>
-                            <option value="HP">Hải Phòng</option>
-                            <option value="ND">Nam Định</option>
-                            <option value="HY">Hưng Yên</option>
-                        </select>
-                        <img src={arrowDown} alt="Arrow Down" className="dropdown-icon" />
-                    </div>
-                    <div className="custom-select">
-                        <select className="filter-select">
-                            <option value="">Quận/Huyện</option>
-                            <option value="1">Quận Long Biên</option>
-                            <option value="2">Quận Đống Đa</option>
-                            <option value="3">Quận Thanh Xuân</option>
-                            <option value="4">Quận Tây Hồ</option>
-                            <option value="5">Huyện Thanh Trì</option>
                         </select>
                         <img src={arrowDown} alt="Arrow Down" className="dropdown-icon" />
                     </div>
