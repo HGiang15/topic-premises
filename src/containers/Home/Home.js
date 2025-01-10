@@ -14,13 +14,13 @@ import BASE_URL from "../../config";
 
 const Home = () => {
     const [products, setProducts] = useState([]); // Dữ liệu sản phẩm
-    const [currentPage, setCurrentPage] = useState(0);
-    const [totalPages, setTotalPages] = useState(1);
-    const [totalResults, setTotalResults] = useState(0);
-    const [isLoading, setIsLoading] = useState(false);
-    const [isLoadingSearch, setIsLoadingSearch] = useState(false);
+    const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
+    const [totalPages, setTotalPages] = useState(1); // Tổng số trang
+    const [totalResults, setTotalResults] = useState(0); // Tổng số kết quả
+    const [isLoading, setIsLoading] = useState(false); // Loading state
+    const [isLoadingSearch, setIsLoadingSearch] = useState(false); // Loading state cho tìm kiếm
     const navigate = useNavigate();
-    const itemsPerPage = 3;
+    const itemsPerPage = 3; // Số sản phẩm mỗi trang
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -45,9 +45,14 @@ const Home = () => {
         fetchProducts();
     }, [currentPage]);
 
+    // Xử lý kết quả tìm kiếm hoặc lọc từ Filter.js
     const handleSearchResults = (searchResults, totalElements, totalPages) => {
         setIsLoadingSearch(false);
-        setProducts(searchResults);
+        if (Array.isArray(searchResults) && searchResults.length > 0) {
+            setProducts(searchResults); // Cập nhật sản phẩm tìm thấy
+        } else {
+            setProducts([]);  // Nếu không có kết quả, đặt lại mảng sản phẩm
+        }
         setCurrentPage(0); // Reset về trang đầu
         setTotalResults(totalElements); // Cập nhật tổng số kết quả
         setTotalPages(totalPages); // Cập nhật tổng số trang
@@ -107,7 +112,7 @@ const Home = () => {
                 </div>
 
                 <div className="results-header">
-                    <h2>Cho thuê mặt bằng kinh doanh Hà Nội</h2>
+                    <h2>Cho thuê mặt bằng kinh doanh</h2>
                     <p>
                         Hiện có <strong>{totalResults}</strong> kết quả trên tổng số <strong>{totalPages}</strong> trang.
                     </p>
