@@ -1,4 +1,4 @@
-.forgot-pass {
+.verify {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -6,48 +6,35 @@
     background-color: #f5f5f5;
 }
 
-.forgot-pass-bg-image {
+.verify-bg-image {
     height: 686px;
     width: 400px;
     object-fit: cover;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.forgot-pass-container {
+.verify-container {
     width: 90%;
     max-width: 500px;
     height: 686px;
     background: #fff;
-    padding: 2rem;
+    padding: 1.2rem;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
-.back-button {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    margin-bottom: 1rem;
-    color: #666;
+.subheading-verify {
+    font-size: 20px;
+    color: #000;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
 }
 
-.back-icon {
-    width: 20px;
-    height: 20px;
-    margin-right: 0.5rem;
-}
-
-.heading-forgot-pass {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 2.5rem;
-}
-
-.forgot-pass-form {
+.verify-form {
     margin-bottom: 1rem;
 }
 
-.forgot-pass-input-group {
+.verify-input-group {
     margin-bottom: 2rem;
     text-align: left;
     width: 100%;
@@ -59,9 +46,10 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 0.8rem;
+    margin-bottom: 12px;
 }
 
-.forgot-pass-input {
+.verify-input {
     flex: 1;
     font-size: 14px;
     border: none;
@@ -71,10 +59,11 @@
 .icon-user {
     margin-right: 0.5rem;
     color: #666;
-    font-size: 1.2rem;
+    width: 25px;
+    height: 25px;
 }
 
-.btn-forgot-pass {
+.btn-verify {
     width: 100%;
     padding: 0.8rem;
     background-color: #24B47B;
@@ -87,27 +76,65 @@
     transition: background-color 0.3s ease;
 }
 
-.btn-forgot-pass:hover {
+.btn-verify:hover {
     background-color: #10bc77;
 }
 
-.forgot-pass-login {
-    margin-top: 2rem;
+.btn-sendback {
+    background: transparent;
+    color: #000;
+    font-weight: 500;
 }
 
-.forgot-pass-login-link {
+.btn-sendback:hover {
+    opacity: 0.9;
+    background: #fff;
+}
+
+.verify-login {
+    margin-top: 1rem;
+}
+
+.verify-login-link {
     color: #24B47B;
     text-decoration: none;
 }
 
-.forgot-pass-login-link:hover {
+.verify-login-link:hover {
+    text-decoration: underline;
+}
+
+.verify-terms {
+    margin-top: 10px;
+}
+
+.verify-terms,
+.verify-login {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 0;
+}
+
+.verify-terms-link,
+.verify-login-link {
+    color: #f65f5c;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.verify-login-link {
+    color: #24B47B;
+}
+
+.verify-terms-link:hover,
+.verify-login-link:hover {
     text-decoration: underline;
 }
 
 .back-to-home-small {
     position: absolute;
     top: 1rem;
-    left: 1rem; 
+    left: 1rem;
     z-index: 100;
 }
 
@@ -126,40 +153,46 @@
     background-color: #28ca8a;
 }
 
-.forgot-error-message{
-    color: red;
-    font-size: 12px;
-    margin: 4px 0;
-}
-
 /* Loading */
-.forgot-pass-loading-overlay {
+.verify-loading-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
     z-index: 1000;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
 }
 
-.forgot-pass-spinner {
-    width: 50px;
-    height: 50px;
-    border: 5px solid rgba(255, 255, 255, 0.3);
-    border-top: 5px solid #fff;
+.verify-spinner {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid #fff;
     border-radius: 50%;
+    width: 40px;
+    height: 40px;
     animation: spin 1s linear infinite;
+    margin-bottom: 10px;
 }
 
 @keyframes spin {
     from {
         transform: rotate(0deg);
     }
+
     to {
         transform: rotate(360deg);
     }
+}
+
+.verify-error-message {
+    color: red;
+    font-size: 12px;
+    margin: 4px 0;
 }

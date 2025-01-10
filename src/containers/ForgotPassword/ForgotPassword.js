@@ -1,28 +1,57 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import bg from "../../assets/img/bg_login_2.png";
-import phone from "../../assets/icons/phone.svg";
+import phone from "../../assets/icons/email.svg";
 import backIcon from "../../assets/icons/back.svg";
 import "./ForgotPassword.css";
 
 const ForgotPassword = () => {
-    const [emailOrPhone, setEmailOrPhone] = useState("");
+    const navigate = useNavigate();
+    const [email, setEmail] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
 
     const handleInputChange = (e) => {
-        setEmailOrPhone(e.target.value);
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Xử lý gửi yêu cầu quên mật khẩu ở đây
-        console.log(emailOrPhone);
+        setEmail(e.target.value);
     };
 
     const handleGoBack = () => {
         window.history.back();
     };
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError(""); 
+        setLoading(true); 
+
+        try {
+            const response = await fetch(`http://localhost:8080/api/v1/forgotPassword/verifyMail/${email}`, {
+                method: "POST",
+            });
+            const result = await response.json();
+
+            if (response.ok && result.status === 200) {
+                setTimeout(() => {
+                    setLoading(false);
+                    navigate("/verifyotpforgot", { state: { email } });
+                }, 500);
+            } else {
+                throw new Error(result.message || "Gửi yêu cầu OTP thất bại.");
+            }
+        } catch (err) {
+            setError(err.message || "Không thể kết nối với máy chủ.");
+            setLoading(false); 
+        } 
+    };
+
     return (
         <div className="forgot-pass">
+            {loading && (
+                <div className="forgot-pass-loading-overlay">
+                    <div className="forgot-pass-spinner"></div>
+                </div>
+            )}
+        
             <div className="back-to-home-small">
                 <button className="btn-back-home-small" onClick={() => (window.location.href = "/")}>
                     ⬅ Trang Chủ
@@ -45,10 +74,10 @@ const ForgotPassword = () => {
                             <img src={phone} alt="User Icon" className="icon-user" />
                             <input
                                 type="text"
-                                id="emailOrPhone"
+                                id="email"
                                 className="forgot-pass-input"
-                                placeholder="SĐT hoặc Email"
-                                value={emailOrPhone}
+                                placeholder="Nhập Email"
+                                value={email}
                                 onChange={handleInputChange}
                             />
                         </div>
@@ -57,6 +86,8 @@ const ForgotPassword = () => {
                         Gửi yêu cầu
                     </button>
                 </form>
+
+                {error && <p className="forgot-error-message">{error}</p>}
 
                 <p className="forgot-pass-login">
                     Đã nhớ mật khẩu?{" "}

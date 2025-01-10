@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import searchIcon from "../../assets/icons/search.svg";
 import arrowDown from "../../assets/icons/arrowDown.svg";
 import "./Filter.css";
-
+import BASE_URL from "../../config";
 const Filter = ({ onSearch, setIsLoadingSearch }) => {
     const [keyword, setKeyword] = useState("");
 
@@ -10,7 +10,7 @@ const Filter = ({ onSearch, setIsLoadingSearch }) => {
         try {
             setIsLoadingSearch(true);
             const response = await fetch(
-                `http://localhost:8080/api/v1/posts/search?keyword=${keyword}&pageNumber=0&size=10`
+                `${BASE_URL}api/v1/posts/search?keyword=${keyword}&pageNumber=0&size=10`
             );
             const result = await response.json();
             if (result.status === 200) {

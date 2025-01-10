@@ -1,4 +1,9 @@
 /* AddressMap.css */
+.modal-fullscreen {
+  width: 100% !important;
+  height: 100% !important;
+}
+
 .search-container-wrapper {
   display: flex;
   gap: 1rem; /* Khoảng cách giữa hai ô */

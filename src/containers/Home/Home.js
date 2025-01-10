@@ -8,7 +8,7 @@ import Filter from "../../components/Filter/Filter";
 import avatar from "../../assets/img/user.svg";
 import phone from "../../assets/icons/phone.svg";
 import "./Home.css";
-
+import BASE_URL from "../../config";
 const Home = () => {
     const [products, setProducts] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
@@ -17,14 +17,14 @@ const Home = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [isLoadingSearch, setIsLoadingSearch] = useState(false);
     const navigate = useNavigate();
-    const itemsPerPage = 3;
+    const itemsPerPage = 4;
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
                 setIsLoading(true);
                 const response = await fetch(
-                    `http://localhost:8080/api/v1/posts?pageNumber=${currentPage}&size=${itemsPerPage}`
+                    `${BASE_URL}api/v1/posts?pageNumber=${currentPage}&size=${itemsPerPage}`
                 );
                 const result = await response.json();
                 if (result.status === 200) {
@@ -53,14 +53,33 @@ const Home = () => {
     };
 
     const decodeBase64Image = (base64String) => {
-        if (base64String.startsWith("data:image")) {
-            return base64String;
-        } else {
-            const base64Data = base64String.split(",")[1];
-            const decodedUrl = atob(base64Data);
-            return decodedUrl;
+        try {
+            // Kiểm tra nếu chuỗi là một Base64 hợp lệ và bắt đầu với "data:image"
+            if (typeof base64String === 'string' && base64String.startsWith("data:image")) {
+                return base64String; // Trả về nguyên chuỗi nếu đã hợp lệ
+            }
+            
+            // Kiểm tra nếu chuỗi là Base64 hợp lệ nhưng không có tiền tố "data:image"
+            if (typeof base64String === 'string') {
+                const base64Data = base64String.split(",")[1]; // Tách dữ liệu sau dấu phẩy
+                if (!base64Data) {
+                    throw new Error("Chuỗi không chứa dữ liệu hợp lệ sau dấu phẩy.");
+                }
+                
+                // Giải mã dữ liệu Base64
+                const decodedData = atob(base64Data);
+                return decodedData; // Trả về dữ liệu đã giải mã
+            }
+    
+            // Trường hợp không phải là chuỗi hợp lệ
+            throw new Error("Đầu vào không phải là một chuỗi hợp lệ.");
+        } catch (error) {
+            console.error("Lỗi giải mã Base64:", error.message);
+            return null; // Trả về null nếu xảy ra lỗi
         }
     };
+    
+    
 
     const paginate = (pageNumber) => {
         if (pageNumber >= 0 && pageNumber < totalPages) {
