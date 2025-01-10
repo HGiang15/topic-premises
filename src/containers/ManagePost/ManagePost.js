@@ -167,8 +167,8 @@ const ManagePost = () => {
     const newFiles = Array.from(e.target.files);
 
     newFiles.forEach((file) => {
-      if (file.size > 200 * 1024) {
-        alert("Ảnh phải có kích thước nhỏ hơn 200KB.");
+      if (file.size > 500 * 1024) {
+        alert("Ảnh phải có kích thước nhỏ hơn 500KB.");
       } else if (editingPost.media.length < 3) {
         const reader = new FileReader();
 

@@ -397,3 +397,9 @@
 .remove-image-btn:hover {
   background: rgba(0, 0, 0, 0.8);
 }
+.error-text {
+  color: red;
+  font-size: 0.85em;
+  margin-top: 5px;
+}
+

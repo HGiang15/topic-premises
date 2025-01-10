@@ -15,30 +15,11 @@ const Step1Form = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false); // Trạng thái kiểm tra hợp lệ form
-
+  const [formErrors, setFormErrors] = useState({});
   const provinces = vietnamData.map((province) => ({
     value: province.code,
     label: province.name,
   }));
-
-  const districts =
-    selectedProvince &&
-    vietnamData
-      .find((province) => province.code === selectedProvince.value)
-      .districts.map((district) => ({
-        value: district.code,
-        label: district.name,
-      }));
-
-  const wards =
-    selectedDistrict &&
-    vietnamData
-      .find((province) => province.code === selectedProvince.value)
-      .districts.find((district) => district.code === selectedDistrict.value)
-      .wards.map((ward) => ({
-        value: ward.code,
-        label: ward.name,
-      }));
 
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({
@@ -46,22 +27,21 @@ const Step1Form = ({
       [field]: value,
     }));
   };
-
-  // Hàm kiểm tra tính hợp lệ của form
-  const validateForm = () => {
-    const { address, category, roomSize, price, email, phone, title, description } = formData;
-    const requiredFields = [address, category, roomSize, price, email, phone, title, description];
-    const allFieldsFilled = requiredFields.every((field) => field && field.trim() !== "");
-    setIsFormValid(allFieldsFilled); // Cập nhật trạng thái hợp lệ
-  };
-
-  // Gọi validateForm mỗi khi formData thay đổi
   useEffect(() => {
     validateForm();
   }, [formData]);
 
   const handlePrediction = async () => {
-    const { address, category, roomSize, price, email, phone, title, description } = formData;
+    const {
+      address,
+      category,
+      roomSize,
+      price,
+      email,
+      phone,
+      title,
+      description,
+    } = formData;
     setLoading(true);
     const requestData = {
       message: `Địa chỉ: ${address}, Loại mặt bằng: ${category}, Diện tích: ${roomSize}, Mức giá: ${price}, Email: ${email}, Số điện thoại: ${phone}, Tiêu đề: ${title}, Mô tả: ${description}`,
@@ -77,11 +57,52 @@ const Step1Form = ({
       });
       setLoading(false);
       const data = await response.json();
-      const predictionTextArea = document.getElementById("pricePredictionTextarea");
+      const predictionTextArea = document.getElementById(
+        "pricePredictionTextarea"
+      );
       predictionTextArea.value = data.response;
     } catch (error) {
       console.error("Error fetching price prediction:", error);
     }
+  };
+  const validateForm = () => {
+    const {
+      address,
+      category,
+      roomSize,
+      price,
+      email,
+      phone,
+      title,
+      description,
+    } = formData;
+
+    const errors = {};
+
+    if (!address || address.trim() === "")
+      errors.address = "Địa chỉ không được để trống.";
+    if (!category || category.trim() === "")
+      errors.category = "Loại mặt bằng không được để trống.";
+    if (!roomSize || roomSize.trim() === "")
+      errors.roomSize = "Diện tích không được để trống.";
+    if (!price || price.trim() === "")
+      errors.price = "Mức giá không được để trống.";
+    if (!email || email.trim() === "")
+      errors.email = "Email không được để trống.";
+    if (!phone || phone.trim() === "")
+      errors.phone = "Số điện thoại không được để trống.";
+    if (!title || title.trim() === "")
+      errors.title = "Tiêu đề không được để trống.";
+    if (!description || description.trim() === "")
+      errors.description = "Mô tả không được để trống.";
+
+    setFormErrors(errors);
+
+    // Cập nhật trạng thái hợp lệ của form
+    const isValid = Object.keys(errors).length === 0;
+    setIsFormValid(isValid);
+
+    return isValid; // Trả về true nếu form hợp lệ
   };
 
   return (
@@ -99,19 +120,36 @@ const Step1Form = ({
               placeholder="Nhập địa chỉ chi tiết"
               onChange={(e) => handleInputChange("address", e.target.value)}
             />
+            {formErrors.address && (
+              <p className="error-text">{formErrors.address}</p>
+            )}
           </div>
         </div>
         <div className="post-form-section">
           <h3 className="post-h3">Thông tin chính</h3>
           <div className="post-form-group">
             <label className="post-label">Loại mặt bằng</label>
-            <input
-              type="text"
+            <select
               className="post-input"
-              placeholder="Nhập loại mặt bằng"
               onChange={(e) => handleInputChange("category", e.target.value)}
-            />
+              defaultValue="" // Hiển thị giá trị mặc định
+            >
+              <option value="" disabled>
+                Chọn loại mặt bằng
+              </option>
+              <option value="Phòng trọ">Phòng trọ</option>
+              <option value="Căn hộ">Căn hộ</option>
+              <option value="Nhà nguyên căn">Nhà nguyên căn</option>
+              <option value="Văn phòng">Văn phòng</option>
+              <option value="Chung cư">Chung cư</option>
+              <option value="Cửa hàng">Cửa hàng</option>
+              <option value="Sân vận động">Sân vận động</option>
+            </select>
+            {formErrors.category && (
+              <p className="error-text">{formErrors.category}</p>
+            )}
           </div>
+
           <div className="post-form-group">
             <label className="post-label">Diện Tích (m²)</label>
             <input
@@ -120,6 +158,9 @@ const Step1Form = ({
               placeholder="Nhập diện tích"
               onChange={(e) => handleInputChange("roomSize", e.target.value)}
             />
+            {formErrors.roomSize && (
+              <p className="error-text">{formErrors.roomSize}</p>
+            )}
           </div>
           <div className="post-form-group">
             <label className="post-label">Mức giá (VNĐ)</label>
@@ -129,6 +170,9 @@ const Step1Form = ({
               placeholder="Nhập mức giá"
               onChange={(e) => handleInputChange("price", e.target.value)}
             />
+            {formErrors.price && (
+              <p className="error-text">{formErrors.price}</p>
+            )}
             <button
               type="button"
               className="post-prediction-btn"
@@ -161,6 +205,9 @@ const Step1Form = ({
               placeholder="Nhập email"
               onChange={(e) => handleInputChange("email", e.target.value)}
             />
+            {formErrors.email && (
+              <p className="error-text">{formErrors.email}</p>
+            )}
           </div>
           <div className="post-form-group">
             <label className="post-label">Số điện thoại</label>
@@ -170,6 +217,9 @@ const Step1Form = ({
               placeholder="Nhập số điện thoại"
               onChange={(e) => handleInputChange("phone", e.target.value)}
             />
+            {formErrors.phone && (
+              <p className="error-text">{formErrors.phone}</p>
+            )}
           </div>
         </div>
         <div className="post-form-section">
@@ -182,6 +232,9 @@ const Step1Form = ({
               placeholder="Nhập tiêu đề"
               onChange={(e) => handleInputChange("title", e.target.value)}
             />
+            {formErrors.title && (
+              <p className="error-text">{formErrors.title}</p>
+            )}
           </div>
           <div className="post-form-group">
             <label className="post-label">Mô tả</label>
@@ -192,6 +245,9 @@ const Step1Form = ({
               onChange={(e) => handleInputChange("description", e.target.value)}
               style={{ width: "100%", maxWidth: "800px" }}
             ></textarea>
+            {formErrors.description && (
+              <p className="error-text">{formErrors.description}</p>
+            )}
           </div>
         </div>
       </form>
