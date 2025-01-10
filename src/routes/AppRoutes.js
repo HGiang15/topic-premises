@@ -6,6 +6,8 @@ import Detail from "../containers/Detail/Detail";
 import Overview from "../containers/Overview/Overview";  
 import ManagePost from './../containers/ManagePost/ManagePost';
 import ManageInfo from './../containers/ManageInfo/ManageInfo';
+import Favorite from './../containers/Favorite/Favorite';
+
 import Post from "../containers/Post/Post";  
 import ForgotPassword from './../containers/ForgotPassword/ForgotPassword';
 import AddressMap from "../containers/AddressMap/AddressMap";
@@ -106,6 +108,7 @@ const AppRoutes = () => {
                     <Route path="/managepost" element={<ManagePost />} />
                     <Route path="/manageinfo" element={<ManageInfo />} />
                     <Route path="/dashboards" element={<Dashboards />} />
+                    <Route path="/favorite" element={<Favorite />} />
                 </Route>
 
                 {/* route no Header, Filter, Footer */}

@@ -290,6 +290,7 @@
 }
 
 
+
 .comments-section {
     margin-top: 20px;
     background-color: #f9f9f9;
@@ -387,5 +388,53 @@
     margin-top: 5px;
     display: block;
 }
+
+/* Favorite */
+.favorite-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 12px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    font-weight: 500;
+    /* color: #555; */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.favorite-button.active {
+    background-color: #ff6666;
+    border-color: #ff4d4d;
+    color: #fff;
+}
+
+.favorite-button .favorite-icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+}
+
+
+.favorite-button span {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+
+.favorite-button span {
+    transition: color 0.3s ease;
+}
+
+.favorite-button.active span {
+    color: #fff;
+}
+
+
+
+
 
 
