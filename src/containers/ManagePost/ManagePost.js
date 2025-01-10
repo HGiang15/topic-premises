@@ -18,7 +18,7 @@ const ManagePost = () => {
   const token = localStorage.getItem("token");
   // Fetch posts from API
 
-    const [totalPages, setTotalPages] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
   const fetchPosts = async () => {
     try {
       const decoded = jwtDecode(token);
@@ -41,8 +41,6 @@ const ManagePost = () => {
       setIsLoading(false); // Kết thúc tải
     }
   };
-
-
 
   useEffect(() => {
     fetchPosts();
