@@ -14,7 +14,8 @@ const newsArticles = [
         author: "Nguyễn Đăng Hoàng Giang",
         image: news1, 
         excerpt: "Thị trường bất động sản đang chứng kiến sự tăng trưởng vượt bậc nhờ vào các chính sác",
-        content: "Nội dung chi tiết của bài viết. Đây là nơi để bạn trình bày thông tin chi tiết của bài báo. Có thể bao gồm phân tích, hình ảnh minh họa, và các biểu đồ."
+        content: "Nội dung chi tiết của bài viết. Đây là nơi để bạn trình bày thông tin chi tiết của bài báo. Có thể bao gồm phân tích, hình ảnh minh họa, và các biểu đồ.",
+        link: "https://batdongsan.com.vn/tin-tuc/thach-thuc-va-giai-phap-nao-cho-thi-truong-bds-trong-ky-nguyen-moi-826865"
     },
     {
         id: 2,
@@ -23,7 +24,8 @@ const newsArticles = [
         author: "Bùi Quang Đạo",
         image: news2, 
         excerpt: "Cùng tìm hiểu những xu hướng thiết kế nhà ở sẽ dẫn đầu trong năm 2025.",
-        content: "Nội dung chi tiết của bài viết thứ hai. Thông tin này được viết theo phong cách chuyên sâu để thu hút người đọc."
+        content: "Nội dung chi tiết của bài viết thứ hai. Thông tin này được viết theo phong cách chuyên sâu để thu hút người đọc.",
+        link: "https://batdongsan.com.vn/tin-tuc/loi-tri-an-sau-sac-sao-viet-tang-qua-va-thuong-tet-tung-bung-826837"
     },
     {
         id: 3,
@@ -32,7 +34,8 @@ const newsArticles = [
         author: "Đàm Khắc Thái",
         image: news3, 
         excerpt: "Khi mua nhà chung cư, có rất nhiều yếu tố cần xem xét kỹ lưỡng để tránh các rủi ro.",
-        content: "Chi tiết bài viết về các yếu tố cần lưu ý khi mua nhà chung cư."
+        content: "Chi tiết bài viết về các yếu tố cần lưu ý khi mua nhà chung cư.",
+        link: "https://batdongsan.com.vn/tin-tuc/thi-truong-can-ho-chung-cu-gia-ban-dong-loat-tang-tren-ca-thi-truong-so-cap-va-thu-cap-cd-hn-826814"
     },
     {
         id: 4,
@@ -50,7 +53,8 @@ const newsArticles = [
         author: "Nguyễn Ngọc Bách",
         image: news5, 
         excerpt: "Khám phá các xu hướng thiết kế nội thất hiện đại đang được ưa chuộng nhất hiện nay.",
-        content: "Tổng hợp các xu hướng thiết kế nội thất hiện đại và phong cách phù hợp."
+        content: "Tổng hợp các xu hướng thiết kế nội thất hiện đại và phong cách phù hợp.",
+        link: "https://batdongsan.com.vn/tin-tuc/nha-pho-viet-nam-5-nam-vuon-minh-but-pha-khang-dinh-vi-the-dan-dau-826760"
     },
     {
         id: 6,
@@ -59,7 +63,8 @@ const newsArticles = [
         author: "Đoàn Phương Hà",
         image: news1, 
         excerpt: "Đầu tư bất động sản luôn là một kênh sinh lời hấp dẫn nếu biết cách tối ưu hóa chiến lược.",
-        content: "Khi mua nhà chung cư, có rất nhiều yếu tố cần xem xét kỹ lưỡng để tránh các rủi ro không đáng có."
+        content: "Khi mua nhà chung cư, có rất nhiều yếu tố cần xem xét kỹ lưỡng để tránh các rủi ro không đáng có.",
+        link: "https://batdongsan.com.vn/tin-tuc/hanh-trinh-tim-kiem-khong-gian-song-hoan-hao-cua-ca-si-bang-kieu-tai-penthouse-fiato-uptown-826643"
     }
 ];
 
@@ -78,7 +83,7 @@ const News = () => {
                                 {article.date} - Tác giả: {article.author}
                             </p>
                             <p className="news-card-excerpt">{article.excerpt}</p>
-                            <button className="news-card-button">Đọc thêm</button>
+                            <a href={article.link} target="blank" className="news-card-button">Đọc thêm</a>
                         </div>
                     </div>
                 ))}

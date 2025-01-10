@@ -90,19 +90,6 @@ const Header = () => {
                 Tin tức
               </Link>
             </li>
-            <li
-              className={`header-nav-item ${
-                activeItem === "app" ? "active" : ""
-              }`}
-              onClick={() => setActiveItem("app")}
-            >
-              <Link
-                to="/downloadapp"
-                className="header-nav-link header-nav-link__hover"
-              >
-                Tải app
-              </Link>
-            </li>
           </ul>
 
           {token ? (
