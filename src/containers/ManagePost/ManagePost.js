@@ -14,7 +14,7 @@ const ManagePost = () => {
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingEdit, setIsLoadingEdit] = useState(false);
-  const postsPerPage = 10;
+  const postsPerPage = 4;
   const token = localStorage.getItem("token");
   // Fetch posts from API
 

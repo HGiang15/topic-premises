@@ -12,7 +12,7 @@ import cancel from "../../assets/icons/cancel.svg";
 import "./SidebarLeft.css";
 import BASE_URL from "../../config";
 const SidebarLeft = () => {
-  const [fullname, setFullname] = useState("Người dùng");
+  const [fullname, setFullname] = useState("");
   //   const [price, setPrice] = useState("");
   const [activeMenu, setActiveMenu] = useState("/overview");
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
