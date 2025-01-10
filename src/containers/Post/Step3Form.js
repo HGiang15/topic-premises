@@ -32,16 +32,16 @@ const Step3Form = ({
     : null;
 
   const handlePayment = async () => {
-    setLoading(true); // Bắt đầu xử lý
-    setErrorMessage(null); // Xóa lỗi trước đó
+    setLoading(true); 
+    setErrorMessage(null); 
     try {
-      await handleCreatePost(); // Gọi hàm tạo bài viết
-      setShowModal(true); // Hiển thị modal thành công
+      await handleCreatePost(); 
+      setShowModal(true); 
     } catch (error) {
-      setErrorMessage("Số dư tài khoản không đủ."); // Lưu thông báo lỗi
-      setShowModal(true); // Vẫn hiển thị modal nhưng cho lỗi
+      setErrorMessage("Số dư tài khoản không đủ."); 
+      setShowModal(true); 
     } finally {
-      setLoading(false); // Kết thúc xử lý
+      setLoading(false); 
     }
   };
 
@@ -134,22 +134,23 @@ const Step3Form = ({
             </div>
           </div>
         )}
-
-        {/* Hiển thị trạng thái xử lý */}
         {loading && <p className="loading-text">Đang xử lý...</p>}
-
-        {/* Hiển thị lỗi nếu có */}
         {errorMessage && <p className="error-text">{errorMessage}</p>}
-
-        {/* Thanh toán */}
         <button
           type="button"
           className="post-submit-btn"
           onClick={handlePayment}
-          disabled={loading}
+          disabled={!selectedDays || loading}
         >
           Thanh toán
         </button>
+
+        {/* Hiển thị thông báo nếu chưa chọn ngày */}
+        {!selectedDays && (
+          <p className="error-text">
+            Vui lòng chọn số ngày đăng trước khi thanh toán.
+          </p>
+        )}
       </form>
 
       {/* Modal thông báo thanh toán thành công */}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 const Step2Form = ({
   images,
@@ -8,22 +8,23 @@ const Step2Form = ({
   formData,
   setFormData,
 }) => {
+  const [error, setError] = useState(""); // Trạng thái thông báo lỗi
+
   const handleImageChange = (e) => {
     const newImages = Array.from(e.target.files);
 
     newImages.forEach((file) => {
-      if (file.size > 200 * 1024) {
-        alert("Ảnh phải có kích thước nhỏ hơn 200KB.");
+      if (file.size > 500 * 1024) {
+        alert("Ảnh phải có kích thước nhỏ hơn 500KB.");
       } else if (images.length < 3) {
         const reader = new FileReader();
 
         reader.onloadend = () => {
-          const base64Image = reader.result; // Lấy giá trị base64
-          console.log("Base64 Image:", base64Image); // Log base64 image
+          const base64Image = reader.result;
           setImages((prevImages) => [...prevImages, base64Image]);
         };
 
-        reader.readAsDataURL(file); // Đọc file thành base64
+        reader.readAsDataURL(file);
       } else {
         alert("Bạn chỉ có thể tải tối đa 3 ảnh.");
       }
@@ -39,6 +40,15 @@ const Step2Form = ({
       ...prev,
       [field]: value,
     }));
+  };
+
+  const handleNext = () => {
+    if (images.length < 3) {
+      setError("Bạn phải chọn đủ 3 ảnh trước khi tiếp tục."); // Đặt thông báo lỗi
+    } else {
+      setError(""); // Xóa thông báo lỗi
+      onNext(); // Gọi hàm tiếp tục
+    }
   };
 
   return (
@@ -64,15 +74,14 @@ const Step2Form = ({
             <div key={index} className="uploaded-image">
               {images[index] ? (
                 <>
-                <div className="image-wrapper">
-                  <img
-                    src={images[index]}
-                    alt={`Image ${index + 1}`}
-                    className="uploaded-image-img"
-                  />
-                 
-                </div>
-                <button
+                  <div className="image-wrapper">
+                    <img
+                      src={images[index]}
+                      alt={`Image ${index + 1}`}
+                      className="uploaded-image-img"
+                    />
+                  </div>
+                  <button
                     type="button"
                     className="remove-image-btn"
                     onClick={() => handleImageRemove(index)}
@@ -101,7 +110,11 @@ const Step2Form = ({
         </div>
       </form>
 
-      <button type="button" onClick={onNext} className="post-submit-btn">
+      {/* Hiển thị lỗi */}
+      {error && <p className="error-message">{error}</p>}
+
+      {/* Nút tiếp tục */}
+      <button type="button" onClick={handleNext} className="post-submit-btn">
         Tiếp
       </button>
     </div>
