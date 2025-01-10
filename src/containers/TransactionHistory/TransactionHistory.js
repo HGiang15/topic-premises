@@ -15,7 +15,7 @@ const TransactionHistory = () => {
       const result = await response.json();
 
       if (result.status === 200) {
-        setTransactions(result.data); // Lưu dữ liệu giao dịch
+        setTransactions(result.data); 
       } else {
         console.error("Failed to fetch posts:", result.message);
       }
@@ -52,7 +52,7 @@ const TransactionHistory = () => {
               <tr key={transaction.id}>
                 <td>{transaction.id}</td>
                 <td>{transaction.createAt}</td>
-                <td>{transaction.amountPayment.toLocaleString()} VND</td>
+                <td>{transaction.amountPayment} VND</td>
                 <td>{transaction.statusPayment}</td>
                 <td>{transaction.description}</td>
               </tr>

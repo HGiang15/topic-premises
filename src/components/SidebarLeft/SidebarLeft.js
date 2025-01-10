@@ -9,6 +9,7 @@ import manage from "../../assets/icons/manage.svg";
 import chart from "../../assets/icons/chart.svg";
 import success from "../../assets/icons/success.svg";
 import cancel from "../../assets/icons/cancel.svg";
+import transaction from "../../assets/img/transaction.svg";
 import "./SidebarLeft.css";
 import favorite from "../../assets/icons/favorite.svg";
 import BASE_URL from "../../config";
@@ -203,7 +204,7 @@ const SidebarLeft = () => {
           className={`menu-item ${activeMenu === "/transactionhistory" ? "active" : ""}`}
           onClick={() => handleMenuClick("/transactionhistory")}
         >
-          <img src={favorite} alt="Lịch sử giao dịch" className="menu-icon" />
+          <img src={transaction} alt="Lịch sử giao dịch" className="menu-icon" />
           <span className="menu-text">Lịch sử giao dịch</span>
         </div>
       </div>
