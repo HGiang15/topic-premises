@@ -40,6 +40,7 @@ const SidebarLeft = () => {
   }, [token]);
   const handleUserInfo = async () => {
     try {
+      debugger
       setIsLoading(true); // Bắt đầu tải
       const decoded = jwtDecode(token);
       const id = decoded?.id;

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Select from "react-select";
 import vietnamData from "./vietnam.json"; // Adjust the import based on your file structure
 
 const Step1Form = ({
@@ -14,8 +13,9 @@ const Step1Form = ({
   setFormData,
 }) => {
   const [loading, setLoading] = useState(false);
-  const [isFormValid, setIsFormValid] = useState(false); // Trạng thái kiểm tra hợp lệ form
+  const [isFormValid, setIsFormValid] = useState(false); 
   const [formErrors, setFormErrors] = useState({});
+  const [isSubmitClicked, setIsSubmitClicked] = useState(false); 
   const provinces = vietnamData.map((province) => ({
     value: province.code,
     label: province.name,
@@ -26,10 +26,17 @@ const Step1Form = ({
       ...prev,
       [field]: value,
     }));
+  
+    // Kiểm tra và loại bỏ lỗi khi người dùng nhập lại thông tin hợp lệ
+    setFormErrors((prevErrors) => {
+      const newErrors = { ...prevErrors };
+      if (value.trim() !== "") {
+        delete newErrors[field]; // Xóa lỗi của trường khi có giá trị hợp lệ
+      }
+      return newErrors;
+    });
   };
-  useEffect(() => {
-    validateForm();
-  }, [formData]);
+  
 
   const handlePrediction = async () => {
     const {
@@ -65,6 +72,7 @@ const Step1Form = ({
       console.error("Error fetching price prediction:", error);
     }
   };
+
   const validateForm = () => {
     const {
       address,
@@ -102,13 +110,19 @@ const Step1Form = ({
     const isValid = Object.keys(errors).length === 0;
     setIsFormValid(isValid);
 
-    return isValid; // Trả về true nếu form hợp lệ
+    return isValid;
+  };
+
+  const handleSubmit = () => {
+    setIsSubmitClicked(true); // Đánh dấu nút Tiếp đã được nhấn
+    const isValid = validateForm();
+    if (isValid) {
+      onNext();
+    }
   };
 
   return (
     <div className="post-form-container">
-      {/* Progress Bar */}
-
       <form>
         <div className="post-form-section">
           <h3 className="post-h3">Thông tin địa chỉ</h3>
@@ -120,7 +134,7 @@ const Step1Form = ({
               placeholder="Nhập địa chỉ chi tiết"
               onChange={(e) => handleInputChange("address", e.target.value)}
             />
-            {formErrors.address && (
+            {isSubmitClicked && formErrors.address && (
               <p className="error-text">{formErrors.address}</p>
             )}
           </div>
@@ -132,7 +146,7 @@ const Step1Form = ({
             <select
               className="post-input"
               onChange={(e) => handleInputChange("category", e.target.value)}
-              defaultValue="" // Hiển thị giá trị mặc định
+              defaultValue=""
             >
               <option value="" disabled>
                 Chọn loại mặt bằng
@@ -145,7 +159,7 @@ const Step1Form = ({
               <option value="Cửa hàng">Cửa hàng</option>
               <option value="Sân vận động">Sân vận động</option>
             </select>
-            {formErrors.category && (
+            {isSubmitClicked && formErrors.category && (
               <p className="error-text">{formErrors.category}</p>
             )}
           </div>
@@ -158,7 +172,7 @@ const Step1Form = ({
               placeholder="Nhập diện tích"
               onChange={(e) => handleInputChange("roomSize", e.target.value)}
             />
-            {formErrors.roomSize && (
+            {isSubmitClicked && formErrors.roomSize && (
               <p className="error-text">{formErrors.roomSize}</p>
             )}
           </div>
@@ -170,7 +184,7 @@ const Step1Form = ({
               placeholder="Nhập mức giá"
               onChange={(e) => handleInputChange("price", e.target.value)}
             />
-            {formErrors.price && (
+            {isSubmitClicked && formErrors.price && (
               <p className="error-text">{formErrors.price}</p>
             )}
             <button
@@ -205,7 +219,7 @@ const Step1Form = ({
               placeholder="Nhập email"
               onChange={(e) => handleInputChange("email", e.target.value)}
             />
-            {formErrors.email && (
+            {isSubmitClicked && formErrors.email && (
               <p className="error-text">{formErrors.email}</p>
             )}
           </div>
@@ -217,7 +231,7 @@ const Step1Form = ({
               placeholder="Nhập số điện thoại"
               onChange={(e) => handleInputChange("phone", e.target.value)}
             />
-            {formErrors.phone && (
+            {isSubmitClicked && formErrors.phone && (
               <p className="error-text">{formErrors.phone}</p>
             )}
           </div>
@@ -232,7 +246,7 @@ const Step1Form = ({
               placeholder="Nhập tiêu đề"
               onChange={(e) => handleInputChange("title", e.target.value)}
             />
-            {formErrors.title && (
+            {isSubmitClicked && formErrors.title && (
               <p className="error-text">{formErrors.title}</p>
             )}
           </div>
@@ -245,7 +259,7 @@ const Step1Form = ({
               onChange={(e) => handleInputChange("description", e.target.value)}
               style={{ width: "100%", maxWidth: "800px" }}
             ></textarea>
-            {formErrors.description && (
+            {isSubmitClicked && formErrors.description && (
               <p className="error-text">{formErrors.description}</p>
             )}
           </div>
@@ -253,9 +267,9 @@ const Step1Form = ({
       </form>
       <button
         type="button"
-        onClick={onNext}
+        onClick={handleSubmit}
         className="post-submit-btn"
-        disabled={!isFormValid} // Disable nếu form không hợp lệ
+       
       >
         Tiếp
       </button>
