@@ -5,13 +5,14 @@ import BASE_URL from "../../config";
 import { jwtDecode } from "jwt-decode";
 const ExtendPostModal = ({ onClose, onSubmit, id }) => {
   const [selectedDays, setSelectedDays] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const handleDaySelection = (days, price) => {
     setSelectedDays({ days, price });
   };
   const handleExtendPost = async () => {
     try {
       const token = localStorage.getItem("token");
-  
+      setIsLoading(true); // Bắt đầu trạng thái đang tải
       if (!token) {
         console.error("No token found in localStorage");
         return;
@@ -37,7 +38,7 @@ const ExtendPostModal = ({ onClose, onSubmit, id }) => {
         const data = await response.json();
         console.log("Post update successfully:", data);
         alert("Gia hạn thành công!");
-        window.location.reload(); 
+        window.location.reload();
       } else if (response.status === 400) {
         const errorData = await response.json();
         console.error("Error update post:", errorData);
@@ -49,11 +50,19 @@ const ExtendPostModal = ({ onClose, onSubmit, id }) => {
     } catch (error) {
       console.error("Error during API call:", error);
       alert("Không thể kết nối đến máy chủ, vui lòng thử lại sau.");
+    } finally {
+      setIsLoading(false); // Đặt trạng thái isLoading về false khi kết thúc
     }
   };
   
+  
   return (
     <div className="modal-overlay">
+       {isLoading ? (
+        <div className="product-loading-spinner">
+          <div className="product-spinner"></div>
+        </div>
+      ) : (
       <div className="modal-content-extend-post">
         <div className="day-selection-container">
           <button
@@ -162,6 +171,7 @@ const ExtendPostModal = ({ onClose, onSubmit, id }) => {
           </button>
         </div>
       </div>
+      )}
     </div>
   );
 };

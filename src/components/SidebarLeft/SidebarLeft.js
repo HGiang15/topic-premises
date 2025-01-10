@@ -13,7 +13,7 @@ import "./SidebarLeft.css";
 import BASE_URL from "../../config";
 const SidebarLeft = () => {
   const [fullname, setFullname] = useState("Người dùng");
-//   const [price, setPrice] = useState("");
+  //   const [price, setPrice] = useState("");
   const [activeMenu, setActiveMenu] = useState("/overview");
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
   const [balance, setBalance] = useState(""); // Account balance
@@ -23,8 +23,8 @@ const SidebarLeft = () => {
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
-  
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingDeposit, setIsLoadingDeposit] = useState(false);
   useEffect(() => {
     // if (token) {
     //   try {
@@ -40,34 +40,33 @@ const SidebarLeft = () => {
   }, [token]);
   const handleUserInfo = async () => {
     try {
+      setIsLoading(true); // Bắt đầu tải
       const decoded = jwtDecode(token);
       const id = decoded?.id;
-      const response = await fetch(
-        `${BASE_URL}api/v1/userInfor/${id}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`${BASE_URL}api/v1/userInfor/${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const result = await response.json();
       if (result.status === 200) {
-        // console.log("Post updated successfully");
-        // fetchPosts();
-        console.log("Post updated successfully: ", result);
+        console.log("User info fetched successfully: ", result);
         const fullName = result.data.fullName;
         const price = result.data.totalMoney;
         setFullname(fullName);
         setBalance(price);
       } else {
-        // console.error("Failed to update post:", result.message);
+        console.error("Failed to fetch user info:", result.message);
       }
     } catch (error) {
-      console.error("Error create-payment-link:", error);
+      console.error("Error fetching user info:", error);
+    } finally {
+      setIsLoading(false); // Kết thúc tải
     }
   };
+
   const handleMenuClick = (path) => {
     setActiveMenu(path);
     navigate(path);
@@ -75,26 +74,30 @@ const SidebarLeft = () => {
   const handleDeposit = async () => {
     try {
       const decoded = jwtDecode(token);
+      setIsLoadingDeposit(true); // Bắt đầu trạng thái đang tải
       const id = decoded?.id;
       const body = {
         userId: id,
         amountPayment: transactionAmount,
       };
   
-      const response = await fetch(`${BASE_URL}api/v1/payment/create-payment-link`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(body),
-      });
+      const response = await fetch(
+        `${BASE_URL}api/v1/payment/create-payment-link`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(body),
+        }
+      );
   
       const result = await response.json();
       if (result.message === "success") {
         const checkoutUrl = result?.data.checkoutUrl; // Lấy URL từ kết quả
         if (checkoutUrl) {
-          window.open(checkoutUrl, "_blank"); 
+          window.open(checkoutUrl, "_blank");
         } else {
           console.log("checkoutUrl is missing in the response.");
         }
@@ -103,9 +106,12 @@ const SidebarLeft = () => {
       }
     } catch (error) {
       console.error("Error create-payment-link:", error);
+    } finally {
+      setIsLoadingDeposit(false); // Đặt trạng thái isLoadingDeposit về false khi kết thúc
     }
   };
   
+
   const handleRecharge = () => {
     const amount = parseInt(transactionAmount, 10);
     if (isNaN(amount) || amount <= 0) {
@@ -121,7 +127,7 @@ const SidebarLeft = () => {
     setIsTransactionSuccess(true);
     setIsNotificationOpen(true);
   };
-  
+
   const closeNotification = () => {
     setIsNotificationOpen(false);
   };
@@ -130,18 +136,26 @@ const SidebarLeft = () => {
     <div className="sidebar-left">
       <div className="sidebar-left-header">
         <img src={user} alt="Avatar" className="sidebar-avatar" />
-        <h3 className="sidebar-left-heading">{fullname}</h3>{" "}
-        {/* Display fullname */}
-        <div className="account-balance">
-          <span>Số dư tài khoản</span>
-          <h4>{balance.toLocaleString()} VND</h4>
-          <button
-            className="recharge-button"
-            onClick={() => setIsModalOpen(true)}
-          >
-            Nạp tiền
-          </button>
-        </div>
+        {isLoading ? (
+          <div className="product-loading-spinner">
+            <div className="product-spinner"></div>
+            <p>Đang tải...</p>
+          </div>
+        ) : (
+          <>
+            <h3 className="sidebar-left-heading">{fullname}</h3>{" "}
+            <div className="account-balance">
+              <span>Số dư tài khoản</span>
+              <h4>{balance.toLocaleString()} VND</h4>
+              <button
+                className="recharge-button"
+                onClick={() => setIsModalOpen(true)}
+              >
+                Nạp tiền
+              </button>
+            </div>
+          </>
+        )}
       </div>
       <div className="sidebar-left-menu">
         <div
@@ -183,32 +197,42 @@ const SidebarLeft = () => {
       {/* Modal for Recharge */}
       {isModalOpen && (
         <div className="modal-backdrop" onClick={() => setIsModalOpen(false)}>
-          <div className="modal-recharge" onClick={(e) => e.stopPropagation()}>
-            <button
-              className="modal-close"
-              onClick={() => setIsModalOpen(false)}
+          {isLoadingDeposit ? (
+            <div className="product-loading-spinner">
+              <div className="product-spinner"></div>
+              <p>Đang tải...</p>
+            </div>
+          ) : (
+            <div
+              className="modal-recharge"
+              onClick={(e) => e.stopPropagation()}
             >
-              &times;
-            </button>
-            <h2 className="modal-heading">Nạp tiền</h2>
-            <p className="modal-title">Nhập số tiền bạn muốn nạp</p>
-            <form className="modal-form" onSubmit={(e) => e.preventDefault()}>
-              <input
-                className="modal-form-input"
-                type="number"
-                placeholder="Nhập số tiền..."
-                value={transactionAmount}
-                onChange={(e) => setTransactionAmount(e.target.value)}
-              />
               <button
-                className="modal-form-btn"
-                type="button"
-                onClick={handleDeposit}
+                className="modal-close"
+                onClick={() => setIsModalOpen(false)}
               >
-                Xác nhận
+                &times;
               </button>
-            </form>
-          </div>
+              <h2 className="modal-heading">Nạp tiền</h2>
+              <p className="modal-title">Nhập số tiền bạn muốn nạp</p>
+              <form className="modal-form" onSubmit={(e) => e.preventDefault()}>
+                <input
+                  className="modal-form-input"
+                  type="number"
+                  placeholder="Nhập số tiền..."
+                  value={transactionAmount}
+                  onChange={(e) => setTransactionAmount(e.target.value)}
+                />
+                <button
+                  className="modal-form-btn"
+                  type="button"
+                  onClick={handleDeposit}
+                >
+                  Xác nhận
+                </button>
+              </form>
+            </div>
+          )}
         </div>
       )}
 

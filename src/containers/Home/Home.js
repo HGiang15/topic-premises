@@ -131,7 +131,6 @@ const Home = () => {
                                 <div key={product.id} className="product-card">
                                     <div className="product-images">
                                         <div className="product-images__wrapper">
-                                            {/* img main and sub img */}
                                             <img
                                                 src={decodeBase64Image(product.media[0]?.url)}
                                                 alt="Main"
@@ -151,8 +150,6 @@ const Home = () => {
                                                 ))}
                                             </div>
                                         </div>
-
-                                        {/* contact email */}
                                         <div className="product-owner">
                                             <img src={avatar} alt="Avatar" className="owner-avatar" />
                                             <a

@@ -15,10 +15,11 @@ const ManageInfo = () => {
   const [errors, setErrors] = useState({});
   const fileInputRef = useRef(null);
   const token = localStorage.getItem("token");
-
+  const [isLoading, setIsLoading] = useState(false);
   // Lấy thông tin người dùng từ API
   const handleUserInfo = async () => {
     try {
+      setIsLoading(true); // Bắt đầu trạng thái đang tải
       const decoded = jwtDecode(token);
       const id = decoded?.id;
       const response = await fetch(`${BASE_URL}api/v1/userInfor/${id}`, {
@@ -39,6 +40,8 @@ const ManageInfo = () => {
       }
     } catch (error) {
       console.error("Error fetching user info:", error);
+    } finally {
+      setIsLoading(false); // Đặt trạng thái isLoading về false
     }
   };
 
@@ -165,82 +168,88 @@ const ManageInfo = () => {
             />
           </div>
         </div>
-
-        <form className="manage-info-form" onSubmit={handleSubmit}>
-          <div className="manage-info-form-group">
-            <label className="manage-info-label">Họ tên</label>
-            <input
-              className="manage-info-input"
-              type="text"
-              value={fullname}
-              onChange={(e) => setFullname(e.target.value)}
-            />
+        {isLoading ? (
+          <div className="product-loading-spinner">
+            <div className="product-spinner"></div>
+            <p>Đang tải...</p>
           </div>
+        ) : (
+          <form className="manage-info-form" onSubmit={handleSubmit}>
+            <div className="manage-info-form-group">
+              <label className="manage-info-label">Họ tên</label>
+              <input
+                className="manage-info-input"
+                type="text"
+                value={fullname}
+                onChange={(e) => setFullname(e.target.value)}
+              />
+            </div>
 
-          <div className="manage-info-form-group">
-            <label className="manage-info-label">Email</label>
-            <input
-              className="manage-info-input"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
+            <div className="manage-info-form-group">
+              <label className="manage-info-label">Email</label>
+              <input
+                className="manage-info-input"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
 
-          <div className="manage-info-form-group">
-            <label className="manage-info-label">Số điện thoại</label>
-            <input
-              className="manage-info-input"
-              type="text"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-            />
-          </div>
+            <div className="manage-info-form-group">
+              <label className="manage-info-label">Số điện thoại</label>
+              <input
+                className="manage-info-input"
+                type="text"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
+            </div>
 
-          {/* Password Change */}
-          <div className="manage-info-form-group">
-            <label className="manage-info-label">Mật khẩu hiện tại</label>
-            <input
-              className="manage-info-input"
-              type="password"
-              value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
-            />
-            {errors.currentPassword && (
-              <p className="error-message">{errors.currentPassword}</p>
-            )}
-          </div>
+            {/* Password Change */}
+            <div className="manage-info-form-group">
+              <label className="manage-info-label">Mật khẩu hiện tại</label>
+              <input
+                className="manage-info-input"
+                type="password"
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+              />
+              {errors.currentPassword && (
+                <p className="error-message">{errors.currentPassword}</p>
+              )}
+            </div>
 
-          <div className="manage-info-form-group">
-            <label className="manage-info-label">Mật khẩu mới</label>
-            <input
-              className="manage-info-input"
-              type="password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-            />
-            {errors.newPassword && (
-              <p className="error-message">{errors.newPassword}</p>
-            )}
-          </div>
+            <div className="manage-info-form-group">
+              <label className="manage-info-label">Mật khẩu mới</label>
+              <input
+                className="manage-info-input"
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+              />
+              {errors.newPassword && (
+                <p className="error-message">{errors.newPassword}</p>
+              )}
+            </div>
 
-          <div className="manage-info-form-group">
-            <label className="manage-info-label">Xác nhận mật khẩu mới</label>
-            <input
-              className="manage-info-input"
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-            {errors.confirmPassword && (
-              <p className="error-message">{errors.confirmPassword}</p>
-            )}
-          </div>
+            <div className="manage-info-form-group">
+              <label className="manage-info-label">Xác nhận mật khẩu mới</label>
+              <input
+                className="manage-info-input"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+              {errors.confirmPassword && (
+                <p className="error-message">{errors.confirmPassword}</p>
+              )}
+            </div>
 
-          <button className="manage-info-save-btn" type="submit">
-            Lưu thay đổi
-          </button>
-        </form>
+            <button className="manage-info-save-btn" type="submit">
+              Lưu thay đổi
+            </button>
+          </form>
+        )}
       </div>
     </div>
   );

@@ -12,14 +12,17 @@ const ManagePost = () => {
   const [editingPost, setEditingPost] = useState(null);
 
   const [posts, setPosts] = useState([]);
-
-  const postsPerPage = 4;
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingEdit, setIsLoadingEdit] = useState(false);
+  const postsPerPage = 10;
   const token = localStorage.getItem("token");
   // Fetch posts from API
+
+    const [totalPages, setTotalPages] = useState(0);
   const fetchPosts = async () => {
     try {
       const decoded = jwtDecode(token);
-
+      setIsLoading(true); // Bắt đầu tải
       const response = await fetch(
         `${BASE_URL}api/v1/posts/user/${decoded?.id}?pageNumber=${
           currentPage - 1
@@ -28,13 +31,19 @@ const ManagePost = () => {
       const result = await response.json();
       if (result.status === 200) {
         setPosts(result.data.content);
+        setTotalPages(Math.ceil(result.data.totalElements / postsPerPage)); // Cập nhật tổng số trang
       } else {
         console.error("Failed to fetch posts:", result.message);
       }
     } catch (error) {
       console.error("Error fetching posts:", error);
+    } finally {
+      setIsLoading(false); // Kết thúc tải
     }
   };
+
+
+
   useEffect(() => {
     fetchPosts();
   }, [currentPage]);
@@ -88,7 +97,7 @@ const ManagePost = () => {
   };
 
   // Pagination
-  const totalPages = Math.ceil(posts.length / postsPerPage);
+  // const totalPages = Math.ceil(posts.length / postsPerPage);
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -114,11 +123,11 @@ const ManagePost = () => {
   const handleSave = () => {
     console.log("edit: ", editingPost);
 
-    setIsModalOpen(false);
     editPost();
   };
   const editPost = async () => {
     try {
+      setIsLoadingEdit(true); // Bắt đầu trạng thái đang tải
       const decoded = jwtDecode(token);
       const id = editingPost?.id;
       console.log("edit", editingPost);
@@ -135,6 +144,7 @@ const ManagePost = () => {
         link: editingPost?.link,
         mediaUrls: editingPost?.media?.map((item) => item.url),
       };
+
       const response = await fetch(`${BASE_URL}api/v1/posts/${id}`, {
         method: "PUT", // Sử dụng PUT thay vì GET
         headers: {
@@ -153,8 +163,12 @@ const ManagePost = () => {
       }
     } catch (error) {
       console.error("Error updating post:", error);
+    } finally {
+      setIsLoadingEdit(false); // Đặt trạng thái isLoadingEdit về false khi kết thúc
+      setIsModalOpen(false);
     }
   };
+
   const handleDeleteImage = (index) => {
     const updatedMedia = editingPost.media.filter((_, i) => i !== index);
     // Update the editingPost state with the modified media array
@@ -197,16 +211,17 @@ const ManagePost = () => {
   const [showExtendModal, setShowExtendModal] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState(null);
 
-
   const handleExtendPost = (selectedDays) => {
     // Gọi API hoặc xử lý gia hạn cho bài đăng được chọn
-    console.log(`Gia hạn bài đăng với ID: ${selectedPostId} và gói: ${selectedDays}`);
-    
+    console.log(
+      `Gia hạn bài đăng với ID: ${selectedPostId} và gói: ${selectedDays}`
+    );
+
     // Sau khi xử lý xong, đóng modal
     setSelectedPostId(null); // Đặt lại trạng thái để đóng modal
     setShowExtendModal(false);
   };
-  
+
   return (
     <div className="manage-post">
       <h1 className="manage-post-title">Danh sách tin</h1>
@@ -245,73 +260,79 @@ const ManagePost = () => {
       </div>
 
       {/* Post list */}
-      <div className="post-list">
-        {filteredPosts.map((post, index) => (
-          <div key={index} className={`post-item`}>
-            {/* img */}
-            <div className="post-image">
-              {post.media.length > 0 && (
-                <img
-                  src={post.media[0].url}
-                  alt={`Thumbnail for post ${post.id}`}
-                />
-              )}
-            </div>
-
-            <div className="post-content">
-              {/* Status */}
-              <div
-                className={`post-status ${
-                  getStatusClassAndText(post.expiredDate).className
-                }`}
-              >
-                <span className="status-label">
-                  {getStatusClassAndText(post.expiredDate).text}
-                </span>
+      {isLoading ? (
+        <div className="product-loading-spinner">
+          <div className="product-spinner"></div>
+          <p>Đang tải...</p>
+        </div>
+      ) : (
+        <div className="post-list">
+          {filteredPosts.map((post, index) => (
+            <div key={index} className={`post-item`}>
+              {/* img */}
+              <div className="post-image">
+                {post.media.length > 0 && (
+                  <img
+                    src={post.media[0].url}
+                    alt={`Thumbnail for post ${post.id}`}
+                  />
+                )}
               </div>
 
-              {/* Detail */}
-              <p className="post-description">{post.title}</p>
-              <div className="post-details">
-                <span className="post-details-item">Mã tin: {post.id}</span>
-                <span className="post-details-item">
-                  Ngày đăng: {post.createAt}
-                </span>
-                <span className="post-details-item">
-                  Ngày hết hạn: {post.expiredDate} (còn{" "}
-                  {calculateRemainingDays(post.expiredDate)} ngày)
-                </span>
+              <div className="post-content">
+                {/* Status */}
+                <div
+                  className={`post-status ${
+                    getStatusClassAndText(post.expiredDate).className
+                  }`}
+                >
+                  <span className="status-label">
+                    {getStatusClassAndText(post.expiredDate).text}
+                  </span>
+                </div>
+
+                {/* Detail */}
+                <p className="post-description">{post.title}</p>
+                <div className="post-details">
+                  <span className="post-details-item">Mã tin: {post.id}</span>
+                  <span className="post-details-item">
+                    Ngày đăng: {post.createAt}
+                  </span>
+                  <span className="post-details-item">
+                    Ngày hết hạn: {post.expiredDate} (còn{" "}
+                    {calculateRemainingDays(post.expiredDate)} ngày)
+                  </span>
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="post-actions">
+                <a href={`/detail/${post.id}`} className="details-link">
+                  Xem
+                </a>
+                <button onClick={() => handleEdit(post)} className="edit-btn">
+                  <img src={edit} alt="Edit icon" /> Sửa tin
+                </button>
+                <button
+                  className="extend-btn"
+                  onClick={() => setSelectedPostId(post.id)}
+                >
+                  Gia hạn tin
+                </button>
+
+                {selectedPostId === post.id && (
+                  <ExtendPostModal
+                    onClose={() => setSelectedPostId(null)}
+                    onSubmit={handleExtendPost}
+                    id={post.id}
+                  />
+                )}
               </div>
             </div>
+          ))}
+        </div>
+      )}
 
-            {/* Actions */}
-            <div className="post-actions">
-              <a href={`/detail/${post.id}`} className="details-link">
-                Xem
-              </a>
-              <button onClick={() => handleEdit(post)} className="edit-btn">
-                <img src={edit} alt="Edit icon" /> Sửa tin
-              </button>
-              <button
-                className="extend-btn"
-                onClick={() => setSelectedPostId(post.id)}
-              >
-                Gia hạn tin
-              </button>
-
-              {selectedPostId === post.id && (
-                <ExtendPostModal
-                  onClose={() => setSelectedPostId(null)}
-                  onSubmit={handleExtendPost}
-                  id={post.id}
-                />
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Pagination */}
       <div className="pagination">
         <button
           className="pagination-post-item"
@@ -344,272 +365,287 @@ const ManagePost = () => {
         <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
           <div className="modal-edit" onClick={(e) => e.stopPropagation()}>
             <h2 className="modal-edit-heading">Sửa tin</h2>
-            <div className="modal-edit-content">
-              {/* Left */}
-              <div className="modal-left">
-                <div className="modal-edit-img-container">
-                  {[...Array(3)].map((_, index) => {
-                    const image = editingPost.media[index];
-                    return (
-                      <div key={index} className="modal-edit-img-cell">
-                        {image ? (
-                          <>
-                            <button
-                              className="modal-edit-img-delete-btn"
-                              onClick={() => handleDeleteImage(index)} // Gọi hàm xóa ảnh
-                            >
-                              X
-                            </button>
-                            <img
-                              className="modal-edit-img"
-                              src={image.url || image} // Dùng Base64 hoặc URL
-                              alt={`Thumbnail ${index + 1} for post ${
-                                editingPost.id
-                              }`}
-                              onError={(e) => {
-                                e.target.onerror = null;
-                              }}
-                            />
-                          </>
-                        ) : (
-                          <div className="modal-edit-img-placeholder">
-                            <p>Chưa có ảnh</p>
+            {isLoadingEdit ? (
+              <div className="product-loading-spinner">
+                <div className="product-spinner"></div>
+                <p>Đang tải...</p>
+              </div>
+            ) : (
+              <>
+                <div className="modal-edit-content">
+                  {/* Left */}
+                  <div className="modal-left">
+                    <div className="modal-edit-img-container">
+                      {[...Array(3)].map((_, index) => {
+                        const image = editingPost.media[index];
+                        return (
+                          <div key={index} className="modal-edit-img-cell">
+                            {image ? (
+                              <>
+                                <button
+                                  className="modal-edit-img-delete-btn"
+                                  onClick={() => handleDeleteImage(index)} // Gọi hàm xóa ảnh
+                                >
+                                  X
+                                </button>
+                                <img
+                                  className="modal-edit-img"
+                                  src={image.url || image} // Dùng Base64 hoặc URL
+                                  alt={`Thumbnail ${index + 1} for post ${
+                                    editingPost.id
+                                  }`}
+                                  onError={(e) => {
+                                    e.target.onerror = null;
+                                  }}
+                                />
+                              </>
+                            ) : (
+                              <div className="modal-edit-img-placeholder">
+                                <p>Chưa có ảnh</p>
+                              </div>
+                            )}
                           </div>
-                        )}
-                      </div>
-                    );
-                  })}
+                        );
+                      })}
+                    </div>
+
+                    <input
+                      type="file"
+                      className="modal-edit-input"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                    />
+                    {/* id */}
+                    <label className="modal-edit-label">
+                      Mã tin
+                      <input
+                        className="modal-edit-input"
+                        type="text"
+                        value={editingPost.id}
+                        readOnly
+                      />
+                    </label>
+
+                    {/* title */}
+                    <label className="modal-edit-label">
+                      Tiêu đề
+                      <input
+                        className="modal-edit-input"
+                        type="text"
+                        value={editingPost.title}
+                        onChange={(e) =>
+                          setEditingPost({
+                            ...editingPost,
+                            title: e.target.value,
+                          })
+                        }
+                      />
+                    </label>
+
+                    {/* Status */}
+                    <label className="modal-edit-label">
+                      Trạng thái
+                      <select
+                        className="modal-edit-input"
+                        value={editingPost.status}
+                        onChange={(e) =>
+                          setEditingPost({
+                            ...editingPost,
+                            status: e.target.value,
+                          })
+                        }
+                      >
+                        <option value="Đang hiển thị">Đang hiển thị</option>
+                        <option value="Sắp hết hạn">Sắp hết hạn</option>
+                      </select>
+                    </label>
+
+                    {/* category */}
+                    <label className="modal-edit-label">
+                      Loại
+                      <input
+                        className="modal-edit-input"
+                        type="text"
+                        value={editingPost.category}
+                        onChange={(e) =>
+                          setEditingPost({
+                            ...editingPost,
+                            category: e.target.value,
+                          })
+                        }
+                      />
+                    </label>
+
+                    {/* Description */}
+                    <label className="modal-edit-label">
+                      Mô tả
+                      <textarea
+                        className="modal-edit-input"
+                        rows="3"
+                        cols="30"
+                        value={editingPost.description}
+                        onChange={(e) =>
+                          setEditingPost({
+                            ...editingPost,
+                            description: e.target.value,
+                          })
+                        }
+                      />
+                    </label>
+                  </div>
+
+                  {/* Right */}
+                  <div className="modal-right">
+                    {/* roomsize */}
+                    <label className="modal-edit-label">
+                      Kích thước
+                      <input
+                        className="modal-edit-input"
+                        type="text"
+                        value={editingPost.roomSize}
+                        onChange={(e) =>
+                          setEditingPost({
+                            ...editingPost,
+                            roomSize: e.target.value,
+                          })
+                        }
+                      />
+                    </label>
+
+                    {/* price */}
+                    <label className="modal-edit-label">
+                      Giá
+                      <input
+                        className="modal-edit-input"
+                        type="number"
+                        value={editingPost.price}
+                        onChange={(e) =>
+                          setEditingPost({
+                            ...editingPost,
+                            price: e.target.value,
+                          })
+                        }
+                      />
+                    </label>
+
+                    {/* address */}
+                    <label className="modal-edit-label">
+                      Địa chỉ
+                      <input
+                        className="modal-edit-input"
+                        type="text"
+                        value={editingPost.address}
+                        onChange={(e) =>
+                          setEditingPost({
+                            ...editingPost,
+                            address: e.target.value,
+                          })
+                        }
+                      />
+                    </label>
+
+                    {/* contactPhone */}
+                    <label className="modal-edit-label">
+                      Số điện thoại
+                      <input
+                        className="modal-edit-input"
+                        type="number"
+                        value={editingPost.contactPhone}
+                        onChange={(e) =>
+                          setEditingPost({
+                            ...editingPost,
+                            contactPhone: e.target.value,
+                          })
+                        }
+                      />
+                    </label>
+
+                    {/* contactEmail */}
+                    <label className="modal-edit-label">
+                      Email
+                      <input
+                        className="modal-edit-input"
+                        type="text"
+                        value={editingPost.contactEmail}
+                        onChange={(e) =>
+                          setEditingPost({
+                            ...editingPost,
+                            contactEmail: e.target.value,
+                          })
+                        }
+                      />
+                    </label>
+
+                    {/* Start date */}
+                    <label className="modal-edit-label">
+                      Ngày đăng
+                      <input
+                        className="modal-edit-input"
+                        type="date"
+                        value={editingPost.createAt}
+                        onChange={(e) =>
+                          setEditingPost({
+                            ...editingPost,
+                            createAt: e.target.value,
+                          })
+                        }
+                        readOnly
+                      />
+                    </label>
+
+                    {/* Modify date */}
+                    <label className="modal-edit-label">
+                      Ngày sửa đổi
+                      <input
+                        className="modal-edit-input"
+                        type="date"
+                        value={editingPost.modifyAt}
+                        onChange={(e) =>
+                          setEditingPost({
+                            ...editingPost,
+                            modifyAt: e.target.value,
+                          })
+                        }
+                        readOnly
+                      />
+                    </label>
+
+                    {/* Expiration date */}
+                    <label className="modal-edit-label">
+                      Ngày hết hạn
+                      <input
+                        className="modal-edit-input"
+                        type="date"
+                        value={editingPost.expiredDate}
+                        onChange={(e) =>
+                          setEditingPost({
+                            ...editingPost,
+                            expiredDate: e.target.value,
+                          })
+                        }
+                        readOnly
+                      />
+                    </label>
+                  </div>
                 </div>
 
-                <input
-                  type="file"
-                  className="modal-edit-input"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                />
-                {/* id */}
-                <label className="modal-edit-label">
-                  Mã tin
-                  <input
-                    className="modal-edit-input"
-                    type="text"
-                    value={editingPost.id}
-                    readOnly
-                  />
-                </label>
-
-                {/* title */}
-                <label className="modal-edit-label">
-                  Tiêu đề
-                  <input
-                    className="modal-edit-input"
-                    type="text"
-                    value={editingPost.title}
-                    onChange={(e) =>
-                      setEditingPost({
-                        ...editingPost,
-                        title: e.target.value,
-                      })
-                    }
-                  />
-                </label>
-
-                {/* Status */}
-                <label className="modal-edit-label">
-                  Trạng thái
-                  <select
-                    className="modal-edit-input"
-                    value={editingPost.status}
-                    onChange={(e) =>
-                      setEditingPost({ ...editingPost, status: e.target.value })
-                    }
+                {/* Actions */}
+                <div className="modal-edit-actions">
+                  <button
+                    className="modal-edit-actions__cancel"
+                    onClick={() => setIsModalOpen(false)}
                   >
-                    <option value="Đang hiển thị">Đang hiển thị</option>
-                    <option value="Sắp hết hạn">Sắp hết hạn</option>
-                  </select>
-                </label>
-
-                {/* category */}
-                <label className="modal-edit-label">
-                  Loại
-                  <input
-                    className="modal-edit-input"
-                    type="text"
-                    value={editingPost.category}
-                    onChange={(e) =>
-                      setEditingPost({
-                        ...editingPost,
-                        category: e.target.value,
-                      })
-                    }
-                  />
-                </label>
-
-                {/* Description */}
-                <label className="modal-edit-label">
-                  Mô tả
-                  <textarea
-                    className="modal-edit-input"
-                    rows="3"
-                    cols="30"
-                    value={editingPost.description}
-                    onChange={(e) =>
-                      setEditingPost({
-                        ...editingPost,
-                        description: e.target.value,
-                      })
-                    }
-                  />
-                </label>
-              </div>
-
-              {/* Right */}
-              <div className="modal-right">
-                {/* roomsize */}
-                <label className="modal-edit-label">
-                  Kích thước
-                  <input
-                    className="modal-edit-input"
-                    type="text"
-                    value={editingPost.roomSize}
-                    onChange={(e) =>
-                      setEditingPost({
-                        ...editingPost,
-                        roomSize: e.target.value,
-                      })
-                    }
-                  />
-                </label>
-
-                {/* price */}
-                <label className="modal-edit-label">
-                  Giá
-                  <input
-                    className="modal-edit-input"
-                    type="number"
-                    value={editingPost.price}
-                    onChange={(e) =>
-                      setEditingPost({
-                        ...editingPost,
-                        price: e.target.value,
-                      })
-                    }
-                  />
-                </label>
-
-                {/* address */}
-                <label className="modal-edit-label">
-                  Địa chỉ
-                  <input
-                    className="modal-edit-input"
-                    type="text"
-                    value={editingPost.address}
-                    onChange={(e) =>
-                      setEditingPost({
-                        ...editingPost,
-                        address: e.target.value,
-                      })
-                    }
-                  />
-                </label>
-
-                {/* contactPhone */}
-                <label className="modal-edit-label">
-                  Số điện thoại
-                  <input
-                    className="modal-edit-input"
-                    type="number"
-                    value={editingPost.contactPhone}
-                    onChange={(e) =>
-                      setEditingPost({
-                        ...editingPost,
-                        contactPhone: e.target.value,
-                      })
-                    }
-                  />
-                </label>
-
-                {/* contactEmail */}
-                <label className="modal-edit-label">
-                  Email
-                  <input
-                    className="modal-edit-input"
-                    type="text"
-                    value={editingPost.contactEmail}
-                    onChange={(e) =>
-                      setEditingPost({
-                        ...editingPost,
-                        contactEmail: e.target.value,
-                      })
-                    }
-                  />
-                </label>
-
-                {/* Start date */}
-                <label className="modal-edit-label">
-                  Ngày đăng
-                  <input
-                    className="modal-edit-input"
-                    type="date"
-                    value={editingPost.createAt}
-                    onChange={(e) =>
-                      setEditingPost({
-                        ...editingPost,
-                        createAt: e.target.value,
-                      })
-                    }
-                    readOnly
-                  />
-                </label>
-
-                {/* Modify date */}
-                <label className="modal-edit-label">
-                  Ngày sửa đổi
-                  <input
-                    className="modal-edit-input"
-                    type="date"
-                    value={editingPost.modifyAt}
-                    onChange={(e) =>
-                      setEditingPost({
-                        ...editingPost,
-                        modifyAt: e.target.value,
-                      })
-                    }
-                    readOnly
-                  />
-                </label>
-
-                {/* Expiration date */}
-                <label className="modal-edit-label">
-                  Ngày hết hạn
-                  <input
-                    className="modal-edit-input"
-                    type="date"
-                    value={editingPost.expiredDate}
-                    onChange={(e) =>
-                      setEditingPost({
-                        ...editingPost,
-                        expiredDate: e.target.value,
-                      })
-                    }
-                    readOnly
-                  />
-                </label>
-              </div>
-            </div>
-
-            {/* Actions */}
-            <div className="modal-edit-actions">
-              <button
-                className="modal-edit-actions__cancel"
-                onClick={() => setIsModalOpen(false)}
-              >
-                Hủy
-              </button>
-              <button className="modal-edit-actions__save" onClick={handleSave}>
-                Lưu
-              </button>
-            </div>
+                    Hủy
+                  </button>
+                  <button
+                    className="modal-edit-actions__save"
+                    onClick={handleSave}
+                  >
+                    Lưu
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}
