@@ -171,6 +171,8 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    opacity: 0; 
+    animation: fadeIn 0.5s forwards; 
 }
 
 .popup-content-overview {
@@ -180,6 +182,8 @@
     text-align: center;
     position: relative;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: scale(0.8);
+    animation: zoomIn 0.5s forwards; 
 }
 
 .popup-overview-heading {
@@ -207,4 +211,25 @@
     height: 30px;
     font-size: 18px;
     cursor: pointer;
+}
+
+/* Keyframes for animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.8); /* Bắt đầu nhỏ hơn */
+        opacity: 0.5; /* Trong suốt một phần */
+    }
+    to {
+        transform: scale(1); /* Đầy đủ kích thước */
+        opacity: 1; /* Hoàn toàn hiển thị */
+    }
 }
