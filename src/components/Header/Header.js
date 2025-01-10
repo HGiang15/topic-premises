@@ -4,19 +4,44 @@ import userLogin from "../../assets/img/user.svg";
 import { useNavigate, Link } from "react-router-dom"; 
 import { jwtDecode } from "jwt-decode";
 import "./Header.css";
-
+import BASE_URL from "../../config";
 const Header = () => {
     const navigate = useNavigate();
     const [activeItem, setActiveItem] = useState("home");
     const token = localStorage.getItem("token");
     const [fullname, setFullname] = useState("Người dùng");
-
+    const handleUserInfo = async () => {
+        try {
+          const decoded = jwtDecode(token);
+          const id = decoded?.id;
+          const response = await fetch(`${BASE_URL}api/v1/userInfor/${id}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const result = await response.json();
+          if (result.status === 200) {
+            console.log("User info fetched successfully: ", result);
+            const fullName = result.data.fullName;
+            const price = result.data.totalMoney;
+            setFullname(fullName);
+          } else {
+            console.error("Failed to fetch user info:", result.message);
+          }
+        } catch (error) {
+          console.error("Error fetching user info:", error);
+        } finally {
+        
+        }
+      };
     useEffect(() => {
         if (token) {
             try {
                 const decoded = jwtDecode(token);
                 console.log("dec: ", decoded);
-                setFullname(decoded?.fullName || "Người dùng");
+               handleUserInfo();
             } catch (error) {
                 console.error("Lỗi giải mã token:", error);
                 setFullname("Người dùng");

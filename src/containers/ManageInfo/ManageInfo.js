@@ -104,20 +104,22 @@ const ManageInfo = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
     const id = jwtDecode(token)?.id;
-
+  
     // Kiểm tra xác thực trước khi gọi API
     if (!id) {
       alert("Không thể xác định người dùng.");
       return;
     }
-
+  
     if (newPassword !== confirmPassword) {
       setErrors({ confirmPassword: "Mật khẩu xác nhận không khớp." });
       return;
     }
-
+  
     try {
+      setIsLoading(true);
       const payload = {
         email,
         fullName: fullname,
@@ -126,16 +128,16 @@ const ManageInfo = () => {
         newPassword,
         confirmPassword,
       };
-
+  
       const response = await fetch(`${BASE_URL}api/v1/userInfor/${id}`, {
-        method: "PUT", // hoặc "POST" nếu API sử dụng phương thức khác
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(payload),
       });
-
+  
       const result = await response.json();
       if (response.ok) {
         alert("Cập nhật thông tin thành công!");
@@ -147,9 +149,14 @@ const ManageInfo = () => {
     } catch (error) {
       console.error("Lỗi khi gọi API:", error);
       alert("Đã xảy ra lỗi khi gọi API.");
+    } finally {
+      // Đảm bảo luôn đặt isLoading về false
+      setIsLoading(false);
+      window.location.reload();
     }
+    
   };
-
+  
   return (
     <div className="manage-info">
       <div className="manage-info-container">

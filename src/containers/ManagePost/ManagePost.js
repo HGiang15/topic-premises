@@ -214,8 +214,6 @@ const ManagePost = () => {
     console.log(
       `Gia hạn bài đăng với ID: ${selectedPostId} và gói: ${selectedDays}`
     );
-
-    // Sau khi xử lý xong, đóng modal
     setSelectedPostId(null); // Đặt lại trạng thái để đóng modal
     setShowExtendModal(false);
   };
