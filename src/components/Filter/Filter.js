@@ -19,25 +19,24 @@ const Filter = ({ onSearch, setIsLoadingSearch, pageNumber, size }) => {
     });
 
     const handleSearch = async () => {
+        debugger
         setIsLoadingSearch(true);
         try {
             let response, result;
             if (keyword.trim()) {
-                // Nếu có từ khóa, gọi API search
                 response = await fetch(
                     `${BASE_URL}api/v1/posts/search?keyword=${keyword}&pageNumber=${pageNumber}&size=${size}`
                 );
             } else {
-                // Nếu không có từ khóa, gọi API filter với pageNumber và size hợp lý
                 response = await fetch(`${BASE_URL}api/v1/posts/search-filter`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        ...filters,
-                        page: pageNumber,  // Chỉnh sửa đây để gửi đúng pageNumber
-                        size: size,         // Đảm bảo size là số sản phẩm trên mỗi trang
+                        ...filters, // Đảm bảo sử dụng giá trị mới nhất của filters
+                        page: pageNumber,
+                        size: size,
                     }),
                 });
             }
@@ -45,7 +44,10 @@ const Filter = ({ onSearch, setIsLoadingSearch, pageNumber, size }) => {
             result = await response.json();
             if (result && result.data && Array.isArray(result.data.content)) {
                 onSearch(result.data.content, result.data.totalElements, result.data.totalPages);
-            } else {
+            }else if (result.data && Array.isArray(result.data)) {
+                onSearch(result.data); // Trả về trực tiếp `data` nếu không có `content`
+            }
+            else {
                 console.error("Invalid API response:", result);
             }
         } catch (error) {
@@ -54,6 +56,7 @@ const Filter = ({ onSearch, setIsLoadingSearch, pageNumber, size }) => {
             setIsLoadingSearch(false);
         }
     };
+    
     
     const handleFilterChange = (e) => {
         const { name, value } = e.target;
