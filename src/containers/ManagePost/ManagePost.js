@@ -555,8 +555,6 @@ const ManagePost = () => {
                         }
                       />
                     </label>
-
-                    {/* contactEmail */}
                     <label className="modal-edit-label">
                       Email
                       <input
