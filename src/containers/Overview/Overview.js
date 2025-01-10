@@ -7,13 +7,16 @@ import donation from "../../assets/icons/donation.svg";
 import online from "../../assets/icons/online.svg";
 import information from "../../assets/icons/information.svg";
 import user from "../../assets/img/user.svg";
+import QR from '../../assets/img/QR.jpg'
 import "./Overview.css";
 
 const Overview = () => {
   const [favoriteCount, setFavoriteCount] = useState(0); // Số người quan tâm bài viết
   const [postCount, setPostCount] = useState(0); // Tổng số bài viết đã đăng
-  const [error, setError] = useState(null); // Trạng thái lỗi
+  const [error, setError] = useState(null); 
   const [isLoading, setIsLoading] = useState(false);
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -65,6 +68,14 @@ const Overview = () => {
 
     fetchOverviewData();
   }, []);
+
+  const handlePopupClose = () => setIsPopupVisible(false); // Đóng popup
+  const handleDonateClick = (e) => {
+    e.preventDefault();
+    console.log("Donate button clicked");
+
+    setIsPopupVisible(true); // Hiển thị popup
+  };
 
   if (error) {
     return <div>{error}</div>;
@@ -125,7 +136,7 @@ const Overview = () => {
               <p className="summary-item-donated">
                 Hỗ trợ nhà phát triển để thêm nhiều tính năng hữu ích hơn
               </p>
-              <a href="/donate" className="summary-item-link">
+              <a href="#/" className="summary-item-link" onClick={handleDonateClick}>
                 Donate
               </a>
             </div>
@@ -179,6 +190,20 @@ const Overview = () => {
               </div>
             </div>
           </div>
+
+          {/* Popup */}
+          {isPopupVisible && (
+            <div className="popup-overlay-overview">
+              <div className="popup-content-overview">
+                <h2 className="popup-overview-heading">Chúng tôi rất cảm ơn đến các bạn khi đã ủng hộ đội ngũ phát triển bọn tôi</h2>
+                <img src={QR} alt="QR Code" className="popup-qr" />
+                <button onClick={handlePopupClose} className="popup-close-overview">
+                  &times;
+                </button>
+              </div>
+            </div>
+          )}
+
         </>
       )}
     </div>

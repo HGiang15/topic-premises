@@ -4,7 +4,6 @@
     margin-top: 60px;
     padding: 50px 0;
     font-family: Arial, sans-serif;
-
 }
 
 .overview-title {
@@ -161,3 +160,51 @@
     color: #24B47B;
 }
 
+.popup-overlay-overview {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content-overview {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.popup-overview-heading {
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 20px;
+}
+
+.popup-qr {
+    max-width: 100%;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.popup-close-overview {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #f44336;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+    cursor: pointer;
+}
