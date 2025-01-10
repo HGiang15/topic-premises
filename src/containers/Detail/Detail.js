@@ -34,8 +34,8 @@ const Detail = () => {
         const response = await fetch(`${BASE_URL}api/v1/posts/${id}`);
         const result = await response.json();
         if (response.ok) {
-          setPostDetail(result.data);
-          const address = result.data.address;
+          setPostDetail(result.data.post);
+          const address = result.data.post.address;
           fetchCoordinates(address); // Lấy tọa độ dựa trên địa chỉ
         } else {
           setError(result.message);
