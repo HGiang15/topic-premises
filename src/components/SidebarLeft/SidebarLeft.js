@@ -199,6 +199,13 @@ const SidebarLeft = () => {
           <img src={favorite} alt="Quản lý tài khoản" className="menu-icon" />
           <span className="menu-text">Các bài viết quan tâm</span>
         </div>
+        <div
+          className={`menu-item ${activeMenu === "/transactionhistory" ? "active" : ""}`}
+          onClick={() => handleMenuClick("/transactionhistory")}
+        >
+          <img src={favorite} alt="Lịch sử giao dịch" className="menu-icon" />
+          <span className="menu-text">Lịch sử giao dịch</span>
+        </div>
       </div>
 
       {/* Modal for Recharge */}

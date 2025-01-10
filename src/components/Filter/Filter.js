@@ -34,7 +34,7 @@ const Filter = ({ onSearch, setIsLoadingSearch, pageNumber, size }) => {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        ...filters, // Đảm bảo sử dụng giá trị mới nhất của filters
+                        ...filters, 
                         page: pageNumber,
                         size: size,
                     }),
@@ -45,7 +45,7 @@ const Filter = ({ onSearch, setIsLoadingSearch, pageNumber, size }) => {
             if (result && result.data && Array.isArray(result.data.content)) {
                 onSearch(result.data.content, result.data.totalElements, result.data.totalPages);
             }else if (result.data && Array.isArray(result.data)) {
-                onSearch(result.data); // Trả về trực tiếp `data` nếu không có `content`
+                onSearch(result.data); 
             }
             else {
                 console.error("Invalid API response:", result);
