@@ -1,31 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { jwtDecode } from "jwt-decode";
 import "leaflet-control-geocoder/dist/Control.Geocoder.css";
 import "leaflet/dist/leaflet.css";
 
 import Filter from "../../components/Filter/Filter";
 import avatar from "../../assets/img/user.svg";
 import phone from "../../assets/icons/phone.svg";
+
 import "./Home.css";
 import BASE_URL from "../../config";
+
 const Home = () => {
-    const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState([]); // Dữ liệu sản phẩm
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
     const [totalResults, setTotalResults] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
     const [isLoadingSearch, setIsLoadingSearch] = useState(false);
     const navigate = useNavigate();
-    const itemsPerPage = 4;
+    const itemsPerPage = 3;
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
                 setIsLoading(true);
-                const response = await fetch(
-                    `${BASE_URL}api/v1/posts?pageNumber=${currentPage}&size=${itemsPerPage}`
-                );
+                const response = await fetch(`${BASE_URL}api/v1/posts?pageNumber=${currentPage}&size=${itemsPerPage}`);
                 const result = await response.json();
                 if (result.status === 200) {
                     setProducts(result.data.content);
@@ -44,42 +45,33 @@ const Home = () => {
         fetchProducts();
     }, [currentPage]);
 
-    // Loading search
     const handleSearchResults = (searchResults) => {
         setIsLoadingSearch(false);
-        setProducts(searchResults); 
+        setProducts(searchResults);
         setCurrentPage(0);
-        setTotalPages(1); 
+        setTotalPages(1);
     };
 
+    // base64
     const decodeBase64Image = (base64String) => {
         try {
-            // Kiểm tra nếu chuỗi là một Base64 hợp lệ và bắt đầu với "data:image"
-            if (typeof base64String === 'string' && base64String.startsWith("data:image")) {
-                return base64String; // Trả về nguyên chuỗi nếu đã hợp lệ
+            if (typeof base64String === "string" && base64String.startsWith("data:image")) {
+                return base64String;
             }
-            
-            // Kiểm tra nếu chuỗi là Base64 hợp lệ nhưng không có tiền tố "data:image"
-            if (typeof base64String === 'string') {
-                const base64Data = base64String.split(",")[1]; // Tách dữ liệu sau dấu phẩy
+            if (typeof base64String === "string") {
+                const base64Data = base64String.split(",")[1];
                 if (!base64Data) {
                     throw new Error("Chuỗi không chứa dữ liệu hợp lệ sau dấu phẩy.");
                 }
-                
-                // Giải mã dữ liệu Base64
                 const decodedData = atob(base64Data);
-                return decodedData; // Trả về dữ liệu đã giải mã
+                return decodedData;
             }
-    
-            // Trường hợp không phải là chuỗi hợp lệ
             throw new Error("Đầu vào không phải là một chuỗi hợp lệ.");
         } catch (error) {
             console.error("Lỗi giải mã Base64:", error.message);
-            return null; // Trả về null nếu xảy ra lỗi
+            return null;
         }
     };
-    
-    
 
     const paginate = (pageNumber) => {
         if (pageNumber >= 0 && pageNumber < totalPages) {
@@ -89,7 +81,7 @@ const Home = () => {
     };
 
     const handleMapButtonClick = () => {
-        navigate("/addressMap"); 
+        navigate("/addressMap");
     };
 
     return (
@@ -97,8 +89,6 @@ const Home = () => {
             <div className="home-container">
                 <Filter onSearch={handleSearchResults} setIsLoadingSearch={setIsLoadingSearch} />
 
-
-                {/* Map */}
                 <div className="map-container-home" onClick={handleMapButtonClick}>
                     <h2 className="map-home-heading">Bấm vào đây để tìm kiếm chi tiết trên bản đồ</h2>
                     <MapContainer center={[21.0114, 105.8473]} zoom={20} className="map">
@@ -117,7 +107,6 @@ const Home = () => {
                     </p>
                 </div>
 
-                {/* Post */}
                 <div className="product-list">
                     {isLoading || isLoadingSearch ? (
                         <div className="product-loading-spinner">
@@ -126,10 +115,10 @@ const Home = () => {
                         </div>
                     ) : (
                         products.map((product) => {
-                            console.log("Base64 Image URL:", product.media[0]?.url);
                             return (
                                 <div key={product.id} className="product-card">
                                     <div className="product-images">
+                                        {/* Img */}
                                         <div className="product-images__wrapper">
                                             <img
                                                 src={decodeBase64Image(product.media[0]?.url)}
@@ -150,6 +139,8 @@ const Home = () => {
                                                 ))}
                                             </div>
                                         </div>
+
+                                        {/* contact email */}
                                         <div className="product-owner">
                                             <img src={avatar} alt="Avatar" className="owner-avatar" />
                                             <a
@@ -161,7 +152,7 @@ const Home = () => {
                                         </div>
                                     </div>
 
-                                    {/* Post info */}
+                                    {/* Detail */}
                                     <div className="product-details">
                                         <h3 className="product-title">{product.title}</h3>
                                         <p className="product-price">
@@ -172,7 +163,6 @@ const Home = () => {
                                             <p className="product-location">{product.address}</p>
                                         </div>
 
-                                        {/* Active */}
                                         <div className="button-container">
                                             <button className="contact-button">
                                                 <a href={`tel:${product.contactPhone}`} className="contact-link">

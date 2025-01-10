@@ -4,7 +4,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet-control-geocoder/dist/Control.Geocoder.css";
 import "leaflet/dist/leaflet.css";
-
+import { jwtDecode } from "jwt-decode";
+import like from "../../assets/icons/like.svg";
+import liked from "../../assets/icons/liked.svg";
 import location from "../../assets/icons/location.svg";
 import money from "../../assets/icons/money.svg";
 import home from "../../assets/icons/home.svg";
@@ -22,6 +24,81 @@ const Detail = () => {
     const [popupImage, setPopupImage] = useState(null);
     const mapRef = useRef();
     const navigate = useNavigate();
+
+    const [favoritePosts, setFavoritePosts] = useState([]); // Lưu danh sách các bài viết được yêu thích
+    useEffect(() => {
+        const savedFavorites = localStorage.getItem("favoritePosts");
+        if (savedFavorites) {
+            setFavoritePosts(JSON.parse(savedFavorites));
+        }
+    }, []);
+
+    const handleFavoritePost = async (postId) => {
+        // Cập nhật trạng thái yêu thích ngay lập tức
+        setFavoritePosts((prevFavorites) => {
+            const isFavorite = prevFavorites.includes(postId);
+            const updatedFavorites = isFavorite
+                ? prevFavorites.filter((id) => id !== postId) // Xóa khỏi danh sách yêu thích
+                : [...prevFavorites, postId]; // Thêm vào danh sách yêu thích
+
+            // Lưu lại trạng thái mới vào localStorage
+            localStorage.setItem("favoritePosts", JSON.stringify(updatedFavorites));
+            return updatedFavorites;
+        });
+
+        try {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("Bạn cần đăng nhập để thực hiện thao tác này.");
+                return;
+            }
+
+            const decodedToken = jwtDecode(token);
+            const userId = decodedToken.id;
+
+            const isFavorite = favoritePosts.includes(postId); // Kiểm tra bài viết có trong danh sách yêu thích không
+            const method = isFavorite ? "DELETE" : "POST"; // DELETE nếu đã có trong yêu thích, POST nếu chưa có
+
+            let url = `${BASE_URL}api/v1/post-favorite/${postId}`; // URL không cần userId nếu xóa
+            if (!isFavorite) {
+                // Nếu bài viết chưa có trong yêu thích, thêm vào
+                url = `${BASE_URL}api/v1/post-favorite/${postId}/user/${userId}`;
+            }
+
+            const response = await fetch(url, {
+                method: method,
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            const result = await response.json();
+
+            if (response.status !== 200) {
+                console.error(`Lỗi khi xử lý bài viết yêu thích: ${result.message}`);
+                // Khôi phục trạng thái cũ nếu API lỗi
+                setFavoritePosts((prevFavorites) => {
+                    const updatedFavorites = isFavorite
+                        ? [...prevFavorites, postId] // Hoàn tác xóa
+                        : prevFavorites.filter((id) => id !== postId); // Hoàn tác thêm
+                    localStorage.setItem("favoritePosts", JSON.stringify(updatedFavorites));
+                    return updatedFavorites;
+                });
+            }
+        } catch (error) {
+            console.error("Lỗi khi xử lý bài viết yêu thích:", error);
+            // Khôi phục trạng thái cũ nếu gặp lỗi
+            setFavoritePosts((prevFavorites) => {
+                const isFavorite = !prevFavorites.includes(postId);
+                const updatedFavorites = isFavorite
+                    ? prevFavorites.filter((id) => id !== postId) // Hoàn tác thêm
+                    : [...prevFavorites, postId]; // Hoàn tác xóa
+                localStorage.setItem("favoritePosts", JSON.stringify(updatedFavorites));
+                return updatedFavorites;
+            });
+        }
+    };
 
     useEffect(() => {
         const fetchPostDetail = async () => {
@@ -95,22 +172,22 @@ const Detail = () => {
     const decodeBase64Image = (base64String) => {
         try {
             // Kiểm tra nếu chuỗi là một Base64 hợp lệ và bắt đầu với "data:image"
-            if (typeof base64String === 'string' && base64String.startsWith("data:image")) {
+            if (typeof base64String === "string" && base64String.startsWith("data:image")) {
                 return base64String; // Trả về nguyên chuỗi nếu đã hợp lệ
             }
-            
+
             // Kiểm tra nếu chuỗi là Base64 hợp lệ nhưng không có tiền tố "data:image"
-            if (typeof base64String === 'string') {
+            if (typeof base64String === "string") {
                 const base64Data = base64String.split(",")[1]; // Tách dữ liệu sau dấu phẩy
                 if (!base64Data) {
                     throw new Error("Chuỗi không chứa dữ liệu hợp lệ sau dấu phẩy.");
                 }
-                
+
                 // Giải mã dữ liệu Base64
                 const decodedData = atob(base64Data);
                 return decodedData; // Trả về dữ liệu đã giải mã
             }
-    
+
             // Trường hợp không phải là chuỗi hợp lệ
             throw new Error("Đầu vào không phải là một chuỗi hợp lệ.");
         } catch (error) {
@@ -118,8 +195,6 @@ const Detail = () => {
             return null; // Trả về null nếu xảy ra lỗi
         }
     };
-    
-    
 
     const handleToggleContact = () => {
         setShowFullContact(!showFullContact);
@@ -221,6 +296,20 @@ const Detail = () => {
                             <img src={time} alt="Time Icon" className="icon" />
                             {new Date(postDetail.createAt).toLocaleDateString()}
                         </span>
+                        {/* Like */}
+                        <button
+                            className={`favorite-button favorite-button-like ${
+                                favoritePosts.includes(postDetail.id) ? "active" : ""
+                            }`}
+                            onClick={() => handleFavoritePost(postDetail.id)}
+                        >
+                            <img
+                                src={favoritePosts.includes(postDetail.id) ? liked : like}
+                                alt="Favorite"
+                                className="favorite-icon"
+                            />
+                            <span>{favoritePosts.includes(postDetail.id) ? "Đã yêu thích" : "Yêu thích"}</span>
+                        </button>
                     </div>
 
                     {/* Desc */}
@@ -250,7 +339,6 @@ const Detail = () => {
                         </div>
                     ) : (
                         <MapContainer
-                            
                             center={[21.015, 105.83]} // Vị trí mặc định
                             zoom={15}
                             className="leaflet-container"

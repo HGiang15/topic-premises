@@ -1,0 +1,31 @@
+.favorite {
+    padding: 20px;
+  }
+  
+  .favorite-posts-list {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .favorite-post {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+  }
+  
+  .favorite-post h3 {
+    margin-top: 0;
+  }
+  
+  .favorite-post p {
+    margin: 5px 0;
+  }
+  
+  .favorite-posts-list .empty {
+    text-align: center;
+    font-size: 18px;
+    color: #777;
+  }
+  
