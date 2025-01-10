@@ -77,23 +77,21 @@ const Detail = () => {
 
             if (response.status !== 200) {
                 console.error(`Lỗi khi xử lý bài viết yêu thích: ${result.message}`);
-                // Khôi phục trạng thái cũ nếu API lỗi
                 setFavoritePosts((prevFavorites) => {
                     const updatedFavorites = isFavorite
-                        ? [...prevFavorites, postId] // Hoàn tác xóa
-                        : prevFavorites.filter((id) => id !== postId); // Hoàn tác thêm
+                        ? [...prevFavorites, postId] 
+                        : prevFavorites.filter((id) => id !== postId);
                     localStorage.setItem("favoritePosts", JSON.stringify(updatedFavorites));
                     return updatedFavorites;
                 });
             }
         } catch (error) {
             console.error("Lỗi khi xử lý bài viết yêu thích:", error);
-            // Khôi phục trạng thái cũ nếu gặp lỗi
             setFavoritePosts((prevFavorites) => {
                 const isFavorite = !prevFavorites.includes(postId);
                 const updatedFavorites = isFavorite
-                    ? prevFavorites.filter((id) => id !== postId) // Hoàn tác thêm
-                    : [...prevFavorites, postId]; // Hoàn tác xóa
+                    ? prevFavorites.filter((id) => id !== postId) 
+                    : [...prevFavorites, postId]; 
                 localStorage.setItem("favoritePosts", JSON.stringify(updatedFavorites));
                 return updatedFavorites;
             });
@@ -120,7 +118,7 @@ const Detail = () => {
         };
 
         fetchPostDetail();
-    }, [id]); // Chạy lại khi `id` thay đổi
+    }, [id]); 
 
     const [position, setPosition] = useState([]);
     const fetchCoordinates = async (address) => {
@@ -152,7 +150,7 @@ const Detail = () => {
             console.error(`Lỗi khi tìm tọa độ cho: ${address}`, error);
         }
         setPosition(newPositions);
-        setLoading(false); // Đặt loading là false khi tải xong
+        setLoading(false); 
     };
 
     // Sử dụng ref để di chuyển bản đồ sau khi có tọa độ
@@ -160,7 +158,7 @@ const Detail = () => {
         const map = useMap();
         useEffect(() => {
             if (position.length > 0) {
-                map.setView(position[0].coords, 15); // Di chuyển đến vị trí mới với zoom level là 15
+                map.setView(position[0].coords, 15); 
             }
         }, [position, map]);
 
@@ -171,28 +169,25 @@ const Detail = () => {
 
     const decodeBase64Image = (base64String) => {
         try {
-            // Kiểm tra nếu chuỗi là một Base64 hợp lệ và bắt đầu với "data:image"
             if (typeof base64String === "string" && base64String.startsWith("data:image")) {
                 return base64String; // Trả về nguyên chuỗi nếu đã hợp lệ
             }
 
-            // Kiểm tra nếu chuỗi là Base64 hợp lệ nhưng không có tiền tố "data:image"
             if (typeof base64String === "string") {
-                const base64Data = base64String.split(",")[1]; // Tách dữ liệu sau dấu phẩy
+                const base64Data = base64String.split(",")[1]; 
                 if (!base64Data) {
                     throw new Error("Chuỗi không chứa dữ liệu hợp lệ sau dấu phẩy.");
                 }
 
-                // Giải mã dữ liệu Base64
                 const decodedData = atob(base64Data);
-                return decodedData; // Trả về dữ liệu đã giải mã
+                return decodedData;
             }
 
             // Trường hợp không phải là chuỗi hợp lệ
             throw new Error("Đầu vào không phải là một chuỗi hợp lệ.");
         } catch (error) {
             console.error("Lỗi giải mã Base64:", error.message);
-            return null; // Trả về null nếu xảy ra lỗi
+            return null;
         }
     };
 
@@ -369,7 +364,7 @@ const Detail = () => {
                                     </Popup>
                                 </Marker>
                             )}
-                            <MapUpdater /> {/* Cập nhật vị trí bản đồ */}
+                            <MapUpdater /> 
                         </MapContainer>
                     )}
                 </div>
