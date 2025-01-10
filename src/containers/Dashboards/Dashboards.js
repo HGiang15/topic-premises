@@ -75,13 +75,13 @@ const Dashboards = () => {
                 <h3>Biểu đồ Top 5 người có số bài đăng nhiều nhất</h3>
                 <iframe
                     ref={(el) => (iframeRefs.current[3] = el)}
-                    data-src="https://wired-comic-monkfish.ngrok-free.app/superset/explore/p/mGoBovwzyn1/?standalone=1&height=400"
+                    data-src="https://wired-comic-monkfish.ngrok-free.app/superset/explore/p/95mgbROgN4J/?standalone=1&height=400"
                     width="600"
                     height="400"
                     seamless
                     frameBorder="0"
                     scrolling="no"
-                    src="https://wired-comic-monkfish.ngrok-free.app/superset/explore/p/mGoBovwzyn1/?standalone=1&height=400"
+                    src="https://wired-comic-monkfish.ngrok-free.app/superset/explore/p/95mgbROgN4J/?standalone=1&height=400"
                 ></iframe>
             </div>
             <div id="chart-5" className="dashboard-container">
